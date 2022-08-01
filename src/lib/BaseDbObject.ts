@@ -1,4 +1,4 @@
-import { DbCollection } from "../Database/DbCollection.js";
+import { DbCollection } from "../database/DbCollection.js";
 import { Base } from "./Base.js";
 import { BaseManager } from "./BaseManager.js";
 import { BasePostData } from "./BasePost.js";

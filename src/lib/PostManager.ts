@@ -1,5 +1,5 @@
 import { Client } from "../client/Client.js";
-import { DbCollection } from "../Database/DbCollection.js";
+import { DbCollection } from "../database/DbCollection.js";
 import { BaseManager } from "./BaseManager.js";
 import { Post, PostData } from "./Post.js";
 import { Snowflake } from "./SnowflakeManager.js";

@@ -1,5 +1,5 @@
 import { Client } from "../client/Client.js";
-import { DbCollection } from "../Database/DbCollection.js";
+import { DbCollection } from "../database/DbCollection.js";
 import { Conflict } from "../errors/Conflict.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Base, Id } from "./Base.js";

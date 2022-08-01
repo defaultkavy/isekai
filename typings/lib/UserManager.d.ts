@@ -1,7 +1,7 @@
 import { Client } from "../client/Client.js";
 import { BaseManager } from "./BaseManager.js";
 import { User, UserData } from "./User.js";
-import { DbCollection } from "../Database/DbCollection.js";
+import { DbCollection } from "../database/DbCollection.js";
 /**
  * A manager to collect all user in the cache
  */

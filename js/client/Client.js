@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
-const Database_js_1 = require("../Database/Database.js");
+const Database_js_1 = require("../database/Database.js");
 const PostManager_js_1 = require("../lib/PostManager.js");
 const SnowflakeManager_js_1 = require("../lib/SnowflakeManager.js");
 const UserManager_js_1 = require("../lib/UserManager.js");
