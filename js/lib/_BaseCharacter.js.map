@@ -1,0 +1,1 @@
+{"version":3,"file":"_BaseCharacter.js","sourceRoot":"","sources":["../../src/lib/_BaseCharacter.ts"],"names":[],"mappings":";;;AACA,uCAAiC;AAGjC;;GAEG;AACH,MAAa,aAAc,SAAQ,cAAI;IASnC,YAAY,MAAc,EAAE,OAA6B;QACrD,KAAK,CAAC,MAAM,CAAC,CAAA;QACb,IAAI,CAAC,EAAE,GAAG,OAAO,CAAC,EAAE,CAAA;QACpB,IAAI,CAAC,IAAI,GAAG,OAAO,CAAC,IAAI,CAAA;IAC5B,CAAC;CACJ;AAdD,sCAcC"}
