@@ -11,5 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "mongodb": "^4.8.1"
-  }
+  },
+  "types": "./typings/index.d.ts"
 }
