@@ -27,6 +27,15 @@ export class UserManager extends BaseManager<User, UserData> {
         return await this.cacheSet(data as unknown as UserData)
     }
 
+    async registerCheck(email: Email, username: Username) {
+        return !(await this.collection.checkDuplicateByFilter({
+            username: username
+        })) 
+        || !(await this.collection.checkDuplicateByFilter({
+            email: email
+        }))
+    }
+
     async build(data: UserData): Promise<User> {
         return new User(this, {
             id: data.id,

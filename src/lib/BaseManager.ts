@@ -39,7 +39,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Data
 
     async create(data: Data) {
         if (this.cache.has(data.id)
-            || await this.collection.checkIdDuplicate(data.id)) 
+            || await this.collection.checkDuplicate(data.id)) 
             throw new Conflict(`create: ${this.type} id existed.`)
         const object = await this.build(data)
         this.cache.set(object.id, object)

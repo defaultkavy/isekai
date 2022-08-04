@@ -12,8 +12,13 @@ export class DbCollection extends Base {
         this.collection = collection
     }
 
-    async checkIdDuplicate(id: Snowflake) {
+    async checkDuplicate(id: Snowflake) {
         const find = await this.collection.findOne({id: id})
+        return !!find
+    }
+
+    async checkDuplicateByFilter(filter: DbFilter) {
+        const find = await this.collection.findOne(filter)
         return !!find
     }
 

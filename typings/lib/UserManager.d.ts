@@ -11,5 +11,6 @@ export declare class UserManager extends BaseManager<User, UserData> {
     constructor(parent: Client);
     fetchByUsername(username: Username): Promise<User>;
     fetchByEmail(email: Email): Promise<User>;
+    registerCheck(email: Email, username: Username): Promise<boolean>;
     build(data: UserData): Promise<User>;
 }

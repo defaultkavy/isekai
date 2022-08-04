@@ -38,6 +38,16 @@ class UserManager extends BaseManager_js_1.BaseManager {
             return yield this.cacheSet(data);
         });
     }
+    registerCheck(email, username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return !(yield this.collection.checkDuplicateByFilter({
+                username: username
+            }))
+                || !(yield this.collection.checkDuplicateByFilter({
+                    email: email
+                }));
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return new User_js_1.User(this, {

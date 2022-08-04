@@ -16,9 +16,15 @@ class DbCollection extends Base_js_1.Base {
         super(parent.client);
         this.collection = collection;
     }
-    checkIdDuplicate(id) {
+    checkDuplicate(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const find = yield this.collection.findOne({ id: id });
+            return !!find;
+        });
+    }
+    checkDuplicateByFilter(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const find = yield this.collection.findOne(filter);
             return !!find;
         });
     }

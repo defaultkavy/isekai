@@ -7,7 +7,8 @@ import { Database } from "./Database.js";
 export declare class DbCollection extends Base {
     private collection;
     constructor(parent: Database, collection: Collection);
-    checkIdDuplicate(id: Snowflake): Promise<boolean>;
+    checkDuplicate(id: Snowflake): Promise<boolean>;
+    checkDuplicateByFilter(filter: DbFilter): Promise<boolean>;
     getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
     getDataByFilter(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document> | null>;
     saveData(id: Snowflake, data: DataTypes): Promise<import("bson").Document>;
