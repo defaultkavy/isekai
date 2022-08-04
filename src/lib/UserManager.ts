@@ -28,15 +28,6 @@ export class UserManager extends BaseManager<User, UserData> {
         return await this.cacheSet(data as unknown as UserData)
     }
 
-    async registerCheck(email: Email, username: Username) {
-        return !(await this.collection.checkDuplicateByFilter({
-            username: username
-        })) 
-        || !(await this.collection.checkDuplicateByFilter({
-            email: email
-        }))
-    }
-
     async create(data: UserData) {
         if (await this.collection.checkDuplicateByFilter({ username: data.username }))
             throw new Conflict('create: username duplicated')
