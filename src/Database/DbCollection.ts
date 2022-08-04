@@ -6,45 +6,40 @@ import { Snowflake } from "../lib/SnowflakeManager.js";
 import { Database } from "./Database.js";
 
 export class DbCollection extends Base {
-    private collection: Collection
+    private _collection: Collection
     constructor(parent: Database, collection: Collection) {
         super(parent.client)
-        this.collection = collection
+        this._collection = collection
     }
 
     async checkDuplicate(id: Snowflake) {
-        const find = await this.collection.findOne({id: id})
+        const find = await this._collection.findOne({id: id})
         return !!find
     }
 
     async checkDuplicateByFilter(filter: DbFilter) {
-        const find = await this.collection.findOne(filter)
+        const find = await this._collection.findOne(filter)
         return !!find
     }
 
     async getData(id: Snowflake) {
-        const find = await this.collection.findOne({id: id})
+        const find = await this._collection.findOne({id: id})
         if (!find) return null
         return find
     }
 
     async getDataByFilter(filter: DbFilter) {
-        const find = await this.collection.findOne(filter)
+        const find = await this._collection.findOne(filter)
         if (!find) return null
         return find
     }
 
     async saveData(id: Snowflake, data: DataTypes) {
-        const find = await this.collection.findOne({id: id})
-        if (find) {
-            return await this.collection.replaceOne({id: id}, data)
-        } else {
-            return await this.collection.insertOne(data)
-        }
+        await this._collection.updateOne({id: id}, {$set: data}, {upsert: true})
     }
 
     async deleteData(id: Snowflake) {
-        return await this.collection.deleteOne({id: id})
+        return await this._collection.deleteOne({id: id})
     }
 }
 

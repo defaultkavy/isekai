@@ -14,23 +14,23 @@ const Base_js_1 = require("../lib/Base.js");
 class DbCollection extends Base_js_1.Base {
     constructor(parent, collection) {
         super(parent.client);
-        this.collection = collection;
+        this._collection = collection;
     }
     checkDuplicate(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const find = yield this.collection.findOne({ id: id });
+            const find = yield this._collection.findOne({ id: id });
             return !!find;
         });
     }
     checkDuplicateByFilter(filter) {
         return __awaiter(this, void 0, void 0, function* () {
-            const find = yield this.collection.findOne(filter);
+            const find = yield this._collection.findOne(filter);
             return !!find;
         });
     }
     getData(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const find = yield this.collection.findOne({ id: id });
+            const find = yield this._collection.findOne({ id: id });
             if (!find)
                 return null;
             return find;
@@ -38,7 +38,7 @@ class DbCollection extends Base_js_1.Base {
     }
     getDataByFilter(filter) {
         return __awaiter(this, void 0, void 0, function* () {
-            const find = yield this.collection.findOne(filter);
+            const find = yield this._collection.findOne(filter);
             if (!find)
                 return null;
             return find;
@@ -46,18 +46,12 @@ class DbCollection extends Base_js_1.Base {
     }
     saveData(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const find = yield this.collection.findOne({ id: id });
-            if (find) {
-                return yield this.collection.replaceOne({ id: id }, data);
-            }
-            else {
-                return yield this.collection.insertOne(data);
-            }
+            yield this._collection.updateOne({ id: id }, { $set: data }, { upsert: true });
         });
     }
     deleteData(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.collection.deleteOne({ id: id });
+            return yield this._collection.deleteOne({ id: id });
         });
     }
 }
