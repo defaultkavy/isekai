@@ -6,7 +6,8 @@ class User extends BaseDbObject_js_1.BaseDbObject {
     constructor(manager, options) {
         super(manager);
         this.id = options.id;
-        this.name = options.name;
+        this.username = options.username;
+        this.displayName = options.displayName;
         this.email = options.email;
     }
     posts() {
@@ -15,7 +16,8 @@ class User extends BaseDbObject_js_1.BaseDbObject {
     toData() {
         return {
             id: this.id,
-            name: this.name,
+            username: this.username,
+            displayName: this.displayName,
             email: this.email
         };
     }

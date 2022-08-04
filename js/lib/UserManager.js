@@ -42,8 +42,9 @@ class UserManager extends BaseManager_js_1.BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             return new User_js_1.User(this, {
                 id: data.id,
-                name: data.name,
-                email: data.email
+                username: data.username,
+                email: data.email,
+                displayName: data.displayName
             });
         });
     }

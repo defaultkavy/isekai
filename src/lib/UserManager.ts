@@ -30,8 +30,9 @@ export class UserManager extends BaseManager<User, UserData> {
     async build(data: UserData): Promise<User> {
         return new User(this, {
             id: data.id,
-            name: data.name,
-            email: data.email
+            username: data.username,
+            email: data.email,
+            displayName: data.displayName
         })
     }
 }
