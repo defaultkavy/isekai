@@ -39,9 +39,7 @@ class BaseManager {
             const data = yield this.collection.getData(id);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
-            const object = yield this.build(data);
-            this.cache.set(object.id, object);
-            return object;
+            return this.cacheSet(data);
         });
     }
     create(data) {
@@ -59,6 +57,13 @@ class BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             const object = yield this.get(id);
             object.delete();
+        });
+    }
+    cacheSet(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const object = yield this.build(data);
+            this.cache.set(object.id, object);
+            return object;
         });
     }
 }

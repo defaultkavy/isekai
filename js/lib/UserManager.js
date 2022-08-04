@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserManager = void 0;
 const BaseManager_js_1 = require("./BaseManager.js");
 const User_js_1 = require("./User.js");
+const NotFound_js_1 = require("../errors/NotFound.js");
 /**
  * A manager to collect all user in the cache
  */
@@ -21,11 +22,28 @@ class UserManager extends BaseManager_js_1.BaseManager {
         this.type = 'User';
         this.collection = this.client.db.users;
     }
+    fetchByUsername(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = this.collection.getDataByFilter({ username: username });
+            if (!data)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+            return yield this.cacheSet(data);
+        });
+    }
+    fetchByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = this.collection.getDataByFilter({ email: email });
+            if (!data)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+            return yield this.cacheSet(data);
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return new User_js_1.User(this, {
                 id: data.id,
-                name: data.name
+                name: data.name,
+                email: data.email
             });
         });
     }

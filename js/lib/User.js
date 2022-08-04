@@ -7,6 +7,7 @@ class User extends BaseDbObject_js_1.BaseDbObject {
         super(manager);
         this.id = options.id;
         this.name = options.name;
+        this.email = options.email;
     }
     posts() {
         return this.client.posts.getPostByUser(this);
@@ -14,7 +15,8 @@ class User extends BaseDbObject_js_1.BaseDbObject {
     toData() {
         return {
             id: this.id,
-            name: this.name
+            name: this.name,
+            email: this.email
         };
     }
 }
