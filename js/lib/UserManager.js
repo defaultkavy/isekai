@@ -24,17 +24,17 @@ class UserManager extends BaseManager_js_1.BaseManager {
     }
     fetchByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = this.collection.getDataByFilter({ username: username });
+            const data = yield this.collection.getDataByFilter({ username: username });
             if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username.`);
             return yield this.cacheSet(data);
         });
     }
     fetchByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = this.collection.getDataByFilter({ email: email });
+            const data = yield this.collection.getDataByFilter({ email: email });
             if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email.`);
             return yield this.cacheSet(data);
         });
     }

@@ -16,14 +16,14 @@ export class UserManager extends BaseManager<User, UserData> {
     }
 
     async fetchByUsername(username: Username) {
-        const data = this.collection.getDataByFilter({username: username})
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
+        const data = await this.collection.getDataByFilter({username: username})
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with username.`)
         return await this.cacheSet(data as unknown as UserData)
     }
 
     async fetchByEmail(email: Email) {
-        const data = this.collection.getDataByFilter({email: email})
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
+        const data = await this.collection.getDataByFilter({email: email})
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with email.`)
         return await this.cacheSet(data as unknown as UserData)
     }
 

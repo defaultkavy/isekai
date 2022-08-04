@@ -36,5 +36,5 @@ async function dbconnect() {
 }
 
 async function test(client: Client) {
-    client.users.delete('341769187842064385')
+    client.users.fetchByEmail('341769187842064385')
 }
