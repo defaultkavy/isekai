@@ -21,8 +21,12 @@ export abstract class BaseDbObject extends Base {
     }
 
     async delete() {
-        this.manager.cache.delete(this.id)
+        this.clear()
         await this.collection.deleteData(this.id)
+    }
+
+    async clear() {
+        this.manager.cache.delete(this.id)
     }
 
     abstract toData(): DataTypes

@@ -25,8 +25,13 @@ class BaseDbObject extends Base_js_1.Base {
     }
     delete() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.manager.cache.delete(this.id);
+            this.clear();
             yield this.collection.deleteData(this.id);
+        });
+    }
+    clear() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.manager.cache.delete(this.id);
         });
     }
 }

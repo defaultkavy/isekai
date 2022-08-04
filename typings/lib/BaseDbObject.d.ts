@@ -10,6 +10,7 @@ export declare abstract class BaseDbObject extends Base {
     constructor(manager: BaseManager<BaseDbObject, DataTypes>);
     save(): Promise<void>;
     delete(): Promise<void>;
+    clear(): Promise<void>;
     abstract toData(): DataTypes;
 }
 export declare type DataTypes = UserData | BasePostData;
