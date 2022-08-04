@@ -13,6 +13,7 @@ exports.UserManager = void 0;
 const BaseManager_js_1 = require("./BaseManager.js");
 const User_js_1 = require("./User.js");
 const NotFound_js_1 = require("../errors/NotFound.js");
+const Conflict_js_1 = require("../errors/Conflict.js");
 /**
  * A manager to collect all user in the cache
  */
@@ -26,7 +27,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilter({ username: username });
             if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username.`);
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username`);
             return yield this.cacheSet(data);
         });
     }
@@ -34,7 +35,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilter({ email: email });
             if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email.`);
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email`);
             return yield this.cacheSet(data);
         });
     }
@@ -46,6 +47,18 @@ class UserManager extends BaseManager_js_1.BaseManager {
                 || !(yield this.collection.checkDuplicateByFilter({
                     email: email
                 }));
+        });
+    }
+    create(data) {
+        const _super = Object.create(null, {
+            create: { get: () => super.create }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            if (yield this.collection.checkDuplicateByFilter({ username: data.username }))
+                throw new Conflict_js_1.Conflict('create: username duplicated');
+            if (yield this.collection.checkDuplicateByFilter({ email: data.email }))
+                throw new Conflict_js_1.Conflict('create: email duplicated');
+            return _super.create.call(this, data);
         });
     }
     build(data) {

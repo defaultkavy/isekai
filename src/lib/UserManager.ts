@@ -3,6 +3,7 @@ import { BaseManager } from "./BaseManager.js";
 import { Email, User, UserData, Username } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
+import { Conflict } from "../errors/Conflict.js";
 
 /**
  * A manager to collect all user in the cache
@@ -17,13 +18,13 @@ export class UserManager extends BaseManager<User, UserData> {
 
     async fetchByUsername(username: Username) {
         const data = await this.collection.getDataByFilter({username: username})
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist with username.`)
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with username`)
         return await this.cacheSet(data as unknown as UserData)
     }
 
     async fetchByEmail(email: Email) {
         const data = await this.collection.getDataByFilter({email: email})
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist with email.`)
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with email`)
         return await this.cacheSet(data as unknown as UserData)
     }
 
@@ -34,6 +35,14 @@ export class UserManager extends BaseManager<User, UserData> {
         || !(await this.collection.checkDuplicateByFilter({
             email: email
         }))
+    }
+
+    async create(data: UserData) {
+        if (await this.collection.checkDuplicateByFilter({ username: data.username }))
+            throw new Conflict('create: username duplicated')
+        if (await this.collection.checkDuplicateByFilter({ email: data.email }))
+            throw new Conflict('create: email duplicated')
+        return super.create(data)
     }
 
     async build(data: UserData): Promise<User> {
