@@ -11,10 +11,15 @@ export class User extends BaseDbObject {
      * Username
      */
     name: string;
+    /**
+     * User email address
+     */
+    email: string;
     constructor(manager: UserManager, options: UserOptions) {
         super(manager)
         this.id = options.id
         this.name = options.name
+        this.email = options.email
     }
 
     posts() {
@@ -24,7 +29,8 @@ export class User extends BaseDbObject {
     toData(): UserData {
         return {
             id: this.id,
-            name: this.name
+            name: this.name,
+            email: this.email
         }
     }
 }
@@ -34,5 +40,9 @@ export interface UserOptions extends UserData {
 
 export interface UserData{
     id: Snowflake,
-    name: string
+    name: Username
+    email: Email
 }
+
+export type Username = string
+export type Email = string

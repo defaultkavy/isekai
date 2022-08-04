@@ -1,4 +1,5 @@
 import { Collection } from "mongodb";
+import { Email, Username } from "../index.js";
 import { Base } from "../lib/Base.js";
 import { DataTypes } from "../lib/BaseDbObject.js";
 import { Snowflake } from "../lib/SnowflakeManager.js";
@@ -22,6 +23,12 @@ export class DbCollection extends Base {
         return find
     }
 
+    async getDataByFilter(filter: DbFilter) {
+        const find = await this.collection.findOne(filter)
+        if (!find) return null
+        return find
+    }
+
     async saveData(id: Snowflake, data: DataTypes) {
         const find = await this.collection.findOne({id: id})
         if (find) {
@@ -34,4 +41,9 @@ export class DbCollection extends Base {
     async deleteData(id: Snowflake) {
         return await this.collection.deleteOne({id: id})
     }
+}
+
+export type FilterTypes = Snowflake | Email | Username
+export interface DbFilter {
+    [key: string]: FilterTypes
 }

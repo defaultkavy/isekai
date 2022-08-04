@@ -34,9 +34,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Data
         const id = this.resolveId(resolve)
         const data = await this.collection.getData(id)
         if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
-        const object = await this.build(data as unknown as DataTypes)
-        this.cache.set(object.id, object)
-        return object
+        return this.cacheSet(data as unknown as DataTypes)
     }
 
     async create(data: Data) {
@@ -54,6 +52,11 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Data
         object.delete()
     }
 
+    async cacheSet(data: DataTypes) {
+        const object = await this.build(data)
+        this.cache.set(object.id, object)
+        return object
+    }
 
     abstract build(data: DataTypes): Promise<Object>
 
