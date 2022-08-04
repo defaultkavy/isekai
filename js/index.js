@@ -15,6 +15,7 @@ __exportStar(require("./database/Data"), exports);
 __exportStar(require("./database/Database"), exports);
 __exportStar(require("./database/DbCollection"), exports);
 __exportStar(require("./errors/Conflict"), exports);
+__exportStar(require("./errors/Forbidden"), exports);
 __exportStar(require("./errors/HttpException"), exports);
 __exportStar(require("./errors/NotFound"), exports);
 __exportStar(require("./lib/Base"), exports);

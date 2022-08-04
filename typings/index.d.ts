@@ -3,6 +3,7 @@ export * from "./database/Data";
 export * from "./database/Database";
 export * from "./database/DbCollection";
 export * from "./errors/Conflict";
+export * from "./errors/Forbidden";
 export * from "./errors/HttpException";
 export * from "./errors/NotFound";
 export * from "./lib/Base";
