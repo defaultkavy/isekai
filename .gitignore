@@ -4,4 +4,4 @@ js/etc
 server.js
 server.js.map
 server.d.ts
-server.ts
+src/server.ts
