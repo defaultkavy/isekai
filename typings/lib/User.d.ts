@@ -18,6 +18,7 @@ export declare class User extends BaseDbObject {
      * User email address
      */
     email: Email;
+    avatar: AvatarData;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
     posts(): import("./BasePost.js").BasePost[];
@@ -30,6 +31,10 @@ export interface UserData extends BaseData {
     username: Username;
     displayName: string;
     email: Email;
+    avatar: AvatarData;
+}
+export interface AvatarData {
+    url: string;
 }
 export declare type Username = string;
 export declare type Email = string;

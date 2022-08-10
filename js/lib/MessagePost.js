@@ -5,6 +5,11 @@ const BasePost_js_1 = require("./BasePost.js");
 class MessagePost extends BasePost_js_1.BasePost {
     constructor(manager, options) {
         super(manager, options);
+        this.attachment = options.attachment;
+        this.content = options.content;
+    }
+    toData() {
+        return Object.assign(Object.assign({}, super.toData()), { attachment: this.attachment, content: this.content });
     }
 }
 exports.MessagePost = MessagePost;

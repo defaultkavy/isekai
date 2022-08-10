@@ -10,6 +10,7 @@ class User extends BaseDbObject_js_1.BaseDbObject {
         this.displayName = options.displayName;
         this.email = options.email;
         this.createdTimestamp = options.createdTimestamp;
+        this.avatar = options.avatar;
     }
     posts() {
         return this.client.posts.getPostByUser(this);
@@ -20,7 +21,8 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             username: this.username,
             displayName: this.displayName,
             email: this.email,
-            createdTimestamp: this.createdTimestamp
+            createdTimestamp: this.createdTimestamp,
+            avatar: this.avatar
         };
     }
 }

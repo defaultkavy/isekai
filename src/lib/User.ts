@@ -20,6 +20,8 @@ export class User extends BaseDbObject {
      */
     email: Email;
 
+    avatar: AvatarData
+
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions) {
         super(manager)
@@ -28,6 +30,7 @@ export class User extends BaseDbObject {
         this.displayName = options.displayName
         this.email = options.email
         this.createdTimestamp = options.createdTimestamp
+        this.avatar = options.avatar
     }
 
     posts() {
@@ -40,7 +43,8 @@ export class User extends BaseDbObject {
             username: this.username,
             displayName: this.displayName,
             email: this.email,
-            createdTimestamp: this.createdTimestamp
+            createdTimestamp: this.createdTimestamp,
+            avatar: this.avatar
         }
     }
 }
@@ -53,6 +57,11 @@ export interface UserData extends BaseData {
     username: Username,
     displayName: string
     email: Email
+    avatar: AvatarData
+}
+
+export interface AvatarData {
+    url: string
 }
 
 export type Username = string
