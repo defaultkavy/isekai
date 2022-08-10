@@ -37,13 +37,7 @@ export class UserManager extends BaseManager<User, UserData, UserClientData> {
     }
 
     async build(data: UserData): Promise<User> {
-        return new User(this, {
-            id: data.id,
-            username: data.username,
-            email: data.email,
-            displayName: data.displayName,
-            createdTimestamp: data.createdTimestamp
-        })
+        return new User(this, data)
     }
 }
 

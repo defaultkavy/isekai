@@ -25,11 +25,8 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
         if (data.type === 'MESSAGE') {
             const messageData = data as MessagePostData
             return new MessagePost(this, {
-                id: messageData.id,
+                ...messageData,
                 author: user,
-                content: messageData.content,
-                attachment: messageData.attachment,
-                createdTimestamp: messageData.createdTimestamp,
                 type: 'MESSAGE'
             })
         }

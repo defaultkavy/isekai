@@ -34,14 +34,7 @@ class PostManager extends BaseManager_js_1.BaseManager {
             const user = yield this.client.users.get(data.author);
             if (data.type === 'MESSAGE') {
                 const messageData = data;
-                return new MessagePost_js_1.MessagePost(this, {
-                    id: messageData.id,
-                    author: user,
-                    content: messageData.content,
-                    attachment: messageData.attachment,
-                    createdTimestamp: messageData.createdTimestamp,
-                    type: 'MESSAGE'
-                });
+                return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: 'MESSAGE' }));
             }
             throw new HttpException_js_1.HttpException('Post type error');
         });
