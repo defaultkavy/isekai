@@ -43,7 +43,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         if (this.cache.has(data.id)
             || await this.collection.checkDuplicate(data.id)) 
             throw new Conflict(`create: ${this.type} id existed.`)
-        Object.assign(data, {createdTimestam: + new Date()})
+        Object.assign(data, {createdTimestamp: + new Date()})
         const object = await this.build(data as unknown as Data)
         this.cache.set(object.id, object)
         await object.save()
