@@ -1,8 +1,8 @@
 import { Collection } from "mongodb";
-import { Email, Username } from "../index.js";
 import { Base } from "../lib/Base.js";
-import { DataTypes } from "../lib/BaseDbObject.js";
+import { BaseData } from "../lib/BaseDbObject.js";
 import { Snowflake } from "../lib/SnowflakeManager.js";
+import { Email, Username } from "../lib/User.js";
 import { Database } from "./Database.js";
 
 export class DbCollection extends Base {
@@ -34,7 +34,7 @@ export class DbCollection extends Base {
         return find
     }
 
-    async saveData(id: Snowflake, data: DataTypes) {
+    async saveData(id: Snowflake, data: BaseData) {
         await this._collection.updateOne({id: id}, {$set: data}, {upsert: true})
     }
 

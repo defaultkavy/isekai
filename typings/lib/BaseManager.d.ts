@@ -1,9 +1,11 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Base, Id } from "./Base.js";
-import { BaseDbObject, DataTypes } from "./BaseDbObject.js";
+import { BaseData, BaseDbObject } from "./BaseDbObject.js";
+import { BasePostClientData } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
-export declare abstract class BaseManager<Object extends BaseDbObject, Data extends DataTypes> {
+import { UserClientData } from "./UserManager.js";
+export declare abstract class BaseManager<Object extends BaseDbObject, Data extends BaseData, ClientData extends BaseClientData> {
     client: Client;
     cache: Map<string, Object>;
     abstract collection: DbCollection;
@@ -12,8 +14,9 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     get(id: Snowflake): Promise<Object>;
     resolveId(idOrInstance: Snowflake | Id<Base>): string;
     fetch(resolve: Object | Snowflake): Promise<Object>;
-    create(data: Data): Promise<Object>;
+    __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
-    cacheSet(data: DataTypes): Promise<Object>;
-    abstract build(data: DataTypes): Promise<Object>;
+    cacheSet(data: Data): Promise<Object>;
+    abstract build(data: Data): Promise<Object>;
 }
+export declare type BaseClientData = UserClientData | BasePostClientData;

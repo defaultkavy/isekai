@@ -10,8 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostManager = void 0;
+const HttpException_js_1 = require("../errors/HttpException.js");
 const BaseManager_js_1 = require("./BaseManager.js");
-const Post_js_1 = require("./Post.js");
+const MessagePost_js_1 = require("./MessagePost.js");
 const User_js_1 = require("./User.js");
 class PostManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
@@ -19,13 +20,30 @@ class PostManager extends BaseManager_js_1.BaseManager {
         this.type = 'Post';
         this.collection = client.db.posts;
     }
+    createMessagePost(data) {
+        const _super = Object.create(null, {
+            __create: { get: () => super.__create }
+        });
+        return __awaiter(this, void 0, void 0, function* () {
+            Object.assign(data, { type: 'MESSAGE' });
+            return yield _super.__create.call(this, data);
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.author);
-            return new Post_js_1.Post(this, {
-                id: data.id,
-                author: user
-            });
+            if (data.type === 'MESSAGE') {
+                const messageData = data;
+                return new MessagePost_js_1.MessagePost(this, {
+                    id: messageData.id,
+                    author: user,
+                    content: messageData.content,
+                    attachment: messageData.attachment,
+                    createdTimestamp: messageData.createdTimestamp,
+                    type: 'MESSAGE'
+                });
+            }
+            throw new HttpException_js_1.HttpException('Post type error');
         });
     }
     getPostByUser(user) {

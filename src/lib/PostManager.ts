@@ -1,11 +1,13 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
+import { HttpException } from "../errors/HttpException.js";
 import { BaseManager } from "./BaseManager.js";
-import { Post, PostData } from "./Post.js";
+import { BasePost, BasePostData } from "./BasePost.js";
+import { MessagePost, MessagePostData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
-export class PostManager extends BaseManager<Post, PostData> {
+export class PostManager extends BaseManager<BasePost, BasePostData, BasePostClientData> {
     collection: DbCollection;
     type = 'Post'
     constructor(client: Client) {
@@ -13,12 +15,25 @@ export class PostManager extends BaseManager<Post, PostData> {
         this.collection = client.db.posts
     }
 
-    async build(data: PostData): Promise<Post> {
+    async createMessagePost(data: MessagePostClientData) {
+        Object.assign(data, {type: 'MESSAGE'})
+        return await super.__create(data as unknown as MessagePostData)
+    }
+
+    async build(data: BasePostData): Promise<MessagePost> {
         const user = await this.client.users.get(data.author)
-        return new Post(this, {
-            id: data.id,
-            author: user
-        })
+        if (data.type === 'MESSAGE') {
+            const messageData = data as MessagePostData
+            return new MessagePost(this, {
+                id: messageData.id,
+                author: user,
+                content: messageData.content,
+                attachment: messageData.attachment,
+                createdTimestamp: messageData.createdTimestamp,
+                type: 'MESSAGE'
+            })
+        }
+        throw new HttpException('Post type error')
     }
 
     getPostByUser(user: User | Snowflake) {
@@ -29,3 +44,7 @@ export class PostManager extends BaseManager<Post, PostData> {
         }
     }
 }
+
+export interface BasePostClientData extends Omit<BasePostData, 'createdTimestamp'> {}
+
+export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp' | 'type'> {}

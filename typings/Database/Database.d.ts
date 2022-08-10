@@ -2,7 +2,7 @@ import { Db } from "mongodb";
 import { Client } from "../client/Client.js";
 import { Base } from "../lib/Base.js";
 import { DbCollection } from "./DbCollection.js";
-import { PostData } from "../lib/Post.js";
+import { MessagePostData } from "../lib/MessagePost.js";
 import { UserData } from "../lib/User.js";
 export declare class Database extends Base {
     private db;
@@ -14,4 +14,4 @@ export declare enum CollectionName {
     users = "users",
     posts = "posts"
 }
-export declare type CollectionData = UserData | PostData;
+export declare type CollectionData = UserData | MessagePostData;

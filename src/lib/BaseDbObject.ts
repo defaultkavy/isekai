@@ -1,15 +1,16 @@
 import { DbCollection } from "../database/DbCollection.js";
 import { Base } from "./Base.js";
-import { BaseManager } from "./BaseManager.js";
+import { BaseClientData, BaseManager } from "./BaseManager.js";
 import { BasePostData } from "./BasePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserData } from "./User.js";
 
 export abstract class BaseDbObject extends Base {
     private collection: DbCollection
-    private manager: BaseManager<BaseDbObject, DataTypes>
+    private manager: BaseManager<BaseDbObject, BaseData, BaseClientData>
     abstract id: Snowflake
-    constructor(manager: BaseManager<BaseDbObject, DataTypes>) {
+    abstract createdTimestamp: number;
+    constructor(manager: BaseManager<BaseDbObject, BaseData, BaseClientData>) {
         super(manager.client)
         this.manager = manager
         this.collection = manager.collection
@@ -29,7 +30,10 @@ export abstract class BaseDbObject extends Base {
         this.manager.cache.delete(this.id)
     }
 
-    abstract toData(): DataTypes
+    abstract toData(): BaseData
 }
 
-export type DataTypes = UserData | BasePostData
+export interface BaseData {
+    id: Snowflake,
+    createdTimestamp: number
+}

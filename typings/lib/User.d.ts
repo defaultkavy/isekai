@@ -1,4 +1,4 @@
-import { BaseDbObject } from "./BaseDbObject.js";
+import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserManager } from "./UserManager.js";
 export declare class User extends BaseDbObject {
@@ -18,13 +18,14 @@ export declare class User extends BaseDbObject {
      * User email address
      */
     email: Email;
+    createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
-    posts(): import("./Post.js").Post[];
+    posts(): import("./BasePost.js").BasePost[];
     toData(): UserData;
 }
 export interface UserOptions extends UserData {
 }
-export interface UserData {
+export interface UserData extends BaseData {
     id: Snowflake;
     username: Username;
     displayName: string;

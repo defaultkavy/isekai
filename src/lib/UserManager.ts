@@ -1,5 +1,5 @@
 import { Client } from "../client/Client.js";
-import { BaseManager } from "./BaseManager.js";
+import { BaseClientData, BaseManager } from "./BaseManager.js";
 import { Email, User, UserData, Username } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
@@ -8,7 +8,7 @@ import { Conflict } from "../errors/Conflict.js";
 /**
  * A manager to collect all user in the cache
  */
-export class UserManager extends BaseManager<User, UserData> {
+export class UserManager extends BaseManager<User, UserData, UserClientData> {
     collection: DbCollection;
     type = 'User'
     constructor(parent: Client) {
@@ -28,12 +28,12 @@ export class UserManager extends BaseManager<User, UserData> {
         return await this.cacheSet(data as unknown as UserData)
     }
 
-    async create(data: UserData) {
+    async create(data: UserClientData) {
         if (await this.collection.checkDuplicateByFilter({ username: data.username }))
             throw new Conflict('create: username duplicated')
         if (await this.collection.checkDuplicateByFilter({ email: data.email }))
             throw new Conflict('create: email duplicated')
-        return super.create(data)
+        return super.__create(data)
     }
 
     async build(data: UserData): Promise<User> {
@@ -41,7 +41,10 @@ export class UserManager extends BaseManager<User, UserData> {
             id: data.id,
             username: data.username,
             email: data.email,
-            displayName: data.displayName
+            displayName: data.displayName,
+            createdTimestamp: data.createdTimestamp
         })
     }
 }
+
+export interface UserClientData extends Omit<UserData, 'createdTimestamp'> {}

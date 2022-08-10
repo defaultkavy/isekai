@@ -1,4 +1,4 @@
-import { BaseDbObject } from "./BaseDbObject.js";
+import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserManager } from "./UserManager.js";
 
@@ -19,12 +19,15 @@ export class User extends BaseDbObject {
      * User email address
      */
     email: Email;
+
+    createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions) {
         super(manager)
         this.id = options.id
         this.username = options.username
         this.displayName = options.displayName
         this.email = options.email
+        this.createdTimestamp = options.createdTimestamp
     }
 
     posts() {
@@ -36,7 +39,8 @@ export class User extends BaseDbObject {
             id: this.id,
             username: this.username,
             displayName: this.displayName,
-            email: this.email
+            email: this.email,
+            createdTimestamp: this.createdTimestamp
         }
     }
 }
@@ -44,7 +48,7 @@ export class User extends BaseDbObject {
 export interface UserOptions extends UserData {
 }
 
-export interface UserData{
+export interface UserData extends BaseData {
     id: Snowflake,
     username: Username,
     displayName: string

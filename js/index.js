@@ -11,7 +11,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./client/Client"), exports);
-__exportStar(require("./database/Data"), exports);
 __exportStar(require("./database/Database"), exports);
 __exportStar(require("./database/DbCollection"), exports);
 __exportStar(require("./errors/Conflict"), exports);
@@ -22,7 +21,7 @@ __exportStar(require("./lib/Base"), exports);
 __exportStar(require("./lib/BaseDbObject"), exports);
 __exportStar(require("./lib/BaseManager"), exports);
 __exportStar(require("./lib/BasePost"), exports);
-__exportStar(require("./lib/Post"), exports);
+__exportStar(require("./lib/MessagePost"), exports);
 __exportStar(require("./lib/PostManager"), exports);
 __exportStar(require("./lib/SnowflakeManager"), exports);
 __exportStar(require("./lib/User"), exports);

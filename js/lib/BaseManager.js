@@ -42,11 +42,12 @@ class BaseManager {
             return this.cacheSet(data);
         });
     }
-    create(data) {
+    __create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.cache.has(data.id)
                 || (yield this.collection.checkDuplicate(data.id)))
                 throw new Conflict_js_1.Conflict(`create: ${this.type} id existed.`);
+            Object.assign(data, { createdTimestam: +new Date() });
             const object = yield this.build(data);
             this.cache.set(object.id, object);
             yield object.save();

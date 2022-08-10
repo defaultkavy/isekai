@@ -3,10 +3,12 @@ import { DbCollection } from "../database/DbCollection.js";
 import { Conflict } from "../errors/Conflict.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Base, Id } from "./Base.js";
-import { BaseDbObject, DataTypes } from "./BaseDbObject.js";
+import { BaseData, BaseDbObject } from "./BaseDbObject.js";
+import { BasePostClientData } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
+import { UserClientData } from "./UserManager.js";
 
-export abstract class BaseManager<Object extends BaseDbObject, Data extends DataTypes> {
+export abstract class BaseManager<Object extends BaseDbObject, Data extends BaseData, ClientData extends BaseClientData> {
     client: Client;
     cache: Map<string, Object>
     abstract collection: DbCollection
@@ -34,14 +36,15 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Data
         const id = this.resolveId(resolve)
         const data = await this.collection.getData(id)
         if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
-        return this.cacheSet(data as unknown as DataTypes)
+        return this.cacheSet(data as unknown as Data)
     }
 
-    async create(data: Data) {
+    async __create(data: ClientData) {
         if (this.cache.has(data.id)
             || await this.collection.checkDuplicate(data.id)) 
             throw new Conflict(`create: ${this.type} id existed.`)
-        const object = await this.build(data)
+        Object.assign(data, {createdTimestam: + new Date()})
+        const object = await this.build(data as unknown as Data)
         this.cache.set(object.id, object)
         await object.save()
         return object
@@ -52,12 +55,13 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Data
         object.delete()
     }
 
-    async cacheSet(data: DataTypes) {
+    async cacheSet(data: Data) {
         const object = await this.build(data)
         this.cache.set(object.id, object)
         return object
     }
 
-    abstract build(data: DataTypes): Promise<Object>
+    abstract build(data: Data): Promise<Object>
 
 }
+export type BaseClientData = UserClientData | BasePostClientData

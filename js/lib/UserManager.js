@@ -41,14 +41,14 @@ class UserManager extends BaseManager_js_1.BaseManager {
     }
     create(data) {
         const _super = Object.create(null, {
-            create: { get: () => super.create }
+            __create: { get: () => super.__create }
         });
         return __awaiter(this, void 0, void 0, function* () {
             if (yield this.collection.checkDuplicateByFilter({ username: data.username }))
                 throw new Conflict_js_1.Conflict('create: username duplicated');
             if (yield this.collection.checkDuplicateByFilter({ email: data.email }))
                 throw new Conflict_js_1.Conflict('create: email duplicated');
-            return _super.create.call(this, data);
+            return _super.__create.call(this, data);
         });
     }
     build(data) {
@@ -57,7 +57,8 @@ class UserManager extends BaseManager_js_1.BaseManager {
                 id: data.id,
                 username: data.username,
                 email: data.email,
-                displayName: data.displayName
+                displayName: data.displayName,
+                createdTimestamp: data.createdTimestamp
             });
         });
     }

@@ -1,8 +1,8 @@
 import { Collection } from "mongodb";
-import { Email, Username } from "../index.js";
 import { Base } from "../lib/Base.js";
-import { DataTypes } from "../lib/BaseDbObject.js";
+import { BaseData } from "../lib/BaseDbObject.js";
 import { Snowflake } from "../lib/SnowflakeManager.js";
+import { Email, Username } from "../lib/User.js";
 import { Database } from "./Database.js";
 export declare class DbCollection extends Base {
     private _collection;
@@ -11,7 +11,7 @@ export declare class DbCollection extends Base {
     checkDuplicateByFilter(filter: DbFilter): Promise<boolean>;
     getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
     getDataByFilter(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document> | null>;
-    saveData(id: Snowflake, data: DataTypes): Promise<void>;
+    saveData(id: Snowflake, data: BaseData): Promise<void>;
     deleteData(id: Snowflake): Promise<import("mongodb").DeleteResult>;
 }
 export declare type FilterTypes = Snowflake | Email | Username;
