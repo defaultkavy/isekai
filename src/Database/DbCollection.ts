@@ -28,8 +28,15 @@ export class DbCollection extends Base {
         return find
     }
 
-    async getDataByFilter(filter: DbFilter) {
+    async getDataByFilterOne(filter: DbFilter) {
         const find = await this._collection.findOne(filter)
+        if (!find) return null
+        return find
+    }
+
+    async getDataByFilter(filter: DbFilter) {
+        const cursor = this._collection.find(filter)
+        const find = await cursor.toArray()
         if (!find) return null
         return find
     }

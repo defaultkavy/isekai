@@ -34,6 +34,7 @@ class PostManager extends BaseManager_js_1.BaseManager {
             const data = yield this.collection.getDataByFilter({ author: userId });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
+            console.debug(data);
             return yield this.__cacheSetList(data);
         });
     }

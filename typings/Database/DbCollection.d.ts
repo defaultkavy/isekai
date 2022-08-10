@@ -10,7 +10,8 @@ export declare class DbCollection extends Base {
     checkDuplicate(id: Snowflake): Promise<boolean>;
     checkDuplicateByFilter(filter: DbFilter): Promise<boolean>;
     getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
-    getDataByFilter(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document> | null>;
+    getDataByFilterOne(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document> | null>;
+    getDataByFilter(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
     saveData(id: Snowflake, data: BaseData): Promise<void>;
     deleteData(id: Snowflake): Promise<import("mongodb").DeleteResult>;
 }

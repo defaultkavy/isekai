@@ -25,7 +25,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
     }
     fetchByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getDataByFilter({ username: username });
+            const data = yield this.collection.getDataByFilterOne({ username: username });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username`);
             return yield this.__cacheSet(data);
@@ -33,7 +33,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
     }
     fetchByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getDataByFilter({ email: email });
+            const data = yield this.collection.getDataByFilterOne({ email: email });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email`);
             return yield this.__cacheSet(data);

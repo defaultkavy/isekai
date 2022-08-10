@@ -36,9 +36,18 @@ class DbCollection extends Base_js_1.Base {
             return find;
         });
     }
-    getDataByFilter(filter) {
+    getDataByFilterOne(filter) {
         return __awaiter(this, void 0, void 0, function* () {
             const find = yield this._collection.findOne(filter);
+            if (!find)
+                return null;
+            return find;
+        });
+    }
+    getDataByFilter(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cursor = this._collection.find(filter);
+            const find = yield cursor.toArray();
             if (!find)
                 return null;
             return find;

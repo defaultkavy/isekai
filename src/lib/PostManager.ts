@@ -24,6 +24,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
         const userId = this.resolveId(author)
         const data = await this.collection.getDataByFilter({author: userId})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
+        console.debug(data)
         return await this.__cacheSetList(data as unknown as BasePostData[])
     }
 
