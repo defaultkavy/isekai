@@ -39,7 +39,7 @@ class BaseManager {
             const data = yield this.collection.getData(id);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
-            return this.cacheSet(data);
+            return this.__cacheSet(data);
         });
     }
     __create(data) {
@@ -60,11 +60,20 @@ class BaseManager {
             object.delete();
         });
     }
-    cacheSet(data) {
+    __cacheSet(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const object = yield this.build(data);
             this.cache.set(object.id, object);
             return object;
+        });
+    }
+    __cacheSetList(arr) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const objects = [];
+            for (const data of arr) {
+                objects.push(yield this.__cacheSet(data));
+            }
+            return objects;
         });
     }
 }

@@ -12,9 +12,6 @@ class User extends BaseDbObject_js_1.BaseDbObject {
         this.createdTimestamp = options.createdTimestamp;
         this.avatar = options.avatar;
     }
-    posts() {
-        return this.client.posts.getPostByUser(this);
-    }
     toData() {
         return {
             id: this.id,

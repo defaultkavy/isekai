@@ -28,7 +28,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
             const data = yield this.collection.getDataByFilter({ username: username });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username`);
-            return yield this.cacheSet(data);
+            return yield this.__cacheSet(data);
         });
     }
     fetchByEmail(email) {
@@ -36,7 +36,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
             const data = yield this.collection.getDataByFilter({ email: email });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email`);
-            return yield this.cacheSet(data);
+            return yield this.__cacheSet(data);
         });
     }
     create(data) {

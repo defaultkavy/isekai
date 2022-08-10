@@ -36,7 +36,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         const id = this.resolveId(resolve)
         const data = await this.collection.getData(id)
         if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
-        return this.cacheSet(data as unknown as Data)
+        return this.__cacheSet(data as unknown as Data)
     }
 
     async __create(data: ClientData) {
@@ -55,10 +55,18 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         object.delete()
     }
 
-    async cacheSet(data: Data) {
+    async __cacheSet(data: Data) {
         const object = await this.build(data)
         this.cache.set(object.id, object)
         return object
+    }
+
+    async __cacheSetList(arr: Data[]) {
+        const objects = []
+        for (const data of arr) {
+            objects.push(await this.__cacheSet(data))
+        } 
+        return objects
     }
 
     abstract build(data: Data): Promise<Object>

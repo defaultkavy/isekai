@@ -21,7 +21,6 @@ export declare class User extends BaseDbObject {
     avatar: AvatarData;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
-    posts(): import("./BasePost.js").BasePost[];
     toData(): UserData;
 }
 export interface UserOptions extends UserData {

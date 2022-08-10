@@ -11,9 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostManager = void 0;
 const HttpException_js_1 = require("../errors/HttpException.js");
+const NotFound_js_1 = require("../errors/NotFound.js");
 const BaseManager_js_1 = require("./BaseManager.js");
 const MessagePost_js_1 = require("./MessagePost.js");
-const User_js_1 = require("./User.js");
 class PostManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
         super(client);
@@ -28,6 +28,15 @@ class PostManager extends BaseManager_js_1.BaseManager {
             return yield _super.__create.call(this, data);
         });
     }
+    fetchByAuthor(author) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userId = this.resolveId(author);
+            const data = yield this.collection.getDataByFilter({ author: userId });
+            if (!data)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
+            return yield this.__cacheSetList(data);
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.author);
@@ -37,14 +46,6 @@ class PostManager extends BaseManager_js_1.BaseManager {
             }
             throw new HttpException_js_1.HttpException('Post type error');
         });
-    }
-    getPostByUser(user) {
-        if (user instanceof User_js_1.User) {
-            return Array.from(this.cache.values()).filter(post => post.author === user);
-        }
-        else {
-            return Array.from(this.cache.values()).filter(post => post.author.id === user);
-        }
     }
 }
 exports.PostManager = PostManager;

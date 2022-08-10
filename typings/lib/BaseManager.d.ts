@@ -16,7 +16,8 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     fetch(resolve: Object | Snowflake): Promise<Object>;
     __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
-    cacheSet(data: Data): Promise<Object>;
+    __cacheSet(data: Data): Promise<Object>;
+    __cacheSetList(arr: Data[]): Promise<Object[]>;
     abstract build(data: Data): Promise<Object>;
 }
 export declare type BaseClientData = UserClientData | BasePostClientData | MessagePostClientData;

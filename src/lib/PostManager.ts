@@ -1,6 +1,7 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { HttpException } from "../errors/HttpException.js";
+import { NotFound } from "../errors/NotFound.js";
 import { BaseManager } from "./BaseManager.js";
 import { BasePost, BasePostData } from "./BasePost.js";
 import { MessagePost, MessagePostData } from "./MessagePost.js";
@@ -19,6 +20,13 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
         return await super.__create(data)
     }
 
+    async fetchByAuthor(author: string | User) {
+        const userId = this.resolveId(author)
+        const data = await this.collection.getDataByFilter({author: userId})
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
+        return await this.__cacheSetList(data as unknown as BasePostData[])
+    }
+
     async build(data: BasePostData): Promise<MessagePost> {
         const user = await this.client.users.get(data.author)
         if (data.type === 'MESSAGE') {
@@ -30,14 +38,6 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
             })
         }
         throw new HttpException('Post type error')
-    }
-
-    getPostByUser(user: User | Snowflake) {
-        if (user instanceof User) {
-            return Array.from(this.cache.values()).filter(post => post.author === user)
-        } else {
-            return Array.from(this.cache.values()).filter(post => post.author.id === user)
-        }
     }
 }
 
