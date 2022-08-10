@@ -16,8 +16,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
     }
 
     async createMessagePost(data: MessagePostClientData) {
-        Object.assign(data, {type: 'MESSAGE'})
-        return await super.__create(data as unknown as MessagePostData)
+        return await super.__create(data)
     }
 
     async build(data: BasePostData): Promise<MessagePost> {
@@ -44,4 +43,4 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
 
 export interface BasePostClientData extends Omit<BasePostData, 'createdTimestamp'> {}
 
-export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp' | 'type'> {}
+export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp'> {}

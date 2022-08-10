@@ -2,7 +2,7 @@ import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Base, Id } from "./Base.js";
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
-import { BasePostClientData } from "./PostManager.js";
+import { BasePostClientData, MessagePostClientData } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserClientData } from "./UserManager.js";
 export declare abstract class BaseManager<Object extends BaseDbObject, Data extends BaseData, ClientData extends BaseClientData> {
@@ -19,4 +19,4 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     cacheSet(data: Data): Promise<Object>;
     abstract build(data: Data): Promise<Object>;
 }
-export declare type BaseClientData = UserClientData | BasePostClientData;
+export declare type BaseClientData = UserClientData | BasePostClientData | MessagePostClientData;

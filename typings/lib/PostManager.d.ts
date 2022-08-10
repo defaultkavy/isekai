@@ -15,5 +15,5 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
 }
 export interface BasePostClientData extends Omit<BasePostData, 'createdTimestamp'> {
 }
-export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp' | 'type'> {
+export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp'> {
 }

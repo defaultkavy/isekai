@@ -25,7 +25,6 @@ class PostManager extends BaseManager_js_1.BaseManager {
             __create: { get: () => super.__create }
         });
         return __awaiter(this, void 0, void 0, function* () {
-            Object.assign(data, { type: 'MESSAGE' });
             return yield _super.__create.call(this, data);
         });
     }
