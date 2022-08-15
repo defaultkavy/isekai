@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DbCollection = void 0;
+const mongodb_1 = require("mongodb");
 const Base_js_1 = require("../lib/Base.js");
 class DbCollection extends Base_js_1.Base {
     constructor(parent, collection) {
@@ -46,10 +47,18 @@ class DbCollection extends Base_js_1.Base {
     }
     getDataByFilter(filter) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cursor = this._collection.find(filter);
+            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {}).limit(50);
             const find = yield cursor.toArray();
             if (!find)
                 return null;
+            return find;
+        });
+    }
+    getDataByLastId(id, limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const int = mongodb_1.Long.fromString(id);
+            const cursor = this._collection.find({ $expr: { $lt: [{ '$toLong': '$id' }, int] } }).limit(limit !== null && limit !== void 0 ? limit : 100);
+            const find = yield cursor.toArray();
             return find;
         });
     }

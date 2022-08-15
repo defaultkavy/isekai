@@ -37,6 +37,14 @@ class PostManager extends BaseManager_js_1.BaseManager {
             return yield this.__cacheSetList(data);
         });
     }
+    fetchByLastId(lastId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.collection.getDataByLastId(lastId, 50);
+            if (!data)
+                throw new HttpException_js_1.HttpException(`Post fetch failed`);
+            return yield this.__cacheSetList(data);
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.author);

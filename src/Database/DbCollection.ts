@@ -1,4 +1,4 @@
-import { Collection } from "mongodb";
+import { Collection, Filter, Long } from "mongodb";
 import { Base } from "../lib/Base.js";
 import { BaseData } from "../lib/BaseDbObject.js";
 import { Snowflake } from "../lib/SnowflakeManager.js";
@@ -34,10 +34,17 @@ export class DbCollection extends Base {
         return find
     }
 
-    async getDataByFilter(filter: DbFilter) {
-        const cursor = this._collection.find(filter)
+    async getDataByFilter<D>(filter?: Filter<D>) {
+        const cursor = this._collection.find(filter ?? {}).limit(50)
         const find = await cursor.toArray()
         if (!find) return null
+        return find
+    }
+
+    async getDataByLastId<D>(id: Snowflake, limit?: number) {
+        const int = Long.fromString(id)
+        const cursor = this._collection.find({$expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit ?? 100)
+        const find = await cursor.toArray()
         return find
     }
 
