@@ -35,7 +35,7 @@ export class DbCollection extends Base {
     }
 
     async getDataByFilter<D>(filter?: Filter<D>) {
-        const cursor = this._collection.find(filter ?? {}).limit(50)
+        const cursor = this._collection.find(filter ?? {})
         const find = await cursor.toArray()
         if (!find) return null
         return find
@@ -44,6 +44,12 @@ export class DbCollection extends Base {
     async getDataByLastId<D>(id: Snowflake, limit?: number) {
         const int = Long.fromString(id)
         const cursor = this._collection.find({$expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit ?? 100)
+        const find = await cursor.toArray()
+        return find
+    }
+
+    async getNewestData<D>(limit?: number) {
+        const cursor = this._collection.find().sort({id: 1}).limit(limit ?? 100)
         const find = await cursor.toArray()
         return find
     }

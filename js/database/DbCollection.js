@@ -47,7 +47,7 @@ class DbCollection extends Base_js_1.Base {
     }
     getDataByFilter(filter) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {}).limit(50);
+            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {});
             const find = yield cursor.toArray();
             if (!find)
                 return null;
@@ -58,6 +58,13 @@ class DbCollection extends Base_js_1.Base {
         return __awaiter(this, void 0, void 0, function* () {
             const int = mongodb_1.Long.fromString(id);
             const cursor = this._collection.find({ $expr: { $lt: [{ '$toLong': '$id' }, int] } }).limit(limit !== null && limit !== void 0 ? limit : 100);
+            const find = yield cursor.toArray();
+            return find;
+        });
+    }
+    getNewestData(limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cursor = this._collection.find().sort({ id: 1 }).limit(limit !== null && limit !== void 0 ? limit : 100);
             const find = yield cursor.toArray();
             return find;
         });
