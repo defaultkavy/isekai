@@ -22,6 +22,15 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             avatar: this.avatar
         };
     }
+    toPublicData() {
+        return {
+            id: this.id,
+            username: this.username,
+            displayName: this.displayName,
+            createdTimestamp: this.createdTimestamp,
+            avatar: this.avatar
+        };
+    }
 }
 exports.User = User;
 //# sourceMappingURL=User.js.map

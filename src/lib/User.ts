@@ -43,6 +43,16 @@ export class User extends BaseDbObject {
             avatar: this.avatar
         }
     }
+
+    toPublicData(): UserPublicData {
+        return {
+            id: this.id,
+            username: this.username,
+            displayName: this.displayName,
+            createdTimestamp: this.createdTimestamp,
+            avatar: this.avatar
+        }
+    }
 }
 
 export interface UserOptions extends UserData {
@@ -55,6 +65,8 @@ export interface UserData extends BaseData {
     email: Email
     avatar: AvatarData
 }
+
+export interface UserPublicData extends Omit<UserData, 'email'> {}
 
 export interface AvatarData {
     url: string

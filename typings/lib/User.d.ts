@@ -22,6 +22,7 @@ export declare class User extends BaseDbObject {
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
     toData(): UserData;
+    toPublicData(): UserPublicData;
 }
 export interface UserOptions extends UserData {
 }
@@ -31,6 +32,8 @@ export interface UserData extends BaseData {
     displayName: string;
     email: Email;
     avatar: AvatarData;
+}
+export interface UserPublicData extends Omit<UserData, 'email'> {
 }
 export interface AvatarData {
     url: string;
