@@ -27,10 +27,7 @@ export class BasePost extends BaseDbObject {
 
     toClientData(): BasePostClientData {
         return {
-            author: this.author.toPublicData(),
-            id: this.id,
-            createdTimestamp: this.createdTimestamp,
-            type: this.type
+            ...this.toData()
         }
     }
 }
@@ -46,8 +43,7 @@ export interface BasePostData extends BaseData {
     type: PostTypes
 }
 
-export interface BasePostClientData extends Omit<BasePostData, 'author'> {
-    author: UserPublicData,
+export interface BasePostClientData extends Omit<BasePostData, ''> {
 }
 
 export type PostTypes = 'MESSAGE' | 'ARTICLE'

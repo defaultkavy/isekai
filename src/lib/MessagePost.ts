@@ -17,6 +17,12 @@ export class MessagePost extends BasePost {
             content: this.content
         }
     }
+
+    toClientData(): MessagePostClientData {
+        return {
+            ...this.toData(),
+        }
+    }
     
 }
 
@@ -28,4 +34,7 @@ export interface MessagePostOptions extends BasePostOptions {
 export interface MessagePostData extends BasePostData {
     content: string;
     attachment: null;
+}
+
+export interface MessagePostClientData extends Omit<MessagePostData, ''> {
 }

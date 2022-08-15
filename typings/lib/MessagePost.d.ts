@@ -5,6 +5,7 @@ export declare class MessagePost extends BasePost {
     content: string;
     constructor(manager: PostManager, options: MessagePostOptions);
     toData(): MessagePostData;
+    toClientData(): MessagePostClientData;
 }
 export interface MessagePostOptions extends BasePostOptions {
     content: string;
@@ -13,4 +14,6 @@ export interface MessagePostOptions extends BasePostOptions {
 export interface MessagePostData extends BasePostData {
     content: string;
     attachment: null;
+}
+export interface MessagePostClientData extends Omit<MessagePostData, ''> {
 }

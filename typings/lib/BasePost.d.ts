@@ -1,7 +1,7 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
-import { User, UserPublicData } from "./User.js";
+import { User } from "./User.js";
 export declare class BasePost extends BaseDbObject {
     id: Snowflake;
     author: User;
@@ -20,7 +20,6 @@ export interface BasePostData extends BaseData {
     author: Snowflake;
     type: PostTypes;
 }
-export interface BasePostClientData extends Omit<BasePostData, 'author'> {
-    author: UserPublicData;
+export interface BasePostClientData extends Omit<BasePostData, ''> {
 }
 export declare type PostTypes = 'MESSAGE' | 'ARTICLE';

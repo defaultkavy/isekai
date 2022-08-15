@@ -11,6 +11,9 @@ class MessagePost extends BasePost_js_1.BasePost {
     toData() {
         return Object.assign(Object.assign({}, super.toData()), { attachment: this.attachment, content: this.content });
     }
+    toClientData() {
+        return Object.assign({}, this.toData());
+    }
 }
 exports.MessagePost = MessagePost;
 //# sourceMappingURL=MessagePost.js.map
