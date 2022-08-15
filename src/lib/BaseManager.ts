@@ -4,7 +4,7 @@ import { Conflict } from "../errors/Conflict.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Base, Id } from "./Base.js";
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
-import { BasePostClientData, MessagePostClientData } from "./PostManager.js";
+import { BasePostCreateData, MessagePostCreateData } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserClientData } from "./UserManager.js";
 
@@ -72,4 +72,4 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
     abstract build(data: Data): Promise<Object>
 
 }
-export type BaseClientData = UserClientData | BasePostClientData | MessagePostClientData
+export type BaseClientData = UserClientData | BasePostCreateData | MessagePostCreateData

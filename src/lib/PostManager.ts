@@ -8,7 +8,7 @@ import { MessagePost, MessagePostData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
-export class PostManager extends BaseManager<BasePost, BasePostData, BasePostClientData> {
+export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCreateData> {
     collection: DbCollection;
     type = 'Post'
     constructor(client: Client) {
@@ -16,7 +16,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
         this.collection = client.db.posts
     }
 
-    async createMessagePost(data: MessagePostClientData) {
+    async createMessagePost(data: MessagePostCreateData) {
         return await super.__create(data)
     }
 
@@ -53,6 +53,6 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCli
     }
 }
 
-export interface BasePostClientData extends Omit<BasePostData, 'createdTimestamp'> {}
+export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {}
 
-export interface MessagePostClientData extends Omit<MessagePostData, 'createdTimestamp'> {}
+export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp'> {}

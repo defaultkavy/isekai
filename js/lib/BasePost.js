@@ -18,6 +18,14 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
             type: this.type
         };
     }
+    toClientData() {
+        return {
+            author: this.author.toPublicData(),
+            id: this.id,
+            createdTimestamp: this.createdTimestamp,
+            type: this.type
+        };
+    }
 }
 exports.BasePost = BasePost;
 //# sourceMappingURL=BasePost.js.map
