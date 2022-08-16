@@ -22,4 +22,7 @@ export interface BasePostData extends BaseData {
 }
 export interface BasePostClientData extends Omit<BasePostData, ''> {
 }
-export declare type PostTypes = 'MESSAGE' | 'ARTICLE';
+export declare enum PostTypes {
+    Message = 0,
+    Article = 1
+}

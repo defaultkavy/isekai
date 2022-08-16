@@ -3,7 +3,7 @@ import { DbCollection } from "../database/DbCollection.js";
 import { HttpException } from "../errors/HttpException.js";
 import { NotFound } from "../errors/NotFound.js";
 import { BaseManager } from "./BaseManager.js";
-import { BasePost, BasePostData } from "./BasePost.js";
+import { BasePost, BasePostData, PostTypes } from "./BasePost.js";
 import { MessagePost, MessagePostData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
@@ -41,12 +41,12 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
 
     async build(data: BasePostData): Promise<MessagePost> {
         const user = await this.client.users.get(data.author)
-        if (data.type === 'MESSAGE') {
+        if (data.type === PostTypes.Message) {
             const messageData = data as MessagePostData
             return new MessagePost(this, {
                 ...messageData,
                 author: user,
-                type: 'MESSAGE'
+                type: PostTypes.Message
             })
         }
         throw new HttpException('Post type error')

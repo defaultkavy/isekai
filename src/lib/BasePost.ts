@@ -46,4 +46,7 @@ export interface BasePostData extends BaseData {
 export interface BasePostClientData extends Omit<BasePostData, ''> {
 }
 
-export type PostTypes = 'MESSAGE' | 'ARTICLE'
+export enum PostTypes {
+    Message,
+    Article
+}

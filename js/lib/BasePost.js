@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BasePost = void 0;
+exports.PostTypes = exports.BasePost = void 0;
 const BaseDbObject_js_1 = require("./BaseDbObject.js");
 class BasePost extends BaseDbObject_js_1.BaseDbObject {
     constructor(manager, options) {
@@ -23,4 +23,9 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
 }
 exports.BasePost = BasePost;
+var PostTypes;
+(function (PostTypes) {
+    PostTypes[PostTypes["Message"] = 0] = "Message";
+    PostTypes[PostTypes["Article"] = 1] = "Article";
+})(PostTypes = exports.PostTypes || (exports.PostTypes = {}));
 //# sourceMappingURL=BasePost.js.map
