@@ -21,19 +21,19 @@ export declare class User extends BaseDbObject {
     avatar: AvatarData;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
-    toData(): UserData;
+    toData(): UserPrivateData;
     toPublicData(): UserPublicData;
 }
-export interface UserOptions extends UserData {
+export interface UserOptions extends UserPrivateData {
 }
-export interface UserData extends BaseData {
+export interface UserPrivateData extends UserPublicData {
+    email: Email;
+}
+export interface UserPublicData extends BaseData {
     id: Snowflake;
     username: Username;
     displayName: string;
-    email: Email;
     avatar: AvatarData;
-}
-export interface UserPublicData extends Omit<UserData, 'email'> {
 }
 export interface AvatarData {
     url: string;
