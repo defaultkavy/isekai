@@ -46,7 +46,7 @@ export interface BasePostClientData extends BaseData {
     type: PostTypes
 }
 
-export enum PostTypes {
+export declare const enum PostTypes {
     Message,
     Article
 }

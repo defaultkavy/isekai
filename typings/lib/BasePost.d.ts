@@ -22,7 +22,7 @@ export interface BasePostClientData extends BaseData {
     author: Snowflake;
     type: PostTypes;
 }
-export declare enum PostTypes {
+export declare const enum PostTypes {
     Message = 0,
     Article = 1
 }

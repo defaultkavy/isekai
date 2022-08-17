@@ -13,7 +13,6 @@ exports.PostManager = void 0;
 const HttpException_js_1 = require("../errors/HttpException.js");
 const NotFound_js_1 = require("../errors/NotFound.js");
 const BaseManager_js_1 = require("./BaseManager.js");
-const BasePost_js_1 = require("./BasePost.js");
 const MessagePost_js_1 = require("./MessagePost.js");
 class PostManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
@@ -57,9 +56,9 @@ class PostManager extends BaseManager_js_1.BaseManager {
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.author);
-            if (data.type === BasePost_js_1.PostTypes.Message) {
+            if (data.type === 0 /* Message */) {
                 const messageData = data;
-                return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: BasePost_js_1.PostTypes.Message }));
+                return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: 0 /* Message */ }));
             }
             throw new HttpException_js_1.HttpException('Post type error');
         });
