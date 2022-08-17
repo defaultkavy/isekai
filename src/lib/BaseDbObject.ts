@@ -1,9 +1,7 @@
 import { DbCollection } from "../database/DbCollection.js";
 import { Base } from "./Base.js";
 import { BaseClientData, BaseManager } from "./BaseManager.js";
-import { BasePostData } from "./BasePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
-import { UserData } from "./User.js";
 
 export abstract class BaseDbObject extends Base {
     private collection: DbCollection
