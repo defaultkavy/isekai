@@ -1,4 +1,4 @@
-import { BasePost, BasePostData, BasePostOptions } from "./BasePost.js";
+import { BasePost, BasePostOptions, BasePostPrivateData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 
 export class MessagePost extends BasePost {
@@ -10,7 +10,7 @@ export class MessagePost extends BasePost {
         this.content = options.content
     }
 
-    toData(): MessagePostData {
+    toData(): MessagePostPrivateData {
         return {
             ...super.toData(),
             attachment: this.attachment,
@@ -31,10 +31,10 @@ export interface MessagePostOptions extends BasePostOptions {
     attachment: null;
 }
 
-export interface MessagePostData extends BasePostData {
+export interface MessagePostPrivateData extends MessagePostClientData {
     content: string;
     attachment: null;
 }
 
-export interface MessagePostClientData extends Omit<MessagePostData, ''> {
+export interface MessagePostClientData extends BasePostPrivateData {
 }

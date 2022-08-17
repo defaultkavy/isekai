@@ -33,7 +33,7 @@ export class User extends BaseDbObject {
         this.avatar = options.avatar
     }
     
-    toData(): UserData {
+    toData(): UserPrivateData {
         return {
             id: this.id,
             username: this.username,
@@ -55,18 +55,19 @@ export class User extends BaseDbObject {
     }
 }
 
-export interface UserOptions extends UserData {
+export interface UserOptions extends UserPrivateData {
 }
 
-export interface UserData extends BaseData {
+export interface UserPrivateData extends UserPublicData {
+    email: Email
+}
+
+export interface UserPublicData extends BaseData {
     id: Snowflake,
     username: Username,
     displayName: string
-    email: Email
     avatar: AvatarData
 }
-
-export interface UserPublicData extends Omit<UserData, 'email'> {}
 
 export interface AvatarData {
     url: string

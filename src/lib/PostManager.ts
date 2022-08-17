@@ -3,12 +3,12 @@ import { DbCollection } from "../database/DbCollection.js";
 import { HttpException } from "../errors/HttpException.js";
 import { NotFound } from "../errors/NotFound.js";
 import { BaseManager } from "./BaseManager.js";
-import { BasePost, BasePostData, PostTypes } from "./BasePost.js";
-import { MessagePost, MessagePostData } from "./MessagePost.js";
+import { BasePost, BasePostPrivateData, PostTypes } from "./BasePost.js";
+import { MessagePost, MessagePostPrivateData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
-export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCreateData> {
+export class PostManager extends BaseManager<BasePost, BasePostPrivateData, BasePostCreateData> {
     collection: DbCollection;
     type = 'Post'
     constructor(client: Client) {
@@ -24,25 +24,25 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         const userId = this.resolveId(author)
         const data = await this.collection.getDataByFilter({author: userId})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data as unknown as BasePostPrivateData[])
     }
 
     async fetchByLastId(lastId: Snowflake) {
         const data = await this.collection.getDataByLastId(lastId, 50)
         if (!data) throw new HttpException(`Post fetch failed`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data as unknown as BasePostPrivateData[])
     }
 
     async fetchNewest() {
         const data = await this.collection.getNewestData(50)
         if (!data) throw new HttpException(`Post fetch failed`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data as unknown as BasePostPrivateData[])
     }
 
-    async build(data: BasePostData): Promise<MessagePost> {
+    async build(data: BasePostPrivateData): Promise<MessagePost> {
         const user = await this.client.users.get(data.author)
         if (data.type === PostTypes.Message) {
-            const messageData = data as MessagePostData
+            const messageData = data as MessagePostPrivateData
             return new MessagePost(this, {
                 ...messageData,
                 author: user,
@@ -53,6 +53,6 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
     }
 }
 
-export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {}
+export interface BasePostCreateData extends Omit<BasePostPrivateData, 'createdTimestamp'> {}
 
-export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp'> {}
+export interface MessagePostCreateData extends Omit<MessagePostPrivateData, 'createdTimestamp'> {}

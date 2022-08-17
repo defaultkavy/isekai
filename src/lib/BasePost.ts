@@ -16,7 +16,7 @@ export class BasePost extends BaseDbObject {
         this.type = options.type
     }
 
-    toData(): BasePostData {
+    toData(): BasePostPrivateData {
         return {
             author: this.author.id,
             id: this.id,
@@ -32,18 +32,18 @@ export class BasePost extends BaseDbObject {
     }
 }
 
-export interface BasePostOptions extends Omit<BasePostData, 'author'> {
+export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
     id: Snowflake,
     author: User
 }
 
-export interface BasePostData extends BaseData {
+export interface BasePostPrivateData extends BasePostClientData {
+}
+
+export interface BasePostClientData extends BaseData {
     id: Snowflake,
     author: Snowflake,
     type: PostTypes
-}
-
-export interface BasePostClientData extends Omit<BasePostData, ''> {
 }
 
 export enum PostTypes {
