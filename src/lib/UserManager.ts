@@ -1,5 +1,5 @@
 import { Client } from "../client/Client.js";
-import { BaseClientData, BaseManager } from "./BaseManager.js";
+import { BaseManager } from "./BaseManager.js";
 import { Email, User, Username, UserPrivateData } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
