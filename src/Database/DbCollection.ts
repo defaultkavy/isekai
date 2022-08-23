@@ -34,16 +34,16 @@ export class DbCollection extends Base {
         return find
     }
 
-    async getDataByFilter<D>(filter?: Filter<D>) {
-        const cursor = this._collection.find(filter ?? {})
+    async getDataByFilter<D>(filter?: Filter<D>, limit = 100) {
+        const cursor = this._collection.find(filter ?? {}).limit(limit);
         const find = await cursor.toArray()
         if (!find) return null
         return find
     }
 
-    async getDataByLastId<D>(id: Snowflake, limit?: number) {
+    async getDataByLastId<D>(id: Snowflake, limit = 100, filter?: DbFilter) {
         const int = Long.fromString(id)
-        const cursor = this._collection.find({$expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit ?? 100)
+        const cursor = this._collection.find({...filter, $expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit)
         const find = await cursor.toArray()
         return find
     }
