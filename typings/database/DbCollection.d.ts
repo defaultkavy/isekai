@@ -11,8 +11,8 @@ export declare class DbCollection extends Base {
     checkDuplicateByFilter(filter: DbFilter): Promise<boolean>;
     getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
     getDataByFilterOne(filter: DbFilter): Promise<import("mongodb").WithId<import("bson").Document> | null>;
-    getDataByFilter<D>(filter?: Filter<D>): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
-    getDataByLastId<D>(id: Snowflake, limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[]>;
+    getDataByFilter<D>(filter?: Filter<D>, limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
+    getDataByLastId<D>(id: Snowflake, limit?: number, filter?: DbFilter): Promise<import("mongodb").WithId<import("bson").Document>[]>;
     getNewestData<D>(limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[]>;
     saveData(id: Snowflake, data: BaseData): Promise<void>;
     deleteData(id: Snowflake): Promise<import("mongodb").DeleteResult>;

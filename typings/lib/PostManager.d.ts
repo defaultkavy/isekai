@@ -10,7 +10,7 @@ export declare class PostManager extends BaseManager<BasePost, BasePostPrivateDa
     type: string;
     constructor(client: Client);
     createMessagePost(data: MessagePostCreateData): Promise<BasePost>;
-    fetchByAuthor(author: string | User): Promise<BasePost[]>;
+    fetchByAuthor(author: Snowflake | User, lastId?: Snowflake): Promise<BasePost[]>;
     fetchByLastId(lastId: Snowflake): Promise<BasePost[]>;
     fetchNewest(): Promise<BasePost[]>;
     build(data: BasePostPrivateData): Promise<MessagePost>;

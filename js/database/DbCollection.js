@@ -45,19 +45,19 @@ class DbCollection extends Base_js_1.Base {
             return find;
         });
     }
-    getDataByFilter(filter) {
+    getDataByFilter(filter, limit = 100) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {});
+            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {}).limit(limit);
             const find = yield cursor.toArray();
             if (!find)
                 return null;
             return find;
         });
     }
-    getDataByLastId(id, limit) {
+    getDataByLastId(id, limit = 100, filter) {
         return __awaiter(this, void 0, void 0, function* () {
             const int = mongodb_1.Long.fromString(id);
-            const cursor = this._collection.find({ $expr: { $lt: [{ '$toLong': '$id' }, int] } }).limit(limit !== null && limit !== void 0 ? limit : 100);
+            const cursor = this._collection.find(Object.assign(Object.assign({}, filter), { $expr: { $lt: [{ '$toLong': '$id' }, int] } })).limit(limit);
             const find = yield cursor.toArray();
             return find;
         });

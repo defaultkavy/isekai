@@ -28,10 +28,12 @@ class PostManager extends BaseManager_js_1.BaseManager {
             return yield _super.__create.call(this, data);
         });
     }
-    fetchByAuthor(author) {
+    fetchByAuthor(author, lastId) {
         return __awaiter(this, void 0, void 0, function* () {
             const userId = this.resolveId(author);
-            const data = yield this.collection.getDataByFilter({ author: userId });
+            const data = lastId
+                ? yield this.collection.getDataByLastId(lastId, 50, { author: userId })
+                : yield this.collection.getDataByFilter({ author: userId }, 50);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
             return yield this.__cacheSetList(data);
