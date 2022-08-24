@@ -19,6 +19,7 @@ export declare class User extends BaseDbObject {
      */
     email: Email;
     avatar: AvatarData;
+    intro: string;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserOptions);
     toData(): UserPrivateData;
@@ -34,6 +35,7 @@ export interface UserPublicData extends BaseData {
     username: Username;
     displayName: string;
     avatar: AvatarData;
+    intro: string;
 }
 export interface AvatarData {
     url: string;
