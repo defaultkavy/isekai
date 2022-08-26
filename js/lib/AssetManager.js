@@ -31,4 +31,4 @@ class AssetManager extends BaseManager_js_1.BaseManager {
     }
 }
 exports.AssetManager = AssetManager;
-//# sourceMappingURL=FileManager.js.map
+//# sourceMappingURL=AssetManager.js.map

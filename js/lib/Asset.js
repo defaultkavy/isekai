@@ -29,4 +29,4 @@ var AssetTypes;
     AssetTypes["jpg"] = "image/jpeg";
     AssetTypes["png"] = "image/png";
 })(AssetTypes = exports.AssetTypes || (exports.AssetTypes = {}));
-//# sourceMappingURL=File.js.map
+//# sourceMappingURL=Asset.js.map

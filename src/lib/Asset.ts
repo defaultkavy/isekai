@@ -1,16 +1,16 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
-import { FileManager } from "./FileManager.js";
+import { AssetManager } from "./AssetManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
-export class File extends BaseDbObject {
+export class Asset extends BaseDbObject {
     id: Snowflake;
     createdTimestamp: number;
     filename: string;
     url: string;
     uploader: User;
-    type: FileTypes;
-    constructor(manager: FileManager, builder: FileBuilder) {
+    type: AssetTypes;
+    constructor(manager: AssetManager, builder: AssetBuilder) {
         super(manager);
         this.id = builder.id;
         this.createdTimestamp = builder.createdTimestamp;
@@ -20,7 +20,7 @@ export class File extends BaseDbObject {
         this.type = builder.type;
     }
 
-    toData(): FilePublicData {
+    toData(): AssetPublicData {
         return {
             id: this.id,
             createdTimestamp: this.createdTimestamp,
@@ -34,22 +34,22 @@ export class File extends BaseDbObject {
 
 
 
-export interface FileBuilder extends Omit<FilePrivateData, 'uploader'> {
+export interface AssetBuilder extends Omit<AssetPrivateData, 'uploader'> {
     uploader: User;
 }
 
-export interface FilePrivateData extends FilePublicData {
+export interface AssetPrivateData extends AssetPublicData {
 }
 
-export interface FilePublicData extends BaseData {
+export interface AssetPublicData extends BaseData {
     id: Snowflake;
     filename: string;
     url: string;
     uploader: Snowflake;
-    type: FileTypes;
+    type: AssetTypes;
 }
 
-export enum FileTypes {
+export enum AssetTypes {
     jpg = 'image/jpeg',
     png = 'image/png',
 }

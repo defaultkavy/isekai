@@ -1,4 +1,5 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
+import { Asset, AssetPublicData } from "./Asset.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserManager } from "./UserManager.js";
 export declare class User extends BaseDbObject {
@@ -18,14 +19,15 @@ export declare class User extends BaseDbObject {
      * User email address
      */
     email: Email;
-    avatar: AvatarData;
+    avatar: Asset;
     intro: string;
     createdTimestamp: number;
-    constructor(manager: UserManager, options: UserOptions);
+    constructor(manager: UserManager, options: UserBuilder);
     toData(): UserPrivateData;
     toPublicData(): UserPublicData;
 }
-export interface UserOptions extends UserPrivateData {
+export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
+    avatar: Asset;
 }
 export interface UserPrivateData extends UserPublicData {
     email: Email;
@@ -34,11 +36,8 @@ export interface UserPublicData extends BaseData {
     id: Snowflake;
     username: Username;
     displayName: string;
-    avatar: AvatarData;
+    avatar: AssetPublicData;
     intro: string;
-}
-export interface AvatarData {
-    url: string;
 }
 export declare type Username = string;
 export declare type Email = string;

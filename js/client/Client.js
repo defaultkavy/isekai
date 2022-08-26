@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = void 0;
 const Database_js_1 = require("../database/Database.js");
-const FileManager_js_1 = require("../lib/FileManager.js");
+const AssetManager_js_1 = require("../lib/AssetManager.js");
 const PostManager_js_1 = require("../lib/PostManager.js");
 const SnowflakeManager_js_1 = require("../lib/SnowflakeManager.js");
 const UserManager_js_1 = require("../lib/UserManager.js");
@@ -11,7 +11,7 @@ class Client {
         this.db = new Database_js_1.Database(this, options.db);
         this.users = new UserManager_js_1.UserManager(this);
         this.posts = new PostManager_js_1.PostManager(this);
-        this.files = new FileManager_js_1.FileManager(this);
+        this.assets = new AssetManager_js_1.AssetManager(this);
         this.snowflake = new SnowflakeManager_js_1.SnowflakeManager();
     }
 }

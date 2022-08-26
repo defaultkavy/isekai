@@ -1,6 +1,6 @@
 import { Client } from "../client/Client.js";
 import { BaseManager } from "./BaseManager.js";
-import { Email, User, Username, UserPrivateData } from "./User.js";
+import { Email, User, UserBuilder, Username, UserPrivateData } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Conflict } from "../errors/Conflict.js";
@@ -37,7 +37,11 @@ export class UserManager extends BaseManager<User, UserPrivateData, UserClientDa
     }
 
     async build(data: UserPrivateData): Promise<User> {
-        return new User(this, data)
+        const builder: UserBuilder = {
+            ...data,
+            avatar: await this.client.assets.fetch(data.avatar.id)
+        }
+        return new User(this, builder);
     }
 }
 

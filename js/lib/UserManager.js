@@ -53,7 +53,8 @@ class UserManager extends BaseManager_js_1.BaseManager {
     }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new User_js_1.User(this, data);
+            const builder = Object.assign(Object.assign({}, data), { avatar: yield this.client.assets.fetch(data.avatar.id) });
+            return new User_js_1.User(this, builder);
         });
     }
 }
