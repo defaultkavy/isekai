@@ -1,5 +1,5 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
-import { FileManager } from "./ImageManager.js";
+import { FileManager } from "./FileManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 export declare class File extends BaseDbObject {
@@ -8,6 +8,7 @@ export declare class File extends BaseDbObject {
     filename: string;
     url: string;
     uploader: User;
+    type: FileTypes;
     constructor(manager: FileManager, builder: FileBuilder);
     toData(): FilePublicData;
 }
@@ -21,4 +22,9 @@ export interface FilePublicData extends BaseData {
     filename: string;
     url: string;
     uploader: Snowflake;
+    type: FileTypes;
+}
+export declare enum FileTypes {
+    jpg = "image/jpeg",
+    png = "image/png"
 }

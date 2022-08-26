@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FileManager = void 0;
 const BaseManager_js_1 = require("./BaseManager.js");
-const Image_js_1 = require("./Image.js");
+const File_js_1 = require("./File.js");
 class FileManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
         super(client);
@@ -21,9 +21,9 @@ class FileManager extends BaseManager_js_1.BaseManager {
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.uploader);
-            return new Image_js_1.File(this, Object.assign(Object.assign({}, data), { uploader: user }));
+            return new File_js_1.File(this, Object.assign(Object.assign({}, data), { uploader: user }));
         });
     }
 }
 exports.FileManager = FileManager;
-//# sourceMappingURL=ImageManager.js.map
+//# sourceMappingURL=FileManager.js.map

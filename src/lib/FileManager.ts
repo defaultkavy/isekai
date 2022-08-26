@@ -1,9 +1,9 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { BaseManager } from "./BaseManager.js";
-import { Image, ImagePrivateData, ImagePublicData } from "./Image.js";
+import { File, FilePrivateData, FilePublicData } from "./File.js";
 
-export class ImageManager extends BaseManager<Image, ImagePublicData, ImageCreateData> {
+export class FileManager extends BaseManager<File, FilePublicData, FileCreateData> {
     collection: DbCollection;
     type = 'Image';
     constructor(client: Client) {
@@ -11,13 +11,13 @@ export class ImageManager extends BaseManager<Image, ImagePublicData, ImageCreat
         this.collection = this.client.db.images;
     }
 
-    async build(data: ImagePrivateData): Promise<Image> {
+    async build(data: FilePrivateData): Promise<File> {
         const user = await this.client.users.get(data.uploader)
-        return new Image(this, {
+        return new File(this, {
             ...data,
             uploader: user
         })
     }
 }
 
-export interface ImageCreateData extends Omit<ImagePrivateData, 'createdTimestamp'> {}
+export interface FileCreateData extends Omit<FilePrivateData, 'createdTimestamp'> {}
