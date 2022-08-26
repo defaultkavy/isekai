@@ -18,6 +18,11 @@ class FileManager extends BaseManager_js_1.BaseManager {
         this.type = 'Image';
         this.collection = this.client.db.images;
     }
+    create(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.__create(data);
+        });
+    }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.get(data.uploader);

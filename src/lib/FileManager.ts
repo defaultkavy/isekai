@@ -11,6 +11,10 @@ export class FileManager extends BaseManager<File, FilePublicData, FileCreateDat
         this.collection = this.client.db.images;
     }
 
+    async create(data: FileCreateData) {
+        this.__create(data);
+    }
+
     async build(data: FilePrivateData): Promise<File> {
         const user = await this.client.users.get(data.uploader)
         return new File(this, {

@@ -21,8 +21,11 @@ __exportStar(require("./lib/Base"), exports);
 __exportStar(require("./lib/BaseDbObject"), exports);
 __exportStar(require("./lib/BaseManager"), exports);
 __exportStar(require("./lib/BasePost"), exports);
+__exportStar(require("./lib/File"), exports);
+__exportStar(require("./lib/FileManager"), exports);
 __exportStar(require("./lib/MessagePost"), exports);
 __exportStar(require("./lib/PostManager"), exports);
 __exportStar(require("./lib/SnowflakeManager"), exports);
 __exportStar(require("./lib/User"), exports);
+__exportStar(require("./lib/UserManager"), exports);
 //# sourceMappingURL=index.js.map
