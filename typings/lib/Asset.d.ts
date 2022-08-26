@@ -1,19 +1,17 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { AssetManager } from "./AssetManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
-import { User } from "./User.js";
 export declare class Asset extends BaseDbObject {
     id: Snowflake;
     createdTimestamp: number;
     filename: string;
     url: string;
-    uploader: User;
+    uploader: Snowflake;
     type: AssetTypes;
     constructor(manager: AssetManager, builder: AssetBuilder);
     toData(): AssetPublicData;
 }
-export interface AssetBuilder extends Omit<AssetPrivateData, 'uploader'> {
-    uploader: User;
+export interface AssetBuilder extends AssetPrivateData {
 }
 export interface AssetPrivateData extends AssetPublicData {
 }

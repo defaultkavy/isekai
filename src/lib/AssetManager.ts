@@ -8,7 +8,7 @@ export class AssetManager extends BaseManager<Asset, AssetPublicData, AssetCreat
     type = 'Image';
     constructor(client: Client) {
         super(client);
-        this.collection = this.client.db.images;
+        this.collection = this.client.db.assets;
     }
 
     async create(data: AssetCreateData) {
@@ -16,11 +16,7 @@ export class AssetManager extends BaseManager<Asset, AssetPublicData, AssetCreat
     }
 
     async build(data: AssetPrivateData): Promise<Asset> {
-        const user = await this.client.users.get(data.uploader)
-        return new Asset(this, {
-            ...data,
-            uploader: user
-        })
+        return new Asset(this, data)
     }
 }
 

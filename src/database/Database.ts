@@ -9,20 +9,20 @@ export class Database extends Base {
     private db: Db;
     users: DbCollection;
     posts: DbCollection;
-    images: DbCollection;
+    assets: DbCollection;
     constructor(client: Client, db: Db) {
         super(client)
         this.db = db
         this.users = new DbCollection(this, db.collection(CollectionName.users))
         this.posts = new DbCollection(this, db.collection(CollectionName.posts))
-        this.images = new DbCollection(this, db.collection(CollectionName.images))
+        this.assets = new DbCollection(this, db.collection(CollectionName.assets))
     }
 }
 
 export enum CollectionName {
     users = 'users',
     posts = 'posts',
-    images = 'images',
+    assets = 'assets',
 }
 
 export type CollectionData = UserPublicData | MessagePostClientData

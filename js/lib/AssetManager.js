@@ -16,7 +16,7 @@ class AssetManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
         super(client);
         this.type = 'Image';
-        this.collection = this.client.db.images;
+        this.collection = this.client.db.assets;
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,8 +25,7 @@ class AssetManager extends BaseManager_js_1.BaseManager {
     }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.client.users.get(data.uploader);
-            return new Asset_js_1.Asset(this, Object.assign(Object.assign({}, data), { uploader: user }));
+            return new Asset_js_1.Asset(this, data);
         });
     }
 }

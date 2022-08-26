@@ -18,7 +18,7 @@ class Asset extends BaseDbObject_js_1.BaseDbObject {
             createdTimestamp: this.createdTimestamp,
             filename: this.filename,
             url: this.url,
-            uploader: this.uploader.id,
+            uploader: this.uploader,
             type: this.type
         };
     }
