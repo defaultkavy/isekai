@@ -21,7 +21,7 @@ export class User extends BaseDbObject {
      */
     email: Email;
 
-    avatar: Asset;
+    avatar?: Asset;
 
     intro: string;
 
@@ -44,7 +44,7 @@ export class User extends BaseDbObject {
             displayName: this.displayName,
             email: this.email,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar.toData(),
+            avatar: this.avatar ? this.avatar.toData() : undefined,
             intro: this.intro,
         }
     }
@@ -55,14 +55,14 @@ export class User extends BaseDbObject {
             username: this.username,
             displayName: this.displayName,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar.toData(),
+            avatar: this.avatar ? this.avatar.toData() : undefined,
             intro: this.intro,
         }
     }
 }
 
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
-    avatar: Asset;
+    avatar?: Asset;
 }
 
 export interface UserPrivateData extends UserPublicData {
@@ -73,7 +73,7 @@ export interface UserPublicData extends BaseData {
     id: Snowflake;
     username: Username;
     displayName: string;
-    avatar: AssetPublicData;
+    avatar?: AssetPublicData;
     intro: string;
 }
 

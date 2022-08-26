@@ -21,7 +21,7 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             displayName: this.displayName,
             email: this.email,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar.toData(),
+            avatar: this.avatar ? this.avatar.toData() : undefined,
             intro: this.intro,
         };
     }
@@ -31,7 +31,7 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             username: this.username,
             displayName: this.displayName,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar.toData(),
+            avatar: this.avatar ? this.avatar.toData() : undefined,
             intro: this.intro,
         };
     }

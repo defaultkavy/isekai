@@ -19,7 +19,7 @@ export declare class User extends BaseDbObject {
      * User email address
      */
     email: Email;
-    avatar: Asset;
+    avatar?: Asset;
     intro: string;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserBuilder);
@@ -27,7 +27,7 @@ export declare class User extends BaseDbObject {
     toPublicData(): UserPublicData;
 }
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
-    avatar: Asset;
+    avatar?: Asset;
 }
 export interface UserPrivateData extends UserPublicData {
     email: Email;
@@ -36,7 +36,7 @@ export interface UserPublicData extends BaseData {
     id: Snowflake;
     username: Username;
     displayName: string;
-    avatar: AssetPublicData;
+    avatar?: AssetPublicData;
     intro: string;
 }
 export declare type Username = string;

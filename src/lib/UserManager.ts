@@ -39,7 +39,7 @@ export class UserManager extends BaseManager<User, UserPrivateData, UserClientDa
     async build(data: UserPrivateData): Promise<User> {
         const builder: UserBuilder = {
             ...data,
-            avatar: await this.client.assets.fetch(data.avatar.id)
+            avatar: data.avatar ? await this.client.assets.fetch(data.avatar.id) : undefined
         }
         return new User(this, builder);
     }
