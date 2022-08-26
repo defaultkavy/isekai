@@ -25,9 +25,4 @@ __exportStar(require("./lib/MessagePost"), exports);
 __exportStar(require("./lib/PostManager"), exports);
 __exportStar(require("./lib/SnowflakeManager"), exports);
 __exportStar(require("./lib/User"), exports);
-__exportStar(require("./lib/UserManager"), exports);
-__exportStar(require("./lib/_BaseChannel"), exports);
-__exportStar(require("./lib/_BaseCharacter"), exports);
-__exportStar(require("./lib/_Character"), exports);
-__exportStar(require("./lib/_CharacterChannel"), exports);
 //# sourceMappingURL=index.js.map

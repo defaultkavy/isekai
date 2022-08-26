@@ -2,9 +2,7 @@ import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Base, Id } from "./Base.js";
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
-import { BasePostCreateData, MessagePostCreateData } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
-import { UserClientData } from "./UserManager.js";
 export declare abstract class BaseManager<Object extends BaseDbObject, Data extends BaseData, ClientData extends BaseClientData> {
     client: Client;
     cache: Map<string, Object>;
@@ -20,4 +18,4 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     __cacheSetList(arr: Data[]): Promise<Object[]>;
     abstract build(data: Data): Promise<Object>;
 }
-export declare type BaseClientData = UserClientData | BasePostCreateData | MessagePostCreateData;
+export declare type BaseClientData = Omit<BaseData, 'createdTimestamp'>;
