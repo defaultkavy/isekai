@@ -6,7 +6,7 @@ export declare class FileManager extends BaseManager<File, FilePublicData, FileC
     collection: DbCollection;
     type: string;
     constructor(client: Client);
-    create(data: FileCreateData): Promise<void>;
+    create(data: FileCreateData): Promise<File>;
     build(data: FilePrivateData): Promise<File>;
 }
 export interface FileCreateData extends Omit<FilePrivateData, 'createdTimestamp'> {
