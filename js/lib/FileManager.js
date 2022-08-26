@@ -20,7 +20,7 @@ class FileManager extends BaseManager_js_1.BaseManager {
     }
     create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.__create(data);
+            yield this.__create(data);
         });
     }
     build(data) {

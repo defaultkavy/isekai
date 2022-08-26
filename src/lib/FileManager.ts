@@ -12,7 +12,7 @@ export class FileManager extends BaseManager<File, FilePublicData, FileCreateDat
     }
 
     async create(data: FileCreateData) {
-        this.__create(data);
+        await this.__create(data);
     }
 
     async build(data: FilePrivateData): Promise<File> {
