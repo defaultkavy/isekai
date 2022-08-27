@@ -12,6 +12,7 @@ class User extends BaseDbObject_js_1.BaseDbObject {
         this.email = options.email;
         this.createdTimestamp = options.createdTimestamp;
         this.avatar = options.avatar;
+        this.cover = options.cover;
         this.intro = (_a = options.intro) !== null && _a !== void 0 ? _a : '';
     }
     toData() {

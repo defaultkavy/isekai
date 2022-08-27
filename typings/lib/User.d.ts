@@ -20,6 +20,7 @@ export declare class User extends BaseDbObject {
      */
     email: Email;
     avatar?: Asset;
+    cover?: Asset;
     intro: string;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserBuilder);
@@ -28,6 +29,7 @@ export declare class User extends BaseDbObject {
 }
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
     avatar?: Asset;
+    cover?: Asset;
 }
 export interface UserPrivateData extends UserPublicData {
     email: Email;
@@ -37,6 +39,7 @@ export interface UserPublicData extends BaseData {
     username: Username;
     displayName: string;
     avatar?: AssetPublicData;
+    cover?: AssetPublicData;
     intro: string;
 }
 export declare type Username = string;

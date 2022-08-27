@@ -23,6 +23,8 @@ export class User extends BaseDbObject {
 
     avatar?: Asset;
 
+    cover?: Asset;
+
     intro: string;
 
     createdTimestamp: number;
@@ -34,6 +36,7 @@ export class User extends BaseDbObject {
         this.email = options.email;
         this.createdTimestamp = options.createdTimestamp;
         this.avatar = options.avatar;
+        this.cover = options.cover;
         this.intro = options.intro ?? '';
     }
     
@@ -63,6 +66,7 @@ export class User extends BaseDbObject {
 
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
     avatar?: Asset;
+    cover?: Asset;
 }
 
 export interface UserPrivateData extends UserPublicData {
@@ -74,6 +78,7 @@ export interface UserPublicData extends BaseData {
     username: Username;
     displayName: string;
     avatar?: AssetPublicData;
+    cover?: AssetPublicData;
     intro: string;
 }
 
