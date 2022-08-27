@@ -48,6 +48,7 @@ export class User extends BaseDbObject {
             email: this.email,
             createdTimestamp: this.createdTimestamp,
             avatar: this.avatar ? this.avatar.toData() : undefined,
+            cover: this.cover ? this.cover.toData() : undefined,
             intro: this.intro,
         }
     }
@@ -59,6 +60,7 @@ export class User extends BaseDbObject {
             displayName: this.displayName,
             createdTimestamp: this.createdTimestamp,
             avatar: this.avatar ? this.avatar.toData() : undefined,
+            cover: this.cover ? this.cover.toData() : undefined,
             intro: this.intro,
         }
     }
