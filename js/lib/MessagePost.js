@@ -9,7 +9,7 @@ class MessagePost extends BasePost_js_1.BasePost {
         this.content = options.content;
     }
     toData() {
-        return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined, content: this.content });
+        return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.id) : undefined, content: this.content });
     }
     toClientData() {
         return Object.assign({}, this.toData());

@@ -47,8 +47,8 @@ export class PostManager extends BaseManager<BasePost, BasePostPrivateData, Base
         if (data.type === PostTypes.Message) {
             const messageData = data as MessagePostPrivateData
             const attachments: Asset[] = [];
-            if (messageData.attachments) for (const attachment of messageData.attachments) {
-                const asset = await this.client.assets.fetch(attachment.id);
+            if (messageData.attachments) for (const id of messageData.attachments) {
+                const asset = await this.client.assets.fetch(id);
                 attachments.push(asset);
             }
             return new MessagePost(this, {

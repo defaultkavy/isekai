@@ -1,6 +1,7 @@
 import { Asset, AssetPublicData } from "./Asset.js";
 import { BasePost, BasePostClientData, BasePostOptions, BasePostPrivateData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
+import { Snowflake } from "./SnowflakeManager.js";
 
 export class MessagePost extends BasePost {
     attachments?: Asset[];
@@ -14,7 +15,7 @@ export class MessagePost extends BasePost {
     toData(): MessagePostPrivateData {
         return {
             ...super.toData(),
-            attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined,
+            attachments: this.attachments ? this.attachments.map(att => att.id) : undefined,
             content: this.content
         }
     }
@@ -37,5 +38,5 @@ export interface MessagePostPrivateData extends MessagePostClientData, BasePostP
 
 export interface MessagePostClientData extends BasePostClientData {
     content: string;
-    attachments?: AssetPublicData[];
+    attachments?: Snowflake[];
 }
