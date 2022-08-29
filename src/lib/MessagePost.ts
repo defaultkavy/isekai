@@ -1,20 +1,20 @@
-import { Asset } from "./Asset.js";
+import { Asset, AssetPublicData } from "./Asset.js";
 import { BasePost, BasePostClientData, BasePostOptions, BasePostPrivateData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 
 export class MessagePost extends BasePost {
-    attachment?: Asset[];
+    attachments?: Asset[];
     content: string;
     constructor(manager: PostManager, options: MessagePostOptions) {
         super(manager, options)
-        this.attachment = options.attachment
+        this.attachments = options.attachments
         this.content = options.content
     }
 
     toData(): MessagePostPrivateData {
         return {
             ...super.toData(),
-            attachment: this.attachment,
+            attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined,
             content: this.content
         }
     }
@@ -29,7 +29,7 @@ export class MessagePost extends BasePost {
 
 export interface MessagePostOptions extends BasePostOptions {
     content: string;
-    attachment?: Asset[];
+    attachments?: Asset[];
 }
 
 export interface MessagePostPrivateData extends MessagePostClientData, BasePostPrivateData {
@@ -37,5 +37,5 @@ export interface MessagePostPrivateData extends MessagePostClientData, BasePostP
 
 export interface MessagePostClientData extends BasePostClientData {
     content: string;
-    attachment?: Asset[];
+    attachments?: AssetPublicData[];
 }

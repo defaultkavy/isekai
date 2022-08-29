@@ -60,7 +60,13 @@ class PostManager extends BaseManager_js_1.BaseManager {
             const user = yield this.client.users.get(data.author);
             if (data.type === 0 /* Message */) {
                 const messageData = data;
-                return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: 0 /* Message */ }));
+                const attachments = [];
+                if (messageData.attachments)
+                    for (const attachment of messageData.attachments) {
+                        const asset = yield this.client.assets.fetch(attachment.id);
+                        attachments.push(asset);
+                    }
+                return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: 0 /* Message */, attachments: attachments }));
             }
             throw new HttpException_js_1.HttpException('Post type error');
         });
