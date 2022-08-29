@@ -15,7 +15,7 @@ const Asset_js_1 = require("./Asset.js");
 class AssetManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
         super(client);
-        this.type = 'Image';
+        this.type = 'Asset';
         this.collection = this.client.db.assets;
     }
     create(data) {
