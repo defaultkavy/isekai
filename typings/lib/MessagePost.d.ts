@@ -1,7 +1,8 @@
+import { Asset } from "./Asset.js";
 import { BasePost, BasePostClientData, BasePostOptions, BasePostPrivateData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 export declare class MessagePost extends BasePost {
-    attachment: null;
+    attachment?: Asset[];
     content: string;
     constructor(manager: PostManager, options: MessagePostOptions);
     toData(): MessagePostPrivateData;
@@ -9,11 +10,11 @@ export declare class MessagePost extends BasePost {
 }
 export interface MessagePostOptions extends BasePostOptions {
     content: string;
-    attachment: null;
+    attachment?: Asset[];
 }
 export interface MessagePostPrivateData extends MessagePostClientData, BasePostPrivateData {
 }
 export interface MessagePostClientData extends BasePostClientData {
     content: string;
-    attachment: null;
+    attachment?: Asset[];
 }
