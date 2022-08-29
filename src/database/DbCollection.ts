@@ -49,7 +49,7 @@ export class DbCollection extends Base {
     }
 
     async getNewestData<D>(limit?: number) {
-        const cursor = this._collection.find().sort({id: 1}).limit(limit ?? 100)
+        const cursor = this._collection.find().sort({$natural:-1}).limit(limit ?? 100)
         const find = await cursor.toArray()
         return find
     }

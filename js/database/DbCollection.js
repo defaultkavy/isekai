@@ -64,7 +64,7 @@ class DbCollection extends Base_js_1.Base {
     }
     getNewestData(limit) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cursor = this._collection.find().sort({ id: 1 }).limit(limit !== null && limit !== void 0 ? limit : 100);
+            const cursor = this._collection.find().sort({ $natural: -1 }).limit(limit !== null && limit !== void 0 ? limit : 100);
             const find = yield cursor.toArray();
             return find;
         });
