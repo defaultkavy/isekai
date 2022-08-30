@@ -12,7 +12,7 @@ class MessagePost extends BasePost_js_1.BasePost {
         return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.id) : undefined, content: this.content });
     }
     toPublicData() {
-        return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined, content: this.content });
+        return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments.map(att => att.toData()), content: this.content });
     }
     toPrivateData() {
         return Object.assign({}, this.toPublicData());

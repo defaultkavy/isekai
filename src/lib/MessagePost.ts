@@ -4,7 +4,7 @@ import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
 export class MessagePost extends BasePost {
-    attachments?: Asset[];
+    attachments: Asset[];
     content: string;
     constructor(manager: PostManager, options: MessagePostOptions) {
         super(manager, options)
@@ -23,7 +23,7 @@ export class MessagePost extends BasePost {
     toPublicData(): MessagePostPublicData {
         return {
             ...super.toData(),
-            attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined,
+            attachments: this.attachments.map(att => att.toData()),
             content: this.content
         }
     }
@@ -38,7 +38,7 @@ export class MessagePost extends BasePost {
 
 export interface MessagePostOptions extends BasePostOptions {
     content: string;
-    attachments?: Asset[];
+    attachments: Asset[];
 }
 
 export interface MessagePostPrivateData extends MessagePostPublicData, BasePostPrivateData {
@@ -46,7 +46,7 @@ export interface MessagePostPrivateData extends MessagePostPublicData, BasePostP
 
 export interface MessagePostPublicData extends BasePostPublicData {
     content: string;
-    attachments?: AssetPublicData[];
+    attachments: AssetPublicData[];
 }
 
 export interface MessageData extends Omit<MessagePostPrivateData, 'attachments'> {
