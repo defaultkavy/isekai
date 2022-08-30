@@ -5,7 +5,7 @@ import { NotFound } from "../errors/NotFound.js";
 import { Asset, AssetPublicData } from "./Asset.js";
 import { BaseManager } from "./BaseManager.js";
 import { BasePost, BasePostPrivateData, PostTypes } from "./BasePost.js";
-import { MessagePost, MessagePostPrivateData } from "./MessagePost.js";
+import { MessageData, MessagePost, MessagePostPrivateData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
@@ -45,10 +45,11 @@ export class PostManager extends BaseManager<BasePost, BasePostPrivateData, Base
     async build(data: BasePostPrivateData): Promise<MessagePost> {
         const user = await this.client.users.get(data.author)
         if (data.type === PostTypes.Message) {
-            const messageData = data as MessagePostPrivateData
+            const messageData = data as MessageData
             const attachments: Asset[] = [];
             if (messageData.attachments) for (const att of messageData.attachments) {
-                const asset = await this.client.assets.fetch(att.id);
+                console.debug(messageData);
+                const asset = await this.client.assets.fetch(att);
                 attachments.push(asset);
             }
             return new MessagePost(this, {

@@ -63,7 +63,8 @@ class PostManager extends BaseManager_js_1.BaseManager {
                 const attachments = [];
                 if (messageData.attachments)
                     for (const att of messageData.attachments) {
-                        const asset = yield this.client.assets.fetch(att.id);
+                        console.debug(messageData);
+                        const asset = yield this.client.assets.fetch(att);
                         attachments.push(asset);
                     }
                 return new MessagePost_js_1.MessagePost(this, Object.assign(Object.assign({}, messageData), { author: user, type: 0 /* Message */, attachments: attachments }));
