@@ -40,15 +40,15 @@ export class User extends BaseDbObject {
         this.intro = options.intro ?? '';
     }
     
-    toData(): UserPrivateData {
+    toData(): UserData {
         return {
             id: this.id,
             username: this.username,
             displayName: this.displayName,
             email: this.email,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar ? this.avatar.toData() : undefined,
-            cover: this.cover ? this.cover.toData() : undefined,
+            avatar: this.avatar ? this.avatar.id : undefined,
+            cover: this.cover ? this.cover.id : undefined,
             intro: this.intro,
         }
     }
@@ -64,9 +64,16 @@ export class User extends BaseDbObject {
             intro: this.intro,
         }
     }
+
+    toPrivateData(): UserPrivateData {
+        return {
+            ...this.toPublicData(),
+            email: this.email
+        }
+    }
 }
 
-export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
+export interface UserBuilder extends Omit<UserPrivateData, 'avatar' | 'cover'> {
     avatar?: Asset;
     cover?: Asset;
 }
@@ -82,6 +89,11 @@ export interface UserPublicData extends BaseData {
     avatar?: AssetPublicData;
     cover?: AssetPublicData;
     intro: string;
+}
+
+export interface UserData extends Omit<UserPrivateData, 'avatar' | 'cover'> {
+    avatar?: Snowflake;
+    cover?: Snowflake;
 }
 
 export type Username = string

@@ -11,8 +11,11 @@ class MessagePost extends BasePost_js_1.BasePost {
     toData() {
         return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.id) : undefined, content: this.content });
     }
-    toClientData() {
-        return Object.assign({}, this.toData());
+    toPublicData() {
+        return Object.assign(Object.assign({}, super.toData()), { attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined, content: this.content });
+    }
+    toPrivateData() {
+        return Object.assign({}, this.toPublicData());
     }
 }
 exports.MessagePost = MessagePost;

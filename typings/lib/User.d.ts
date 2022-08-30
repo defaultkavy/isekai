@@ -24,10 +24,11 @@ export declare class User extends BaseDbObject {
     intro: string;
     createdTimestamp: number;
     constructor(manager: UserManager, options: UserBuilder);
-    toData(): UserPrivateData;
+    toData(): UserData;
     toPublicData(): UserPublicData;
+    toPrivateData(): UserPrivateData;
 }
-export interface UserBuilder extends Omit<UserPrivateData, 'avatar'> {
+export interface UserBuilder extends Omit<UserPrivateData, 'avatar' | 'cover'> {
     avatar?: Asset;
     cover?: Asset;
 }
@@ -41,6 +42,10 @@ export interface UserPublicData extends BaseData {
     avatar?: AssetPublicData;
     cover?: AssetPublicData;
     intro: string;
+}
+export interface UserData extends Omit<UserPrivateData, 'avatar' | 'cover'> {
+    avatar?: Snowflake;
+    cover?: Snowflake;
 }
 export declare type Username = string;
 export declare type Email = string;

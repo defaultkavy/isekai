@@ -1,6 +1,6 @@
 import { Client } from "../client/Client.js";
 import { BaseManager } from "./BaseManager.js";
-import { Email, User, UserBuilder, Username, UserPrivateData } from "./User.js";
+import { Email, User, UserBuilder, UserData, Username, UserPrivateData } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Conflict } from "../errors/Conflict.js";
@@ -8,7 +8,7 @@ import { Conflict } from "../errors/Conflict.js";
 /**
  * A manager to collect all user in the cache
  */
-export class UserManager extends BaseManager<User, UserPrivateData, UserClientData> {
+export class UserManager extends BaseManager<User, UserData, UserClientData> {
     collection: DbCollection;
     type = 'User'
     constructor(parent: Client) {
@@ -19,13 +19,13 @@ export class UserManager extends BaseManager<User, UserPrivateData, UserClientDa
     async fetchByUsername(username: Username) {
         const data = await this.collection.getDataByFilterOne({username: username})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with username`)
-        return await this.__cacheSet(data as unknown as UserPrivateData)
+        return await this.__cacheSet(data as unknown as UserData)
     }
 
     async fetchByEmail(email: Email) {
         const data = await this.collection.getDataByFilterOne({email: email})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with email`)
-        return await this.__cacheSet(data as unknown as UserPrivateData)
+        return await this.__cacheSet(data as unknown as UserData)
     }
 
     async create(data: UserClientData) {
@@ -36,11 +36,11 @@ export class UserManager extends BaseManager<User, UserPrivateData, UserClientDa
         return super.__create(data)
     }
 
-    async build(data: UserPrivateData): Promise<User> {
+    async build(data: UserData): Promise<User> {
         const builder: UserBuilder = {
             ...data,
-            avatar: data.avatar ? await this.client.assets.fetch(data.avatar.id).catch(err => undefined) : undefined,
-            cover: data.cover ? await this.client.assets.fetch(data.cover.id).catch(err => undefined) : undefined,
+            avatar: data.avatar ? await this.client.assets.fetch(data.avatar).catch(err => undefined) : undefined,
+            cover: data.cover ? await this.client.assets.fetch(data.cover).catch(err => undefined) : undefined,
         }
         return new User(this, builder);
     }

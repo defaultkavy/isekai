@@ -22,8 +22,8 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             displayName: this.displayName,
             email: this.email,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar ? this.avatar.toData() : undefined,
-            cover: this.cover ? this.cover.toData() : undefined,
+            avatar: this.avatar ? this.avatar.id : undefined,
+            cover: this.cover ? this.cover.id : undefined,
             intro: this.intro,
         };
     }
@@ -37,6 +37,9 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             cover: this.cover ? this.cover.toData() : undefined,
             intro: this.intro,
         };
+    }
+    toPrivateData() {
+        return Object.assign(Object.assign({}, this.toPublicData()), { email: this.email });
     }
 }
 exports.User = User;

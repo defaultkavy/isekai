@@ -12,7 +12,7 @@ export class MessagePost extends BasePost {
         this.content = options.content
     }
 
-    toData(): MessagePostPrivateData {
+    toData(): MessageData {
         return {
             ...super.toData(),
             attachments: this.attachments ? this.attachments.map(att => att.id) : undefined,
@@ -20,9 +20,17 @@ export class MessagePost extends BasePost {
         }
     }
 
-    toClientData(): MessagePostClientData {
+    toPublicData(): MessagePostPublicData {
         return {
-            ...this.toData(),
+            ...super.toData(),
+            attachments: this.attachments ? this.attachments.map(att => att.toData()) : undefined,
+            content: this.content
+        }
+    }
+
+    toPrivateData(): MessagePostPrivateData {
+        return {
+            ...this.toPublicData(),
         }
     }
     
@@ -33,10 +41,14 @@ export interface MessagePostOptions extends BasePostOptions {
     attachments?: Asset[];
 }
 
-export interface MessagePostPrivateData extends MessagePostClientData, BasePostPrivateData {
+export interface MessagePostPrivateData extends MessagePostPublicData, BasePostPrivateData {
 }
 
-export interface MessagePostClientData extends BasePostClientData {
+export interface MessagePostPublicData extends BasePostClientData {
     content: string;
+    attachments?: AssetPublicData[];
+}
+
+export interface MessageData extends Omit<MessagePostPrivateData, 'attachments'> {
     attachments?: Snowflake[];
 }
