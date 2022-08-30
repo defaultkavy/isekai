@@ -9,15 +9,16 @@ export declare class BasePost extends BaseDbObject {
     type: PostTypes;
     constructor(manager: PostManager, options: BasePostOptions);
     toData(): BasePostPrivateData;
-    toClientData(): BasePostClientData;
+    toPublicData(): BasePostPublicData;
+    toPrivateData(): BasePostPrivateData;
 }
 export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
     id: Snowflake;
     author: User;
 }
-export interface BasePostPrivateData extends BasePostClientData {
+export interface BasePostPrivateData extends BasePostPublicData {
 }
-export interface BasePostClientData extends BaseData {
+export interface BasePostPublicData extends BaseData {
     id: Snowflake;
     author: Snowflake;
     type: PostTypes;

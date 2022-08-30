@@ -1,5 +1,5 @@
 import { Asset, AssetPublicData } from "./Asset.js";
-import { BasePost, BasePostClientData, BasePostOptions, BasePostPrivateData } from "./BasePost.js";
+import { BasePost, BasePostOptions, BasePostPrivateData, BasePostPublicData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 export declare class MessagePost extends BasePost {
@@ -16,7 +16,7 @@ export interface MessagePostOptions extends BasePostOptions {
 }
 export interface MessagePostPrivateData extends MessagePostPublicData, BasePostPrivateData {
 }
-export interface MessagePostPublicData extends BasePostClientData {
+export interface MessagePostPublicData extends BasePostPublicData {
     content: string;
     attachments?: AssetPublicData[];
 }

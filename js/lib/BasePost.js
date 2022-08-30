@@ -18,7 +18,10 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
             type: this.type
         };
     }
-    toClientData() {
+    toPublicData() {
+        return Object.assign({}, this.toData());
+    }
+    toPrivateData() {
         return Object.assign({}, this.toData());
     }
 }

@@ -25,7 +25,13 @@ export class BasePost extends BaseDbObject {
         }
     }
 
-    toClientData(): BasePostClientData {
+    toPublicData(): BasePostPublicData {
+        return {
+            ...this.toData()
+        }
+    }
+
+    toPrivateData(): BasePostPrivateData {
         return {
             ...this.toData()
         }
@@ -37,10 +43,10 @@ export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
     author: User
 }
 
-export interface BasePostPrivateData extends BasePostClientData {
+export interface BasePostPrivateData extends BasePostPublicData {
 }
 
-export interface BasePostClientData extends BaseData {
+export interface BasePostPublicData extends BaseData {
     id: Snowflake,
     author: Snowflake,
     type: PostTypes
