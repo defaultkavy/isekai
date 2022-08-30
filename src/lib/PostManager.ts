@@ -48,7 +48,6 @@ export class PostManager extends BaseManager<BasePost, BasePostPrivateData, Base
             const messageData = data as MessageData
             const attachments: Asset[] = [];
             if (messageData.attachments) for (const att of messageData.attachments) {
-                console.debug(messageData);
                 const asset = await this.client.assets.fetch(att);
                 attachments.push(asset);
             }
