@@ -1,7 +1,7 @@
 import { Db } from "mongodb";
 import { Client } from "../client/Client.js";
 import { Base } from "../lib/Base.js";
-import { MessagePostClientData } from "../lib/MessagePost.js";
+import { MessagePostPublicData } from "../lib/MessagePost.js";
 import { UserPublicData } from "../lib/User.js";
 import { DbCollection } from "./DbCollection.js";
 
@@ -25,4 +25,4 @@ export enum CollectionName {
     assets = 'assets',
 }
 
-export type CollectionData = UserPublicData | MessagePostClientData
+export type CollectionData = UserPublicData | MessagePostPublicData
