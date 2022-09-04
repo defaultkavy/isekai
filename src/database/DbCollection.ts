@@ -27,7 +27,7 @@ export class DbCollection<D extends BaseData> extends Base {
     }
 
     async getData(id: Snowflake) {
-        const find = await this._collection.findOne({id: id})
+        const find = await this._collection.findOne<D>({id: id})
         if (!find) return null
         return find
     }
@@ -42,20 +42,20 @@ export class DbCollection<D extends BaseData> extends Base {
         const cursor = this._collection.find(filter ?? {}).limit(limit);
         const find = await cursor.toArray()
         if (!find) return null
-        return find
+        return find as unknown as D[];
     }
 
     async getDataByLastId(id: Snowflake, limit = 100, filter?: Filter<D>) {
         const int = Long.fromString(id)
         const cursor = this._collection.find({...filter, $expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit)
         const find = await cursor.toArray()
-        return find
+        return find as unknown as D[];
     }
 
     async getNewestData(limit?: number) {
         const cursor = this._collection.find().sort({$natural:-1}).limit(limit ?? 100)
-        const find = await cursor.toArray()
-        return find
+        const find = await cursor.toArray();
+        return find as unknown as D[];
     }
 
     async getArraySlice(id: Snowflake, arrayField: string, slice: [number, number]) {

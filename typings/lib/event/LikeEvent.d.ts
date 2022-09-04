@@ -6,6 +6,7 @@ export declare class LikeEvent extends Event {
     user: Snowflake;
     activate: boolean;
     constructor(manager: EventManager, builder: LikeEventBuilder);
+    deactive(): Promise<void>;
     toData(): LikeEventData;
 }
 export interface LikeEventData extends EventData {

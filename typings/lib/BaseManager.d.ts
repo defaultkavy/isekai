@@ -1,3 +1,4 @@
+import { Filter } from "mongodb";
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Base, Id } from "./Base.js";
@@ -12,6 +13,7 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     get(id: Snowflake): Promise<Object>;
     resolveId(idOrInstance: Snowflake | Id<Base>): string;
     fetch(resolve: Object | Snowflake): Promise<Object>;
+    fetchByFilter(filter: Filter<Data>): Promise<Object>;
     __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
     __cacheSet(data: Data): Promise<Object>;

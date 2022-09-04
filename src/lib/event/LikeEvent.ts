@@ -13,6 +13,11 @@ export class LikeEvent extends Event {
         this.activate = builder.activate;
     }
 
+    async deactive() {
+        this.activate = false;
+        await this.save();
+    }
+
     toData(): LikeEventData {
         return {
             ...super.toData(),

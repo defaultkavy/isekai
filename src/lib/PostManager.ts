@@ -27,19 +27,19 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         ? await this.collection.getDataByLastId(lastId, 50, {author: userId}) 
         : await this.collection.getDataByFilter({author: userId}, 50);
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data)
     }
 
     async fetchByLastId(lastId: Snowflake) {
         const data = await this.collection.getDataByLastId(lastId, 50)
         if (!data) throw new HttpException(`Post fetch failed`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data)
     }
 
     async fetchNewest() {
         const data = await this.collection.getNewestData(50)
         if (!data) throw new HttpException(`Post fetch failed`)
-        return await this.__cacheSetList(data as unknown as BasePostData[])
+        return await this.__cacheSetList(data)
     }
 
     async build(data: BasePostData): Promise<MessagePost> {

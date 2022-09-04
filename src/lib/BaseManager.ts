@@ -1,3 +1,4 @@
+import { Filter } from "mongodb";
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Conflict } from "../errors/Conflict.js";
@@ -34,7 +35,13 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         const id = this.resolveId(resolve)
         const data = await this.collection.getData(id)
         if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
-        return this.__cacheSet(data as unknown as Data)
+        return this.__cacheSet(data)
+    }
+
+    async fetchByFilter(filter: Filter<Data>) {
+        const data = await this.collection.getDataByFilterOne(filter);
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
+        return this.__cacheSet(data)
     }
 
     async __create(data: ClientData) {

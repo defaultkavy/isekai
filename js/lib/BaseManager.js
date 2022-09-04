@@ -42,6 +42,14 @@ class BaseManager {
             return this.__cacheSet(data);
         });
     }
+    fetchByFilter(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.collection.getDataByFilterOne(filter);
+            if (!data)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+            return this.__cacheSet(data);
+        });
+    }
     __create(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.cache.has(data.id)

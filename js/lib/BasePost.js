@@ -50,7 +50,7 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     clientLike(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.client.db.events.getDataByFilterOne({ post: this.id, user: userId, type: Event_js_1.EventTypes.like, activate: true });
+            return yield this.client.events.fetchByFilter({ post: this.id, user: userId, type: Event_js_1.EventTypes.like, activate: true });
         });
     }
 }

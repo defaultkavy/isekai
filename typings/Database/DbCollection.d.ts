@@ -10,11 +10,11 @@ export declare class DbCollection<D extends BaseData> extends Base {
     checkDuplicate(id: Snowflake): Promise<boolean>;
     checkDuplicateByFilter<D>(filter: Filter<D>): Promise<boolean>;
     getCount(filter: Filter<D>): Promise<number>;
-    getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
+    getData(id: Snowflake): Promise<D | null>;
     getDataByFilterOne(filter: Filter<D>): Promise<D | null>;
-    getDataByFilter(filter?: Filter<D>, limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
-    getDataByLastId(id: Snowflake, limit?: number, filter?: Filter<D>): Promise<import("mongodb").WithId<import("bson").Document>[]>;
-    getNewestData(limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[]>;
+    getDataByFilter(filter?: Filter<D>, limit?: number): Promise<D[] | null>;
+    getDataByLastId(id: Snowflake, limit?: number, filter?: Filter<D>): Promise<D[]>;
+    getNewestData(limit?: number): Promise<D[]>;
     getArraySlice(id: Snowflake, arrayField: string, slice: [number, number]): Promise<import("bson").Document[] | null>;
     saveData(id: Snowflake, data: D): Promise<void>;
     deleteData(id: Snowflake): Promise<import("mongodb").DeleteResult>;
