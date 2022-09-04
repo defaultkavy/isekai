@@ -21,13 +21,15 @@ class EventManager extends BaseManager_js_1.BaseManager {
     }
     createLike(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.__create(data);
+            return yield this.__create(Object.assign(Object.assign({}, data), { type: Event_js_1.EventTypes.like }));
         });
     }
     build(data) {
         return __awaiter(this, void 0, void 0, function* () {
             if (data.type === Event_js_1.EventTypes.like) {
-                return new LikeEvent_js_1.LikeEvent(this, data);
+                const likeData = data;
+                likeData.activate = true;
+                return new LikeEvent_js_1.LikeEvent(this, likeData);
             }
             else
                 throw 'build: Event type error';

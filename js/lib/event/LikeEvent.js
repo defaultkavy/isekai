@@ -7,9 +7,10 @@ class LikeEvent extends Event_js_1.Event {
         super(manager, builder);
         this.post = builder.post;
         this.user = builder.user;
+        this.activate = builder.activate;
     }
     toData() {
-        return Object.assign(Object.assign({}, super.toData()), { post: this.post, user: this.user });
+        return Object.assign(Object.assign({}, super.toData()), { post: this.post, user: this.user, activate: this.activate });
     }
 }
 exports.LikeEvent = LikeEvent;

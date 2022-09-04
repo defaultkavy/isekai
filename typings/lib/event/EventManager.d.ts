@@ -12,5 +12,5 @@ export declare class EventManager extends BaseManager<Event, EventData, EventCre
 }
 export interface EventCreateData extends Omit<EventData, 'createdTimestamp'> {
 }
-export interface LikeEventCreateData extends Omit<LikeEventData, 'createdTimestamp'> {
+export interface LikeEventCreateData extends Omit<LikeEventData, 'createdTimestamp' | 'type' | 'activate'> {
 }

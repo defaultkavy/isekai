@@ -13,15 +13,17 @@ export class EventManager extends BaseManager<Event, EventData, EventCreateData>
     }
 
     async createLike(data: LikeEventCreateData) {
-        return await this.__create(data);
+        return await this.__create({...data, type: EventTypes.like});
     }
 
     async build(data: EventData): Promise<Event> {
         if (data.type === EventTypes.like) {
-            return new LikeEvent(this, data as LikeEventData);
+            const likeData =  data as LikeEventData
+            likeData.activate = true
+            return new LikeEvent(this, likeData);
         } else throw 'build: Event type error'
     }
 }
 
 export interface EventCreateData extends Omit<EventData, 'createdTimestamp'> {}
-export interface LikeEventCreateData extends Omit<LikeEventData, 'createdTimestamp'> {}
+export interface LikeEventCreateData extends Omit<LikeEventData, 'createdTimestamp' | 'type' | 'activate'> {}
