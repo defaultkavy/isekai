@@ -1,12 +1,10 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { BaseManager } from "./BaseManager.js";
-import { Asset, AssetPrivateData, AssetPublicData } from "./Asset.js";
-import { NotFound } from "../errors/NotFound.js";
-import { Snowflake } from "./SnowflakeManager.js";
+import { Asset, AssetData } from "./Asset.js";
 
-export class AssetManager extends BaseManager<Asset, AssetPublicData, AssetCreateData> {
-    collection: DbCollection;
+export class AssetManager extends BaseManager<Asset, AssetData, AssetCreateData> {
+    collection: DbCollection<AssetData>;
     type = 'Asset';
     constructor(client: Client) {
         super(client);
@@ -17,9 +15,9 @@ export class AssetManager extends BaseManager<Asset, AssetPublicData, AssetCreat
         return await this.__create(data);
     }
 
-    async build(data: AssetPrivateData): Promise<Asset> {
+    async build(data: AssetData): Promise<Asset> {
         return new Asset(this, data)
     }
 }
 
-export interface AssetCreateData extends Omit<AssetPrivateData, 'createdTimestamp'> {}
+export interface AssetCreateData extends Omit<AssetData, 'createdTimestamp'> {}

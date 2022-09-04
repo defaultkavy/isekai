@@ -1,11 +1,11 @@
-import { Collection, Filter, Long } from "mongodb";
+import { Collection, Filter, FindOptions, Long } from "mongodb";
 import { Base } from "../lib/Base.js";
 import { BaseData } from "../lib/BaseDbObject.js";
 import { Snowflake } from "../lib/SnowflakeManager.js";
 import { Email, Username } from "../lib/User.js";
 import { Database } from "./Database.js";
 
-export class DbCollection extends Base {
+export class DbCollection<D extends BaseData> extends Base {
     private _collection: Collection
     constructor(parent: Database, collection: Collection) {
         super(parent.client)
@@ -17,7 +17,7 @@ export class DbCollection extends Base {
         return !!find
     }
 
-    async checkDuplicateByFilter(filter: DbFilter) {
+    async checkDuplicateByFilter<D>(filter: Filter<D>) {
         const find = await this._collection.findOne(filter)
         return !!find
     }
@@ -28,33 +28,40 @@ export class DbCollection extends Base {
         return find
     }
 
-    async getDataByFilterOne(filter: DbFilter) {
-        const find = await this._collection.findOne(filter)
+    async getDataByFilterOne(filter: Filter<D>) {
+        const find = await this._collection.findOne<D>(filter)
         if (!find) return null
-        return find
+        return find as D
     }
 
-    async getDataByFilter<D>(filter?: Filter<D>, limit = 100) {
+    async getDataByFilter(filter?: Filter<D>, limit = 100) {
         const cursor = this._collection.find(filter ?? {}).limit(limit);
         const find = await cursor.toArray()
         if (!find) return null
         return find
     }
 
-    async getDataByLastId<D>(id: Snowflake, limit = 100, filter?: DbFilter) {
+    async getDataByLastId(id: Snowflake, limit = 100, filter?: Filter<D>) {
         const int = Long.fromString(id)
         const cursor = this._collection.find({...filter, $expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit)
         const find = await cursor.toArray()
         return find
     }
 
-    async getNewestData<D>(limit?: number) {
+    async getNewestData(limit?: number) {
         const cursor = this._collection.find().sort({$natural:-1}).limit(limit ?? 100)
         const find = await cursor.toArray()
         return find
     }
 
-    async saveData(id: Snowflake, data: BaseData) {
+    async getArraySlice(id: Snowflake, arrayField: string, slice: [number, number]) {
+        const cursor = this._collection.find<D>({id: id}).project({[arrayField]: {$slice: slice}});
+        const find = await cursor.toArray()
+        if (!find) return null
+        return find
+    }
+
+    async saveData(id: Snowflake, data: D) {
         await this._collection.updateOne({id: id}, {$set: data}, {upsert: true})
     }
 
@@ -64,6 +71,3 @@ export class DbCollection extends Base {
 }
 
 export type FilterTypes = Snowflake | Email | Username
-export interface DbFilter {
-    [key: string]: FilterTypes
-}

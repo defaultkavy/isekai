@@ -22,6 +22,8 @@ export interface AssetPublicData extends BaseData {
     uploader: Snowflake;
     type: AssetTypes;
 }
+export interface AssetData extends AssetPrivateData {
+}
 export declare enum AssetTypes {
     jpg = "image/jpeg",
     png = "image/png"

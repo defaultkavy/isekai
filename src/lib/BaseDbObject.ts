@@ -4,7 +4,7 @@ import { BaseClientData, BaseManager } from "./BaseManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
 export abstract class BaseDbObject extends Base {
-    private collection: DbCollection
+    private collection: DbCollection<BaseData>;
     private manager: BaseManager<BaseDbObject, BaseData, BaseClientData>
     abstract id: Snowflake
     abstract createdTimestamp: number;

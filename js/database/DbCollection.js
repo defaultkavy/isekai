@@ -69,6 +69,15 @@ class DbCollection extends Base_js_1.Base {
             return find;
         });
     }
+    getArraySlice(id, arrayField, slice) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const cursor = this._collection.find({ id: id }).project({ [arrayField]: { $slice: slice } });
+            const find = yield cursor.toArray();
+            if (!find)
+                return null;
+            return find;
+        });
+    }
     saveData(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this._collection.updateOne({ id: id }, { $set: data }, { upsert: true });

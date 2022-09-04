@@ -10,6 +10,7 @@ class Database extends Base_js_1.Base {
         this.users = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.users));
         this.posts = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.posts));
         this.assets = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.assets));
+        this.events = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.events));
     }
 }
 exports.Database = Database;
@@ -18,5 +19,6 @@ var CollectionName;
     CollectionName["users"] = "users";
     CollectionName["posts"] = "posts";
     CollectionName["assets"] = "assets";
+    CollectionName["events"] = "events";
 })(CollectionName = exports.CollectionName || (exports.CollectionName = {}));
 //# sourceMappingURL=Database.js.map

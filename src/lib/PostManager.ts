@@ -4,13 +4,13 @@ import { HttpException } from "../errors/HttpException.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Asset, AssetPublicData } from "./Asset.js";
 import { BaseManager } from "./BaseManager.js";
-import { BasePost, BasePostPrivateData, PostTypes } from "./BasePost.js";
+import { BasePost, BasePostData, BasePostPrivateData, PostTypes } from "./BasePost.js";
 import { MessageData, MessagePost, MessagePostPrivateData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 
-export class PostManager extends BaseManager<BasePost, BasePostPrivateData, BasePostCreateData> {
-    collection: DbCollection;
+export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCreateData> {
+    collection: DbCollection<BasePostData>;
     type = 'Post'
     constructor(client: Client) {
         super(client)

@@ -9,7 +9,7 @@ import { Conflict } from "../errors/Conflict.js";
  * A manager to collect all user in the cache
  */
 export class UserManager extends BaseManager<User, UserData, UserClientData> {
-    collection: DbCollection;
+    collection: DbCollection<UserData>;
     type = 'User'
     constructor(parent: Client) {
         super(parent)

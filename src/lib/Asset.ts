@@ -47,6 +47,10 @@ export interface AssetPublicData extends BaseData {
     type: AssetTypes;
 }
 
+export interface AssetData extends AssetPrivateData {
+    
+}
+
 export enum AssetTypes {
     jpg = 'image/jpeg',
     png = 'image/png',

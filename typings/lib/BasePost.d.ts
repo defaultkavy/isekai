@@ -11,6 +11,8 @@ export declare class BasePost extends BaseDbObject {
     toData(): BasePostPrivateData;
     toPublicData(): BasePostPublicData;
     toPrivateData(): BasePostPrivateData;
+    likes(): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
+    clientLike(userId: Snowflake): Promise<boolean>;
 }
 export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
     id: Snowflake;
@@ -23,7 +25,10 @@ export interface BasePostPublicData extends BaseData {
     author: Snowflake;
     type: PostTypes;
 }
+export interface BasePostData extends BasePostPrivateData {
+}
 export declare const enum PostTypes {
     Message = 0,
-    Article = 1
+    Article = 1,
+    Gallery = 2
 }

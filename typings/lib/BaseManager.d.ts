@@ -6,7 +6,7 @@ import { Snowflake } from "./SnowflakeManager.js";
 export declare abstract class BaseManager<Object extends BaseDbObject, Data extends BaseData, ClientData extends BaseClientData> {
     client: Client;
     cache: Map<string, Object>;
-    abstract collection: DbCollection;
+    abstract collection: DbCollection<Data>;
     abstract type: string;
     constructor(client: Client);
     get(id: Snowflake): Promise<Object>;

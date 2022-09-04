@@ -6,7 +6,7 @@ import { DbCollection } from "../database/DbCollection.js";
  * A manager to collect all user in the cache
  */
 export declare class UserManager extends BaseManager<User, UserData, UserClientData> {
-    collection: DbCollection;
+    collection: DbCollection<UserData>;
     type: string;
     constructor(parent: Client);
     fetchByUsername(username: Username): Promise<User>;
