@@ -6,7 +6,7 @@ import { User } from "./User.js";
 
 export class BasePost extends BaseDbObject {
     id: Snowflake;
-    author: User;
+    author: Snowflake;
     createdTimestamp: number;
     type: PostTypes
     constructor(manager: PostManager, options: BasePostOptions) {
@@ -19,7 +19,7 @@ export class BasePost extends BaseDbObject {
 
     toData(): BasePostData {
         return {
-            author: this.author.id,
+            author: this.author,
             id: this.id,
             createdTimestamp: this.createdTimestamp,
             type: this.type
@@ -55,7 +55,7 @@ export class BasePost extends BaseDbObject {
 
 export interface BasePostOptions {
     id: Snowflake;
-    author: User;
+    author: Snowflake;
     createdTimestamp: number;
     type: PostTypes
 }

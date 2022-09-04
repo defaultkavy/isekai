@@ -22,7 +22,7 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     toData() {
         return {
-            author: this.author.id,
+            author: this.author,
             id: this.id,
             createdTimestamp: this.createdTimestamp,
             type: this.type
