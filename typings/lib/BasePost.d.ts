@@ -8,24 +8,29 @@ export declare class BasePost extends BaseDbObject {
     createdTimestamp: number;
     type: PostTypes;
     constructor(manager: PostManager, options: BasePostOptions);
-    toData(): BasePostPrivateData;
-    toPublicData(): BasePostPublicData;
-    toPrivateData(): BasePostPrivateData;
-    likes(): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
+    toData(): BasePostData;
+    toPublicData(): Promise<BasePostPublicData>;
+    toClientData(user: Snowflake): Promise<BasePostClientData>;
+    likes(): Promise<number>;
+    likeUsers(): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
     clientLike(userId: Snowflake): Promise<import("./event/Event.js").EventData | null>;
 }
-export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
+export interface BasePostOptions {
     id: Snowflake;
     author: User;
+    createdTimestamp: number;
+    type: PostTypes;
 }
-export interface BasePostPrivateData extends BasePostPublicData {
+export interface BasePostClientData extends BasePostPublicData {
+    like: boolean;
 }
 export interface BasePostPublicData extends BaseData {
     id: Snowflake;
     author: Snowflake;
     type: PostTypes;
+    likes: number;
 }
-export interface BasePostData extends BasePostPrivateData {
+export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes'> {
 }
 export declare const enum PostTypes {
     Message = 0,

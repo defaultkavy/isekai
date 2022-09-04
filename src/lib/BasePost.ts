@@ -17,7 +17,7 @@ export class BasePost extends BaseDbObject {
         this.type = options.type;
     }
 
-    toData(): BasePostPrivateData {
+    toData(): BasePostData {
         return {
             author: this.author.id,
             id: this.id,
@@ -26,19 +26,25 @@ export class BasePost extends BaseDbObject {
         }
     }
 
-    toPublicData(): BasePostPublicData {
+    async toPublicData(): Promise<BasePostPublicData> {
         return {
-            ...this.toData()
+            ...this.toData(),
+            likes: await this.likes()
         }
     }
 
-    toPrivateData(): BasePostPrivateData {
+    async toClientData(user: Snowflake): Promise<BasePostClientData> {
         return {
-            ...this.toData()
+            ...(await this.toPublicData()),
+            like: !!await this.clientLike(user)
         }
     }
 
     async likes() {
+        return await this.client.db.events.getCount({ post: this.id, activate: true, type: EventTypes.like });
+    }
+
+    async likeUsers() {
         return await this.client.db.events.getDataByFilter({ post: this.id, activate: true, type: EventTypes.like }, 50);
     }
 
@@ -47,21 +53,25 @@ export class BasePost extends BaseDbObject {
     }
 }
 
-export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
+export interface BasePostOptions {
     id: Snowflake;
     author: User;
+    createdTimestamp: number;
+    type: PostTypes
 }
 
-export interface BasePostPrivateData extends BasePostPublicData {
+export interface BasePostClientData extends BasePostPublicData {
+    like: boolean;
 }
 
 export interface BasePostPublicData extends BaseData {
     id: Snowflake;
     author: Snowflake;
     type: PostTypes;
+    likes: number;
 }
 
-export interface BasePostData extends BasePostPrivateData{
+export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes'> {
 
 }
 

@@ -9,6 +9,7 @@ export declare class DbCollection<D extends BaseData> extends Base {
     constructor(parent: Database, collection: Collection);
     checkDuplicate(id: Snowflake): Promise<boolean>;
     checkDuplicateByFilter<D>(filter: Filter<D>): Promise<boolean>;
+    getCount(filter: Filter<D>): Promise<number>;
     getData(id: Snowflake): Promise<import("mongodb").WithId<import("bson").Document> | null>;
     getDataByFilterOne(filter: Filter<D>): Promise<D | null>;
     getDataByFilter(filter?: Filter<D>, limit?: number): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;

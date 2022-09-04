@@ -22,6 +22,10 @@ export class DbCollection<D extends BaseData> extends Base {
         return !!find
     }
 
+    async getCount(filter: Filter<D>) {
+        return await this._collection.countDocuments(filter);
+    }
+
     async getData(id: Snowflake) {
         const find = await this._collection.findOne({id: id})
         if (!find) return null

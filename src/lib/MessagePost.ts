@@ -1,5 +1,5 @@
 import { Asset, AssetPublicData } from "./Asset.js";
-import { BasePost, BasePostOptions, BasePostPrivateData, BasePostPublicData } from "./BasePost.js";
+import { BasePost, BasePostClientData, BasePostData, BasePostOptions, BasePostPublicData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
@@ -12,7 +12,7 @@ export class MessagePost extends BasePost {
         this.content = options.content
     }
 
-    toData(): MessageData {
+    toData(): MessagePostData {
         return {
             ...super.toData(),
             attachments: this.attachments ? this.attachments.map(att => att.id) : undefined,
@@ -20,17 +20,19 @@ export class MessagePost extends BasePost {
         }
     }
 
-    toPublicData(): MessagePostPublicData {
+    async toPublicData(): Promise<MessagePostPublicData> {
         return {
-            ...super.toData(),
+            ...(await super.toPublicData()),
             attachments: this.attachments.map(att => att.toData()),
             content: this.content
         }
     }
 
-    toPrivateData(): MessagePostPrivateData {
+    async toClientData(user: Snowflake): Promise<MessagePostClientData> {
         return {
-            ...this.toPublicData(),
+            ...(await super.toClientData(user)),
+            attachments: this.attachments.map(att => att.toData()),
+            content: this.content
         }
     }
     
@@ -41,7 +43,8 @@ export interface MessagePostOptions extends BasePostOptions {
     attachments: Asset[];
 }
 
-export interface MessagePostPrivateData extends MessagePostPublicData, BasePostPrivateData {
+export interface MessagePostClientData extends MessagePostPublicData, BasePostClientData {
+    
 }
 
 export interface MessagePostPublicData extends BasePostPublicData {
@@ -49,6 +52,7 @@ export interface MessagePostPublicData extends BasePostPublicData {
     attachments: AssetPublicData[];
 }
 
-export interface MessageData extends Omit<MessagePostPrivateData, 'attachments'> {
+export interface MessagePostData extends BasePostData {
     attachments?: Snowflake[];
+    content: string;
 }

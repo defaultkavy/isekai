@@ -29,6 +29,11 @@ class DbCollection extends Base_js_1.Base {
             return !!find;
         });
     }
+    getCount(filter) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this._collection.countDocuments(filter);
+        });
+    }
     getData(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const find = yield this._collection.findOne({ id: id });

@@ -29,12 +29,21 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
         };
     }
     toPublicData() {
-        return Object.assign({}, this.toData());
+        return __awaiter(this, void 0, void 0, function* () {
+            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likes() });
+        });
     }
-    toPrivateData() {
-        return Object.assign({}, this.toData());
+    toClientData(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Object.assign(Object.assign({}, (yield this.toPublicData())), { like: !!(yield this.clientLike(user)) });
+        });
     }
     likes() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.client.db.events.getCount({ post: this.id, activate: true, type: Event_js_1.EventTypes.like });
+        });
+    }
+    likeUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.client.db.events.getDataByFilter({ post: this.id, activate: true, type: Event_js_1.EventTypes.like }, 50);
         });

@@ -1,8 +1,8 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { BaseManager } from "./BaseManager.js";
-import { BasePost, BasePostData, BasePostPrivateData } from "./BasePost.js";
-import { MessagePost, MessagePostPrivateData } from "./MessagePost.js";
+import { BasePost, BasePostData } from "./BasePost.js";
+import { MessagePost, MessagePostData } from "./MessagePost.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
 export declare class PostManager extends BaseManager<BasePost, BasePostData, BasePostCreateData> {
@@ -13,9 +13,9 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
     fetchByAuthor(author: Snowflake | User, lastId?: Snowflake): Promise<BasePost[]>;
     fetchByLastId(lastId: Snowflake): Promise<BasePost[]>;
     fetchNewest(): Promise<BasePost[]>;
-    build(data: BasePostPrivateData): Promise<MessagePost>;
+    build(data: BasePostData): Promise<MessagePost>;
 }
-export interface BasePostCreateData extends Omit<BasePostPrivateData, 'createdTimestamp'> {
+export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {
 }
-export interface MessagePostCreateData extends Omit<MessagePostPrivateData, 'createdTimestamp'> {
+export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp'> {
 }
