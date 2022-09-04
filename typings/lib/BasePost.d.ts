@@ -12,7 +12,7 @@ export declare class BasePost extends BaseDbObject {
     toPublicData(): BasePostPublicData;
     toPrivateData(): BasePostPrivateData;
     likes(): Promise<import("mongodb").WithId<import("bson").Document>[] | null>;
-    clientLike(userId: Snowflake): Promise<boolean>;
+    clientLike(userId: Snowflake): Promise<import("./event/Event.js").EventData | null>;
 }
 export interface BasePostOptions extends Omit<BasePostPrivateData, 'author'> {
     id: Snowflake;

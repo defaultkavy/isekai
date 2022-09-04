@@ -1,4 +1,5 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
+import { EventTypes } from "./event/Event.js";
 import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { User } from "./User.js";
@@ -38,11 +39,11 @@ export class BasePost extends BaseDbObject {
     }
 
     async likes() {
-        return await this.client.db.events.getDataByFilter({ post: this.id }, 50);
+        return await this.client.db.events.getDataByFilter({ post: this.id, activate: true, type: EventTypes.like }, 50);
     }
 
     async clientLike(userId: Snowflake) {
-        return !!await this.client.db.events.getDataByFilterOne({ post: this.id, user: userId });
+        return await this.client.db.events.getDataByFilterOne({ post: this.id, user: userId, type: EventTypes.like, activate: true });
     }
 }
 

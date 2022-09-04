@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BasePost = void 0;
 const BaseDbObject_js_1 = require("./BaseDbObject.js");
+const Event_js_1 = require("./event/Event.js");
 class BasePost extends BaseDbObject_js_1.BaseDbObject {
     constructor(manager, options) {
         super(manager);
@@ -35,12 +36,12 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     likes() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.client.db.events.getDataByFilter({ post: this.id }, 50);
+            return yield this.client.db.events.getDataByFilter({ post: this.id, activate: true, type: Event_js_1.EventTypes.like }, 50);
         });
     }
     clientLike(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return !!(yield this.client.db.events.getDataByFilterOne({ post: this.id, user: userId }));
+            return yield this.client.db.events.getDataByFilterOne({ post: this.id, user: userId, type: Event_js_1.EventTypes.like, activate: true });
         });
     }
 }
