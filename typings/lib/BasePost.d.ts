@@ -13,7 +13,7 @@ export declare class BasePost extends BaseDbObject {
     toClientData(user: Snowflake): Promise<BasePostClientData>;
     likes(): Promise<number>;
     likeUsers(): Promise<import("./event/Event.js").EventData[] | null>;
-    clientLike(userId: Snowflake): Promise<LikeEvent>;
+    clientLike(userId: Snowflake): Promise<LikeEvent | undefined>;
 }
 export interface BasePostOptions {
     id: Snowflake;

@@ -65,6 +65,12 @@ export class User extends BaseDbObject {
         }
     }
 
+    toClientData(): UserClientData {
+        return {
+            ...this.toPublicData()
+        }
+    }
+
     toPrivateData(): UserPrivateData {
         return {
             ...this.toPublicData(),
@@ -89,6 +95,10 @@ export interface UserPublicData extends BaseData {
     avatar?: AssetPublicData;
     cover?: AssetPublicData;
     intro: string;
+}
+
+export interface UserClientData extends UserPublicData {
+    
 }
 
 export interface UserData extends Omit<UserPrivateData, 'avatar' | 'cover'> {

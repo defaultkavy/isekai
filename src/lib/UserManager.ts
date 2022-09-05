@@ -8,7 +8,7 @@ import { Conflict } from "../errors/Conflict.js";
 /**
  * A manager to collect all user in the cache
  */
-export class UserManager extends BaseManager<User, UserData, UserClientData> {
+export class UserManager extends BaseManager<User, UserData, UserCreateData> {
     collection: DbCollection<UserData>;
     type = 'User'
     constructor(parent: Client) {
@@ -28,7 +28,7 @@ export class UserManager extends BaseManager<User, UserData, UserClientData> {
         return await this.__cacheSet(data as unknown as UserData)
     }
 
-    async create(data: UserClientData) {
+    async create(data: UserCreateData) {
         if (await this.collection.checkDuplicateByFilter({ username: data.username }))
             throw new Conflict('create: username duplicated')
         if (await this.collection.checkDuplicateByFilter({ email: data.email }))
@@ -46,4 +46,4 @@ export class UserManager extends BaseManager<User, UserData, UserClientData> {
     }
 }
 
-export interface UserClientData extends Omit<UserPrivateData, 'createdTimestamp'> {}
+export interface UserCreateData extends Omit<UserData, 'createdTimestamp'> {}

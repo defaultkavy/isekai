@@ -48,8 +48,8 @@ export class BasePost extends BaseDbObject {
         return await this.client.db.events.getDataByFilter({ post: this.id, activate: true, type: EventTypes.like }, 50);
     }
 
-    async clientLike(userId: Snowflake): Promise<LikeEvent> {
-        return await this.client.events.fetchByFilter({ post: this.id, user: userId, type: EventTypes.like, activate: true }) as LikeEvent;
+    async clientLike(userId: Snowflake): Promise<LikeEvent | undefined> {
+        return await this.client.events.fetchByFilter({ post: this.id, user: userId, type: EventTypes.like, activate: true }).catch(err => undefined) as LikeEvent;
     }
 }
 

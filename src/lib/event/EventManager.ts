@@ -6,7 +6,7 @@ import { LikeEvent, LikeEventData } from "./LikeEvent.js";
 
 export class EventManager extends BaseManager<Event, EventData, EventCreateData> {
     collection: DbCollection<EventData>;
-    type = 'Asset';
+    type = 'Event';
     constructor(client: Client) {
         super(client);
         this.collection = this.client.db.events;

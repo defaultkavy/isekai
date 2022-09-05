@@ -38,6 +38,9 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             intro: this.intro,
         };
     }
+    toClientData() {
+        return Object.assign({}, this.toPublicData());
+    }
     toPrivateData() {
         return Object.assign(Object.assign({}, this.toPublicData()), { email: this.email });
     }

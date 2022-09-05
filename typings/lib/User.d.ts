@@ -26,6 +26,7 @@ export declare class User extends BaseDbObject {
     constructor(manager: UserManager, options: UserBuilder);
     toData(): UserData;
     toPublicData(): UserPublicData;
+    toClientData(): UserClientData;
     toPrivateData(): UserPrivateData;
 }
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar' | 'cover'> {
@@ -42,6 +43,8 @@ export interface UserPublicData extends BaseData {
     avatar?: AssetPublicData;
     cover?: AssetPublicData;
     intro: string;
+}
+export interface UserClientData extends UserPublicData {
 }
 export interface UserData extends Omit<UserPrivateData, 'avatar' | 'cover'> {
     avatar?: Snowflake;

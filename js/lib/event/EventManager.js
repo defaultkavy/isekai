@@ -16,7 +16,7 @@ const LikeEvent_js_1 = require("./LikeEvent.js");
 class EventManager extends BaseManager_js_1.BaseManager {
     constructor(client) {
         super(client);
-        this.type = 'Asset';
+        this.type = 'Event';
         this.collection = this.client.db.events;
     }
     createLike(data) {
