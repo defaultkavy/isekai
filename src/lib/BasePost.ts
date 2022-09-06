@@ -1,7 +1,7 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { EventTypes } from "./event/Event.js";
 import { LikeEvent } from "./event/LikeEvent.js";
-import { PostManager } from "./PostManager.js";
+import { MessagePostCreateData, PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
 export class BasePost extends BaseDbObject {
@@ -41,6 +41,10 @@ export class BasePost extends BaseDbObject {
             ...(await this.toPublicData()),
             like: !!await this.clientLike(user)
         }
+    }
+
+    async reply(data: MessagePostCreateData) {
+        return await this.client.posts.__create({...data, parent: this.id});
     }
 
     async threads(lastId?: Snowflake) {

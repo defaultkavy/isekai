@@ -18,6 +18,6 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
 }
 export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {
 }
-export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'attachments'> {
+export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'attachments' | 'parent'> {
     attachments: Asset[];
 }

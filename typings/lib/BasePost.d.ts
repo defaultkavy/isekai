@@ -1,6 +1,6 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { LikeEvent } from "./event/LikeEvent.js";
-import { PostManager } from "./PostManager.js";
+import { MessagePostCreateData, PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 export declare class BasePost extends BaseDbObject {
     id: Snowflake;
@@ -12,6 +12,7 @@ export declare class BasePost extends BaseDbObject {
     toData(): BasePostData;
     toPublicData(): Promise<BasePostPublicData>;
     toClientData(user: Snowflake): Promise<BasePostClientData>;
+    reply(data: MessagePostCreateData): Promise<BasePost>;
     threads(lastId?: Snowflake): Promise<BasePost[]>;
     likes(): Promise<number>;
     likeUsers(): Promise<import("./event/Event.js").EventData[] | null>;

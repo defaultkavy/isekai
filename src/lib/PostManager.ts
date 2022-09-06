@@ -18,7 +18,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
     }
 
     async createMessagePost(data: MessagePostCreateData) {
-        return await super.__create(data)
+        return await super.__create({...data, parent: undefined});
     }
 
     async fetchByAuthor(author: Snowflake | User, lastId?: Snowflake) {
@@ -62,6 +62,6 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
 
 export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {}
 
-export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'attachments'> {
+export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'attachments' | 'parent'> {
     attachments: Asset[];
 }

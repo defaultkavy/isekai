@@ -40,6 +40,11 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
             return Object.assign(Object.assign({}, (yield this.toPublicData())), { like: !!(yield this.clientLike(user)) });
         });
     }
+    reply(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.client.posts.__create(Object.assign(Object.assign({}, data), { parent: this.id }));
+        });
+    }
     threads(lastId) {
         return __awaiter(this, void 0, void 0, function* () {
             let postsData = [];
