@@ -8,13 +8,15 @@ export class BasePost extends BaseDbObject {
     id: Snowflake;
     author: Snowflake;
     createdTimestamp: number;
-    type: PostTypes
+    type: PostTypes;
+    parent: Snowflake | undefined;
     constructor(manager: PostManager, options: BasePostOptions) {
         super(manager);
         this.id = options.id;
         this.author = options.author;
         this.createdTimestamp = options.createdTimestamp;
         this.type = options.type;
+        this.parent = options.parent;
     }
 
     toData(): BasePostData {
@@ -22,7 +24,8 @@ export class BasePost extends BaseDbObject {
             author: this.author,
             id: this.id,
             createdTimestamp: this.createdTimestamp,
-            type: this.type
+            type: this.type,
+            parent: this.parent
         }
     }
 
@@ -38,6 +41,11 @@ export class BasePost extends BaseDbObject {
             ...(await this.toPublicData()),
             like: !!await this.clientLike(user)
         }
+    }
+
+    async threads(lastId?: Snowflake) {
+        if (lastId) return await this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
+        return await this.client.db.posts.getNewestData(50, { parent: this.id });
     }
 
     async likes() {
@@ -58,6 +66,7 @@ export interface BasePostOptions {
     author: Snowflake;
     createdTimestamp: number;
     type: PostTypes
+    parent: Snowflake | undefined;
 }
 
 export interface BasePostClientData extends BasePostPublicData {
@@ -69,6 +78,7 @@ export interface BasePostPublicData extends BaseData {
     author: Snowflake;
     type: PostTypes;
     likes: number;
+    parent: Snowflake | undefined;
 }
 
 export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes'> {

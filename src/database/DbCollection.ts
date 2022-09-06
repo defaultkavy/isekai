@@ -40,8 +40,8 @@ export class DbCollection<D extends BaseData> extends Base {
 
     async getDataByFilter(filter?: Filter<D>, limit = 100) {
         const cursor = this._collection.find(filter ?? {}).limit(limit);
-        const find = await cursor.toArray()
-        if (!find) return null
+        const find = await cursor.toArray();
+        if (!find) return null;
         return find as unknown as D[];
     }
 
@@ -52,8 +52,8 @@ export class DbCollection<D extends BaseData> extends Base {
         return find as unknown as D[];
     }
 
-    async getNewestData(limit?: number) {
-        const cursor = this._collection.find().sort({$natural:-1}).limit(limit ?? 100)
+    async getNewestData(limit?: number, filter?: Filter<D>) {
+        const cursor = this._collection.find(filter ?? {}).sort({$natural:-1}).limit(limit ?? 100);
         const find = await cursor.toArray();
         return find as unknown as D[];
     }
