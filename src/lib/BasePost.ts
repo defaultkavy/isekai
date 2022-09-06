@@ -32,7 +32,8 @@ export class BasePost extends BaseDbObject {
     async toPublicData(): Promise<BasePostPublicData> {
         return {
             ...this.toData(),
-            likes: await this.likes()
+            likes: await this.likeCount(),
+            threads: await this.threadCount()
         }
     }
 
@@ -54,7 +55,11 @@ export class BasePost extends BaseDbObject {
         return await this.client.posts.__cacheSetList(postsData);
     }
 
-    async likes() {
+    async threadCount() {
+        return await this.client.db.posts.getCount({ parent: this.id });
+    }
+
+    async likeCount() {
         return await this.client.db.events.getCount({ post: this.id, activate: true, type: EventTypes.like });
     }
 
@@ -84,10 +89,11 @@ export interface BasePostPublicData extends BaseData {
     author: Snowflake;
     type: PostTypes;
     likes: number;
+    threads: number;
     parent: Snowflake | undefined;
 }
 
-export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes'> {
+export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes' | 'threads'> {
 
 }
 

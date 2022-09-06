@@ -32,7 +32,7 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     toPublicData() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likes() });
+            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: yield this.threadCount() });
         });
     }
     toClientData(user) {
@@ -55,7 +55,12 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
             return yield this.client.posts.__cacheSetList(postsData);
         });
     }
-    likes() {
+    threadCount() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.client.db.posts.getCount({ parent: this.id });
+        });
+    }
+    likeCount() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.client.db.events.getCount({ post: this.id, activate: true, type: Event_js_1.EventTypes.like });
         });
