@@ -44,8 +44,10 @@ export class BasePost extends BaseDbObject {
     }
 
     async threads(lastId?: Snowflake) {
-        if (lastId) return await this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
-        return await this.client.db.posts.getNewestData(50, { parent: this.id });
+        let postsData: BasePostData[] = [];
+        if (lastId) postsData = await this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
+        else postsData = await this.client.db.posts.getNewestData(50, { parent: this.id });
+        return await this.client.posts.__cacheSetList(postsData);
     }
 
     async likes() {
