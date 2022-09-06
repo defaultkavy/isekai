@@ -19,13 +19,15 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
         this.author = options.author;
         this.createdTimestamp = options.createdTimestamp;
         this.type = options.type;
+        this.parent = options.parent;
     }
     toData() {
         return {
             author: this.author,
             id: this.id,
             createdTimestamp: this.createdTimestamp,
-            type: this.type
+            type: this.type,
+            parent: this.parent
         };
     }
     toPublicData() {
@@ -36,6 +38,16 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     toClientData(user) {
         return __awaiter(this, void 0, void 0, function* () {
             return Object.assign(Object.assign({}, (yield this.toPublicData())), { like: !!(yield this.clientLike(user)) });
+        });
+    }
+    threads(lastId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let postsData = [];
+            if (lastId)
+                postsData = yield this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
+            else
+                postsData = yield this.client.db.posts.getNewestData(50, { parent: this.id });
+            return yield this.client.posts.__cacheSetList(postsData);
         });
     }
     likes() {
