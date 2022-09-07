@@ -32,7 +32,8 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     toPublicData() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: yield this.threadCount(), thread: (yield this.thread()).toData() });
+            const threads = yield this.threadCount();
+            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: threads, thread: threads ? (yield this.thread()).toData() : undefined });
         });
     }
     toClientData(user) {

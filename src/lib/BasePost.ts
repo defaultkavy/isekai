@@ -30,11 +30,12 @@ export class BasePost extends BaseDbObject {
     }
 
     async toPublicData(): Promise<BasePostPublicData> {
+        const threads = await this.threadCount();
         return {
             ...this.toData(),
             likes: await this.likeCount(),
-            threads: await this.threadCount(),
-            thread: (await this.thread()).toData()
+            threads: threads,
+            thread: threads ? (await this.thread()).toData() : undefined
         }
     }
 
@@ -93,7 +94,7 @@ export interface BasePostClientData extends BasePostPublicData {
 export interface BasePostPublicData extends BasePostData {
     likes: number;
     threads: number;
-    thread: BasePostData;
+    thread?: BasePostData;
 }
 
 export interface BasePostData extends BaseData {

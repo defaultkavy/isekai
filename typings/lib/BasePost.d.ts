@@ -33,7 +33,7 @@ export interface BasePostClientData extends BasePostPublicData {
 export interface BasePostPublicData extends BasePostData {
     likes: number;
     threads: number;
-    thread: BasePostData;
+    thread?: BasePostData;
 }
 export interface BasePostData extends BaseData {
     id: Snowflake;
