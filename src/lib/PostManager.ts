@@ -37,7 +37,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
     }
 
     async fetchNewest() {
-        const data = await this.collection.getNewestData(50)
+        const data = await this.collection.getNewestData(50, {parent: undefined})
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
     }
