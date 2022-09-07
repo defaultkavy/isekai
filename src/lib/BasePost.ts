@@ -51,7 +51,7 @@ export class BasePost extends BaseDbObject {
         return await this.client.posts.__create({...data, parent: this.id});
     }
 
-    async thread() {
+    async thread(): Promise<MessagePost> {
         const postData = await this.client.db.posts.getNewestData(1, { parent: this.id });
         return await this.client.posts.__cacheSet(postData[0]) as MessagePost;
     }
