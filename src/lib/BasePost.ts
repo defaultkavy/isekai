@@ -1,6 +1,7 @@
 import { BaseData, BaseDbObject } from "./BaseDbObject.js";
 import { EventTypes } from "./event/Event.js";
 import { LikeEvent } from "./event/LikeEvent.js";
+import { MessagePost, MessagePostData } from "./MessagePost.js";
 import { MessagePostCreateData, PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
@@ -52,7 +53,7 @@ export class BasePost extends BaseDbObject {
 
     async thread() {
         const postData = await this.client.db.posts.getNewestData(1, { parent: this.id });
-        return await this.client.posts.__cacheSet(postData[0]);
+        return await this.client.posts.__cacheSet(postData[0]) as MessagePost;
     }
 
     async threads(lastId?: Snowflake) {
@@ -94,7 +95,7 @@ export interface BasePostClientData extends BasePostPublicData {
 export interface BasePostPublicData extends BasePostData {
     likes: number;
     threads: number;
-    thread?: BasePostData;
+    thread?: MessagePostData;
 }
 
 export interface BasePostData extends BaseData {
