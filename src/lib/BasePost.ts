@@ -33,7 +33,8 @@ export class BasePost extends BaseDbObject {
         return {
             ...this.toData(),
             likes: await this.likeCount(),
-            threads: await this.threadCount()
+            threads: await this.threadCount(),
+            thread: (await this.thread()).toData()
         }
     }
 
@@ -46,6 +47,11 @@ export class BasePost extends BaseDbObject {
 
     async reply(data: MessagePostCreateData) {
         return await this.client.posts.__create({...data, parent: this.id});
+    }
+
+    async thread() {
+        const postData = await this.client.db.posts.getNewestData(1, { parent: this.id });
+        return await this.client.posts.__cacheSet(postData[0]);
     }
 
     async threads(lastId?: Snowflake) {
@@ -84,17 +90,17 @@ export interface BasePostClientData extends BasePostPublicData {
     like: boolean;
 }
 
-export interface BasePostPublicData extends BaseData {
+export interface BasePostPublicData extends BasePostData {
+    likes: number;
+    threads: number;
+    thread: BasePostData;
+}
+
+export interface BasePostData extends BaseData {
     id: Snowflake;
     author: Snowflake;
     type: PostTypes;
-    likes: number;
-    threads: number;
     parent: Snowflake | undefined;
-}
-
-export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes' | 'threads'> {
-
 }
 
 export declare const enum PostTypes {

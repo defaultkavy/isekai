@@ -13,6 +13,7 @@ export declare class BasePost extends BaseDbObject {
     toPublicData(): Promise<BasePostPublicData>;
     toClientData(user: Snowflake): Promise<BasePostClientData>;
     reply(data: MessagePostCreateData): Promise<BasePost>;
+    thread(): Promise<BasePost>;
     threads(lastId?: Snowflake): Promise<BasePost[]>;
     threadCount(): Promise<number>;
     likeCount(): Promise<number>;
@@ -29,15 +30,16 @@ export interface BasePostOptions {
 export interface BasePostClientData extends BasePostPublicData {
     like: boolean;
 }
-export interface BasePostPublicData extends BaseData {
+export interface BasePostPublicData extends BasePostData {
+    likes: number;
+    threads: number;
+    thread: BasePostData;
+}
+export interface BasePostData extends BaseData {
     id: Snowflake;
     author: Snowflake;
     type: PostTypes;
-    likes: number;
-    threads: number;
     parent: Snowflake | undefined;
-}
-export interface BasePostData extends Omit<BasePostClientData, 'like' | 'likes' | 'threads'> {
 }
 export declare const enum PostTypes {
     Message = 0,

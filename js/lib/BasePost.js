@@ -32,7 +32,7 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     toPublicData() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: yield this.threadCount() });
+            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: yield this.threadCount(), thread: (yield this.thread()).toData() });
         });
     }
     toClientData(user) {
@@ -43,6 +43,12 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     reply(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.client.posts.__create(Object.assign(Object.assign({}, data), { parent: this.id }));
+        });
+    }
+    thread() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postData = yield this.client.db.posts.getNewestData(1, { parent: this.id });
+            return yield this.client.posts.__cacheSet(postData[0]);
         });
     }
     threads(lastId) {
