@@ -32,8 +32,8 @@ class PostManager extends BaseManager_js_1.BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             const userId = this.resolveId(author);
             const data = lastId
-                ? yield this.collection.getDataByLastId(lastId, 50, { author: userId, parent: undefined })
-                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, 50);
+                ? yield this.collection.getDataByLastId(lastId, 20, { author: userId, parent: undefined })
+                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, 20);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
             return yield this.__cacheSetList(data);
@@ -41,7 +41,7 @@ class PostManager extends BaseManager_js_1.BaseManager {
     }
     fetchByLastId(lastId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getDataByLastId(lastId, 50);
+            const data = yield this.collection.getDataByLastId(lastId, 20);
             if (!data)
                 throw new HttpException_js_1.HttpException(`Post fetch failed`);
             return yield this.__cacheSetList(data);

@@ -24,14 +24,14 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
     async fetchByAuthor(author: Snowflake | User, lastId?: Snowflake) {
         const userId = this.resolveId(author);
         const data = lastId 
-        ? await this.collection.getDataByLastId(lastId, 50, {author: userId, parent: undefined}) 
-        : await this.collection.getDataByFilter({author: userId, parent: undefined}, 50);
+        ? await this.collection.getDataByLastId(lastId, 20, {author: userId, parent: undefined}) 
+        : await this.collection.getDataByFilter({author: userId, parent: undefined}, 20);
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
         return await this.__cacheSetList(data)
     }
 
     async fetchByLastId(lastId: Snowflake) {
-        const data = await this.collection.getDataByLastId(lastId, 50)
+        const data = await this.collection.getDataByLastId(lastId, 20)
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
     }
