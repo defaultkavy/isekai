@@ -49,7 +49,7 @@ class PostManager extends BaseManager_js_1.BaseManager {
     }
     fetchNewest() {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getNewestData(50, { parent: undefined });
+            const data = yield this.collection.getNewestData(20, { parent: undefined });
             if (!data)
                 throw new HttpException_js_1.HttpException(`Post fetch failed`);
             return yield this.__cacheSetList(data);
