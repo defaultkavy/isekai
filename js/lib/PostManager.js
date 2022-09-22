@@ -28,28 +28,28 @@ class PostManager extends BaseManager_js_1.BaseManager {
             return yield _super.__create.call(this, Object.assign(Object.assign({}, data), { parent: undefined }));
         });
     }
-    fetchByAuthor(author, lastId) {
+    fetchByAuthor(author, limit = 20, lastId) {
         return __awaiter(this, void 0, void 0, function* () {
             const userId = this.resolveId(author);
             const data = lastId
                 ? yield this.collection.getDataByLastId(lastId, 20, { author: userId, parent: undefined })
-                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, 20);
+                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, limit);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
             return yield this.__cacheSetList(data);
         });
     }
-    fetchByLastId(lastId) {
+    fetchByLastId(lastId, limit = 20) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getDataByLastId(lastId, 20);
+            const data = yield this.collection.getDataByLastId(lastId, limit);
             if (!data)
                 throw new HttpException_js_1.HttpException(`Post fetch failed`);
             return yield this.__cacheSetList(data);
         });
     }
-    fetchNewest() {
+    fetchNewest(limit = 20) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getNewestData(20, { parent: undefined });
+            const data = yield this.collection.getNewestData(limit, { parent: undefined });
             if (!data)
                 throw new HttpException_js_1.HttpException(`Post fetch failed`);
             return yield this.__cacheSetList(data);

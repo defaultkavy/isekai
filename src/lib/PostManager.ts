@@ -21,23 +21,23 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         return await super.__create({...data, parent: undefined});
     }
 
-    async fetchByAuthor(author: Snowflake | User, lastId?: Snowflake) {
+    async fetchByAuthor(author: Snowflake | User, limit = 20, lastId?: Snowflake) {
         const userId = this.resolveId(author);
         const data = lastId 
         ? await this.collection.getDataByLastId(lastId, 20, {author: userId, parent: undefined}) 
-        : await this.collection.getDataByFilter({author: userId, parent: undefined}, 20);
+        : await this.collection.getDataByFilter({author: userId, parent: undefined}, limit);
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
         return await this.__cacheSetList(data)
     }
 
-    async fetchByLastId(lastId: Snowflake) {
-        const data = await this.collection.getDataByLastId(lastId, 20)
+    async fetchByLastId(lastId: Snowflake, limit = 20) {
+        const data = await this.collection.getDataByLastId(lastId, limit)
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
     }
 
-    async fetchNewest() {
-        const data = await this.collection.getNewestData(20, {parent: undefined})
+    async fetchNewest(limit = 20) {
+        const data = await this.collection.getNewestData(limit, {parent: undefined})
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
     }
