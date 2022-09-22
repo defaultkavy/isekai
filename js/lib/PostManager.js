@@ -33,7 +33,7 @@ class PostManager extends BaseManager_js_1.BaseManager {
             const userId = this.resolveId(author);
             const data = lastId
                 ? yield this.collection.getDataByLastId(lastId, 20, { author: userId, parent: undefined })
-                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, limit);
+                : yield this.collection.getDataByFilter({ author: userId, parent: undefined }, true, limit);
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with author`);
             return yield this.__cacheSetList(data);

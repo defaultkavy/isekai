@@ -25,7 +25,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         const userId = this.resolveId(author);
         const data = lastId 
         ? await this.collection.getDataByLastId(lastId, 20, {author: userId, parent: undefined}) 
-        : await this.collection.getDataByFilter({author: userId, parent: undefined}, limit);
+        : await this.collection.getDataByFilter({author: userId, parent: undefined}, true, limit);
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with author`)
         return await this.__cacheSetList(data)
     }

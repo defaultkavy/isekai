@@ -50,9 +50,9 @@ class DbCollection extends Base_js_1.Base {
             return find;
         });
     }
-    getDataByFilter(filter, limit = 100) {
+    getDataByFilter(filter, sort = true, limit = 100) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {}).limit(limit);
+            const cursor = this._collection.find(filter !== null && filter !== void 0 ? filter : {}).sort({ createdTimestamp: sort ? -1 : 1 }).limit(limit);
             const find = yield cursor.toArray();
             if (!find)
                 return null;

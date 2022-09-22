@@ -12,7 +12,7 @@ export declare class DbCollection<D extends BaseData> extends Base {
     getCount(filter: Filter<D>): Promise<number>;
     getData(id: Snowflake): Promise<D | null>;
     getDataByFilterOne(filter: Filter<D>): Promise<D | null>;
-    getDataByFilter(filter?: Filter<D>, limit?: number): Promise<D[] | null>;
+    getDataByFilter(filter?: Filter<D>, sort?: boolean, limit?: number): Promise<D[] | null>;
     getDataByLastId(id: Snowflake, limit?: number, filter?: Filter<D>): Promise<D[]>;
     getNewestData(limit?: number, filter?: Filter<D>): Promise<D[]>;
     getArraySlice(id: Snowflake, arrayField: string, slice: [number, number]): Promise<import("bson").Document[] | null>;
