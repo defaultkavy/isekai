@@ -47,7 +47,7 @@ export class DbCollection<D extends BaseData> extends Base {
 
     async getDataByLastId(id: Snowflake, limit = 100, filter?: Filter<D>) {
         const int = Long.fromString(id)
-        const cursor = this._collection.find({...filter, $expr: {$lt: [{'$toLong': '$id'}, int]}}).limit(limit)
+        const cursor = this._collection.find({...filter, $expr: {$lt: [{'$toLong': '$id'}, int]}}).sort({createdTimestamp: -1}).limit(limit);
         const find = await cursor.toArray()
         return find as unknown as D[];
     }
