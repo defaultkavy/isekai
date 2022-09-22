@@ -31,7 +31,7 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
     }
 
     async fetchByLastId(lastId: Snowflake, limit = 20) {
-        const data = await this.collection.getDataByLastId(lastId, limit)
+        const data = await this.collection.getDataByLastId(lastId, limit, {parent: undefined})
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
     }
