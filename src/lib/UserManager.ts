@@ -4,6 +4,7 @@ import { Email, User, UserBuilder, UserData, Username, UserPrivateData } from ".
 import { DbCollection } from "../database/DbCollection.js";
 import { NotFound } from "../errors/NotFound.js";
 import { Conflict } from "../errors/Conflict.js";
+import { Snowflake } from "./SnowflakeManager.js";
 
 /**
  * A manager to collect all user in the cache
@@ -16,16 +17,26 @@ export class UserManager extends BaseManager<User, UserData, UserCreateData> {
         this.collection = this.client.db.users
     }
 
+    async fetchUsers(ids: Snowflake[]) {
+        const data = await this.collection.getDataByFilter({
+            id: {
+                $in: ids
+            }
+        });
+        if (!data) throw new NotFound(`fetch: ${this.type} not exist with id`);
+        return await this.__cacheSetList(data);
+    }
+
     async fetchByUsername(username: Username) {
         const data = await this.collection.getDataByFilterOne({username: username})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with username`)
-        return await this.__cacheSet(data as unknown as UserData)
+        return await this.__cacheSet(data)
     }
 
     async fetchByEmail(email: Email) {
         const data = await this.collection.getDataByFilterOne({email: email})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with email`)
-        return await this.__cacheSet(data as unknown as UserData)
+        return await this.__cacheSet(data)
     }
 
     async create(data: UserCreateData) {

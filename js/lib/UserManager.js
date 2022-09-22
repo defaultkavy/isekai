@@ -23,6 +23,18 @@ class UserManager extends BaseManager_js_1.BaseManager {
         this.type = 'User';
         this.collection = this.client.db.users;
     }
+    fetchUsers(ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.collection.getDataByFilter({
+                id: {
+                    $in: ids
+                }
+            });
+            if (!data)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with id`);
+            return yield this.__cacheSetList(data);
+        });
+    }
     fetchByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilterOne({ username: username });
