@@ -7,12 +7,17 @@ export class NotificationSub extends BaseDbObject {
     createdTimestamp: number;
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    }
     constructor(manager: NotificationSubManager, builder: NotificationSubBuilder) {
         super(manager);
         this.id = builder.id;
         this.createdTimestamp = builder.createdTimestamp;
         this.endpoint = builder.endpoint;
         this.userId = builder.userId;
+        this.keys = builder.keys;
     }
 
     toData(): NotificationSubData {
@@ -20,7 +25,8 @@ export class NotificationSub extends BaseDbObject {
             id: this.id,
             createdTimestamp: this.createdTimestamp,
             endpoint: this.endpoint,
-            userId: this.userId
+            userId: this.userId,
+            keys: this.keys,
         }
     }
 }
@@ -28,9 +34,17 @@ export class NotificationSub extends BaseDbObject {
 export interface NotificationSubData extends BaseData {
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    }
 }
 
 export interface NotificationSubBuilder extends BaseData {
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    }
 }

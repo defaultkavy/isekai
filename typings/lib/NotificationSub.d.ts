@@ -6,14 +6,26 @@ export declare class NotificationSub extends BaseDbObject {
     createdTimestamp: number;
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    };
     constructor(manager: NotificationSubManager, builder: NotificationSubBuilder);
     toData(): NotificationSubData;
 }
 export interface NotificationSubData extends BaseData {
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    };
 }
 export interface NotificationSubBuilder extends BaseData {
     endpoint: string;
     userId: Snowflake;
+    keys: {
+        p256dh: string;
+        auth: string;
+    };
 }
