@@ -21,6 +21,9 @@ class NotificationSubManager extends BaseManager_js_1.BaseManager {
     }
     subscribe(data) {
         return __awaiter(this, void 0, void 0, function* () {
+            const duplicateData = yield this.collection.getDataByFilterOne({ keys: data.keys, userId: data.userId });
+            if (duplicateData)
+                return this.build(duplicateData);
             return yield this.__create(data);
         });
     }

@@ -14,6 +14,8 @@ export class NotificationSubManager extends BaseManager<NotificationSub, Notific
     }
 
     async subscribe(data: NotificationSubCreateData) {
+        const duplicateData = await this.collection.getDataByFilterOne({keys: data.keys, userId: data.userId});
+        if (duplicateData) return this.build(duplicateData);
         return await this.__create(data);
     }
 
