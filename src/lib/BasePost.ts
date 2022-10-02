@@ -32,11 +32,12 @@ export class BasePost extends BaseDbObject {
 
     async toPublicData(): Promise<BasePostPublicData> {
         const threads = await this.threadCount();
+        const thread = threads ? (await this.latestThread()) : undefined
         return {
             ...this.toData(),
             likes: await this.likeCount(),
             threads: threads,
-            thread: threads ? (await this.thread()).toData() : undefined
+            thread: thread ? thread.toData() : undefined,
         }
     }
 
@@ -48,19 +49,15 @@ export class BasePost extends BaseDbObject {
     }
 
     async reply(data: MessagePostCreateData) {
-        return await this.client.posts.__create({...data, parent: this.id});
+        return await this.client.posts.createReply(data, this.id);
     }
 
-    async thread(): Promise<MessagePost> {
-        const postData = await this.client.db.posts.getNewestData(1, { parent: this.id });
-        return await this.client.posts.__cacheSet(postData[0]) as MessagePost;
+    async latestThread() {
+        return await this.client.posts.fetchLatestThread(this.id);
     }
 
     async threads(lastId?: Snowflake) {
-        let postsData: BasePostData[] = [];
-        if (lastId) postsData = await this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
-        else postsData = await this.client.db.posts.getNewestData(50, { parent: this.id });
-        return await this.client.posts.__cacheSetList(postsData);
+        return await this.client.posts.fetchThreads(this.id, lastId);
     }
 
     async threadCount() {

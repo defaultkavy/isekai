@@ -14,8 +14,8 @@ export declare class BasePost extends BaseDbObject {
     toPublicData(): Promise<BasePostPublicData>;
     toClientData(user: Snowflake): Promise<BasePostClientData>;
     reply(data: MessagePostCreateData): Promise<BasePost>;
-    thread(): Promise<MessagePost>;
-    threads(lastId?: Snowflake): Promise<BasePost[]>;
+    latestThread(): Promise<MessagePost | undefined>;
+    threads(lastId?: Snowflake): Promise<MessagePost[]>;
     threadCount(): Promise<number>;
     likeCount(): Promise<number>;
     likeUsers(): Promise<import("./event/Event.js").EventData[] | null>;

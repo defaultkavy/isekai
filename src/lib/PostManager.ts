@@ -21,6 +21,10 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         return await super.__create({...data, parent: undefined});
     }
 
+    async createReply(data: MessagePostCreateData, parent: Snowflake) {
+        return await this.__create({...data, parent});
+    }
+
     async fetchByAuthor(author: Snowflake | User, limit = 20, lastId?: Snowflake) {
         const userId = this.resolveId(author);
         const data = lastId 
@@ -40,6 +44,19 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         const data = await this.collection.getNewestData(limit, {parent: undefined})
         if (!data) throw new HttpException(`Post fetch failed`)
         return await this.__cacheSetList(data)
+    }
+
+    async fetchThreads(parent: Snowflake, lastId?: string): Promise<MessagePost[]> {
+        let postsData: BasePostData[] = [];
+        if (lastId) postsData = await this.client.db.posts.getDataByLastId(lastId, 50, { parent: parent });
+        else postsData = await this.client.db.posts.getNewestData(50, { parent: parent });
+        return await this.client.posts.__cacheSetList(postsData) as MessagePost[];
+    }
+
+    async fetchLatestThread(parent: Snowflake): Promise<MessagePost | undefined> {
+        const postsData = await this.client.db.posts.getDataByFilter({parent: parent}, 1, true);
+        if (!postsData) return undefined;
+        return await this.__cacheSet(postsData[0]) as MessagePost;
     }
 
     async build(data: BasePostData): Promise<MessagePost> {

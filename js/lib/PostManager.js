@@ -28,6 +28,11 @@ class PostManager extends BaseManager_js_1.BaseManager {
             return yield _super.__create.call(this, Object.assign(Object.assign({}, data), { parent: undefined }));
         });
     }
+    createReply(data, parent) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.__create(Object.assign(Object.assign({}, data), { parent }));
+        });
+    }
     fetchByAuthor(author, limit = 20, lastId) {
         return __awaiter(this, void 0, void 0, function* () {
             const userId = this.resolveId(author);
@@ -53,6 +58,24 @@ class PostManager extends BaseManager_js_1.BaseManager {
             if (!data)
                 throw new HttpException_js_1.HttpException(`Post fetch failed`);
             return yield this.__cacheSetList(data);
+        });
+    }
+    fetchThreads(parent, lastId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let postsData = [];
+            if (lastId)
+                postsData = yield this.client.db.posts.getDataByLastId(lastId, 50, { parent: parent });
+            else
+                postsData = yield this.client.db.posts.getNewestData(50, { parent: parent });
+            return yield this.client.posts.__cacheSetList(postsData);
+        });
+    }
+    fetchLatestThread(parent) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const postsData = yield this.client.db.posts.getDataByFilter({ parent: parent }, 1, true);
+            if (!postsData)
+                return undefined;
+            return yield this.__cacheSet(postsData[0]);
         });
     }
     build(data) {

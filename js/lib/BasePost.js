@@ -33,7 +33,8 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     toPublicData() {
         return __awaiter(this, void 0, void 0, function* () {
             const threads = yield this.threadCount();
-            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: threads, thread: threads ? (yield this.thread()).toData() : undefined });
+            const thread = threads ? (yield this.latestThread()) : undefined;
+            return Object.assign(Object.assign({}, this.toData()), { likes: yield this.likeCount(), threads: threads, thread: thread ? thread.toData() : undefined });
         });
     }
     toClientData(user) {
@@ -43,23 +44,17 @@ class BasePost extends BaseDbObject_js_1.BaseDbObject {
     }
     reply(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.client.posts.__create(Object.assign(Object.assign({}, data), { parent: this.id }));
+            return yield this.client.posts.createReply(data, this.id);
         });
     }
-    thread() {
+    latestThread() {
         return __awaiter(this, void 0, void 0, function* () {
-            const postData = yield this.client.db.posts.getNewestData(1, { parent: this.id });
-            return yield this.client.posts.__cacheSet(postData[0]);
+            return yield this.client.posts.fetchLatestThread(this.id);
         });
     }
     threads(lastId) {
         return __awaiter(this, void 0, void 0, function* () {
-            let postsData = [];
-            if (lastId)
-                postsData = yield this.client.db.posts.getDataByLastId(lastId, 50, { parent: this.id });
-            else
-                postsData = yield this.client.db.posts.getNewestData(50, { parent: this.id });
-            return yield this.client.posts.__cacheSetList(postsData);
+            return yield this.client.posts.fetchThreads(this.id, lastId);
         });
     }
     threadCount() {

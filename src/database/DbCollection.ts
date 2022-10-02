@@ -38,8 +38,8 @@ export class DbCollection<D extends BaseData> extends Base {
         return find as D
     }
 
-    async getDataByFilter(filter?: Filter<D>, limit = 100, sort = true) {
-        const cursor = this._collection.find(filter ?? {}).sort({createdTimestamp: sort ? -1 : 1}).limit(limit);
+    async getDataByFilter(filter?: Filter<D>, limit = 100, newToOld = true) {
+        const cursor = this._collection.find(filter ?? {}).sort({createdTimestamp: newToOld ? -1 : 1}).limit(limit);
         const find = await cursor.toArray();
         if (!find) return null;
         return find as unknown as D[];

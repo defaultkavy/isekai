@@ -11,9 +11,12 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
     type: string;
     constructor(client: Client);
     createMessagePost(data: MessagePostCreateData): Promise<BasePost>;
+    createReply(data: MessagePostCreateData, parent: Snowflake): Promise<BasePost>;
     fetchByAuthor(author: Snowflake | User, limit?: number, lastId?: Snowflake): Promise<BasePost[]>;
     fetchByLastId(lastId: Snowflake, limit?: number): Promise<BasePost[]>;
     fetchNewest(limit?: number): Promise<BasePost[]>;
+    fetchThreads(parent: Snowflake, lastId?: string): Promise<MessagePost[]>;
+    fetchLatestThread(parent: Snowflake): Promise<MessagePost | undefined>;
     build(data: BasePostData): Promise<MessagePost>;
 }
 export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {

@@ -23,7 +23,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         return await this.fetch(id)
     }
 
-    resolveId(idOrInstance: Snowflake | Id<Base>) {
+    protected resolveId(idOrInstance: Snowflake | Id<Base>) {
         if (typeof idOrInstance === 'string') {
             return idOrInstance
         } else {
@@ -44,7 +44,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         return this.__cacheSet(data)
     }
 
-    async __create(data: ClientData) {
+    protected async __create(data: ClientData) {
         if (this.cache.has(data.id)
             || await this.collection.checkDuplicate(data.id)) 
             throw new Conflict(`create: ${this.type} id existed.`)
@@ -60,13 +60,13 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         object.delete();
     }
 
-    async __cacheSet(data: Data) {
+    protected async __cacheSet(data: Data) {
         const object = await this.build(data);
         this.cache.set(object.id, object);
         return object;
     }
 
-    async __cacheSetList(arr: Data[]) {
+    protected async __cacheSetList(arr: Data[]) {
         const objects = [];
         for (const data of arr) {
             objects.push(this.__cacheSet(data));
@@ -74,7 +74,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         return Promise.all(objects);
     }
 
-    abstract build(data: Data): Promise<Object>
+    protected abstract build(data: Data): Promise<Object>
 
 }
 

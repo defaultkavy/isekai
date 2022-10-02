@@ -11,13 +11,13 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     abstract type: string;
     constructor(client: Client);
     get(id: Snowflake): Promise<Object>;
-    resolveId(idOrInstance: Snowflake | Id<Base>): string;
+    protected resolveId(idOrInstance: Snowflake | Id<Base>): string;
     fetch(resolve: Object | Snowflake): Promise<Object>;
     fetchByFilter(filter: Filter<Data>): Promise<Object>;
-    __create(data: ClientData): Promise<Object>;
+    protected __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
-    __cacheSet(data: Data): Promise<Object>;
-    __cacheSetList(arr: Data[]): Promise<Awaited<Object>[]>;
-    abstract build(data: Data): Promise<Object>;
+    protected __cacheSet(data: Data): Promise<Object>;
+    protected __cacheSetList(arr: Data[]): Promise<Awaited<Object>[]>;
+    protected abstract build(data: Data): Promise<Object>;
 }
 export declare type BaseClientData = Omit<BaseData, 'createdTimestamp'>;
