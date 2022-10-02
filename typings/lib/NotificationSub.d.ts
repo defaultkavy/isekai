@@ -12,6 +12,13 @@ export declare class NotificationSub extends BaseDbObject {
     };
     constructor(manager: NotificationSubManager, builder: NotificationSubBuilder);
     toData(): NotificationSubData;
+    webPushSubscription(): {
+        endpoint: string;
+        keys: {
+            p256dh: string;
+            auth: string;
+        };
+    };
 }
 export interface NotificationSubData extends BaseData {
     endpoint: string;

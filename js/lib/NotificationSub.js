@@ -20,6 +20,12 @@ class NotificationSub extends BaseDbObject_js_1.BaseDbObject {
             keys: this.keys,
         };
     }
+    webPushSubscription() {
+        return {
+            endpoint: this.endpoint,
+            keys: this.keys
+        };
+    }
 }
 exports.NotificationSub = NotificationSub;
 //# sourceMappingURL=NotificationSub.js.map

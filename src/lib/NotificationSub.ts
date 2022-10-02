@@ -29,6 +29,13 @@ export class NotificationSub extends BaseDbObject {
             keys: this.keys,
         }
     }
+
+    webPushSubscription() {
+        return {
+            endpoint: this.endpoint,
+            keys: this.keys
+        }
+    }
 }
 
 export interface NotificationSubData extends BaseData {
