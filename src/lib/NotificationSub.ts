@@ -30,7 +30,7 @@ export class NotificationSub extends BaseDbObject {
         }
     }
 
-    webPushSubscription() {
+    get webPushSubscription() {
         return {
             endpoint: this.endpoint,
             keys: this.keys
