@@ -79,9 +79,9 @@ class BaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             const objects = [];
             for (const data of arr) {
-                objects.push(yield this.__cacheSet(data));
+                objects.push(this.__cacheSet(data));
             }
-            return objects;
+            return Promise.all(objects);
         });
     }
 }

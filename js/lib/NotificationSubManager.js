@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NotificationSubManager = void 0;
+const NotFound_js_1 = require("../errors/NotFound.js");
 const BaseManager_js_1 = require("./BaseManager.js");
 const NotificationSub_js_1 = require("./NotificationSub.js");
 class NotificationSubManager extends BaseManager_js_1.BaseManager {
@@ -21,6 +22,14 @@ class NotificationSubManager extends BaseManager_js_1.BaseManager {
     subscribe(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.__create(data);
+        });
+    }
+    fetchByUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const subs = yield this.collection.getDataByFilter({ userId: userId });
+            if (!subs)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with user`);
+            return this.__cacheSetList(subs);
         });
     }
     build(data) {

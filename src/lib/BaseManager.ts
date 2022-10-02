@@ -56,22 +56,22 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
     }
 
     async delete(id: Snowflake) {
-        const object = await this.get(id)
-        object.delete()
+        const object = await this.get(id);
+        object.delete();
     }
 
     async __cacheSet(data: Data) {
-        const object = await this.build(data)
-        this.cache.set(object.id, object)
-        return object
+        const object = await this.build(data);
+        this.cache.set(object.id, object);
+        return object;
     }
 
     async __cacheSetList(arr: Data[]) {
-        const objects = []
+        const objects = [];
         for (const data of arr) {
-            objects.push(await this.__cacheSet(data))
+            objects.push(this.__cacheSet(data));
         } 
-        return objects
+        return Promise.all(objects);
     }
 
     abstract build(data: Data): Promise<Object>

@@ -17,7 +17,7 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
     __cacheSet(data: Data): Promise<Object>;
-    __cacheSetList(arr: Data[]): Promise<Object[]>;
+    __cacheSetList(arr: Data[]): Promise<Awaited<Object>[]>;
     abstract build(data: Data): Promise<Object>;
 }
 export declare type BaseClientData = Omit<BaseData, 'createdTimestamp'>;
