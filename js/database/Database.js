@@ -11,6 +11,7 @@ class Database extends Base_js_1.Base {
         this.posts = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.posts));
         this.assets = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.assets));
         this.events = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.events));
+        this.notificationSubs = new DbCollection_js_1.DbCollection(this, db.collection(CollectionName.notificationSubs));
     }
 }
 exports.Database = Database;
@@ -20,5 +21,6 @@ var CollectionName;
     CollectionName["posts"] = "posts";
     CollectionName["assets"] = "assets";
     CollectionName["events"] = "events";
+    CollectionName["notificationSubs"] = "notification-subscribe";
 })(CollectionName = exports.CollectionName || (exports.CollectionName = {}));
 //# sourceMappingURL=Database.js.map

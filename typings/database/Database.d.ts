@@ -5,6 +5,7 @@ import { Base } from "../lib/Base.js";
 import { BasePostData } from "../lib/BasePost.js";
 import { EventData } from "../lib/event/Event.js";
 import { MessagePostPublicData } from "../lib/MessagePost.js";
+import { NotificationSubData } from "../lib/NotificationSub.js";
 import { UserData, UserPublicData } from "../lib/User.js";
 import { DbCollection } from "./DbCollection.js";
 export declare class Database extends Base {
@@ -13,12 +14,14 @@ export declare class Database extends Base {
     posts: DbCollection<BasePostData>;
     assets: DbCollection<AssetData>;
     events: DbCollection<EventData>;
+    notificationSubs: DbCollection<NotificationSubData>;
     constructor(client: Client, db: Db);
 }
 export declare enum CollectionName {
     users = "users",
     posts = "posts",
     assets = "assets",
-    events = "events"
+    events = "events",
+    notificationSubs = "notification-subscribe"
 }
 export declare type CollectionData = UserPublicData | MessagePostPublicData;
