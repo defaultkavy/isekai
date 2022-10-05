@@ -1,5 +1,5 @@
 import { Snowflake } from "../SnowflakeManager.js";
-import { Event, EventBuilder, EventData, EventTypes } from "./Event.js";
+import { Event, EventBuilder, EventData, EventTypes, NotificationData } from "./Event.js";
 import { EventManager } from "./EventManager.js";
 
 export class LikeEvent extends Event {
@@ -16,6 +16,15 @@ export class LikeEvent extends Event {
     async deactive() {
         this.activate = false;
         await this.delete();
+    }
+
+    async toNotification(): Promise<NotificationData> {
+        const user = await this.client.users.fetch(this.user);
+        return {
+            content: `${user.displayName} liked your post`,
+            image: await user.getAvatar(),
+            type: this.type
+        }
     }
 
     toData(): LikeEventData {

@@ -1,8 +1,9 @@
+import { AssetData } from "../Asset.js";
 import { BaseData, BaseDbObject } from "../BaseDbObject.js";
 import { Snowflake } from "../SnowflakeManager.js";
 import { EventManager } from "./EventManager.js";
 
-export class Event extends BaseDbObject {
+export abstract class Event extends BaseDbObject {
     id: string;
     createdTimestamp: number;
     type: EventTypes;
@@ -23,6 +24,8 @@ export class Event extends BaseDbObject {
             subscribers: this.subscribers
         }
     }
+
+    abstract toNotification(): Promise<NotificationData>;
 }
 
 export enum EventTypes {
@@ -39,4 +42,10 @@ export interface EventBuilder {
     createdTimestamp: number;
     type: EventTypes;
     subscribers: Snowflake[];
+}
+
+export interface NotificationData {
+    content: string;
+    image: AssetData;
+    type: EventTypes;
 }
