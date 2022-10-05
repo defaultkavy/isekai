@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventManager = void 0;
+const NotFound_js_1 = require("../../errors/NotFound.js");
 const BaseManager_js_1 = require("../BaseManager.js");
 const Event_js_1 = require("./Event.js");
 const LikeEvent_js_1 = require("./LikeEvent.js");
@@ -22,6 +23,16 @@ class EventManager extends BaseManager_js_1.BaseManager {
     createLike(data) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.__create(Object.assign(Object.assign({}, data), { type: Event_js_1.EventTypes.like }));
+        });
+    }
+    fetchBySubscriber(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const events = yield this.client.db.events.getDataByFilter({
+                subscribers: userId
+            });
+            if (!events)
+                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+            return this.__cacheSetList(events);
         });
     }
     build(data) {
