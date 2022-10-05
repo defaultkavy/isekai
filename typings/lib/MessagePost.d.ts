@@ -4,7 +4,7 @@ import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 export declare class MessagePost extends BasePost {
     #private;
-    attachments?: Asset[];
+    protected attachments?: Asset[];
     content: string;
     constructor(manager: PostManager, builder: MessagePostBuilder);
     getAttachments(): Promise<Asset[]>;

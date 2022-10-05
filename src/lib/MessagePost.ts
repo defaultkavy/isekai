@@ -4,7 +4,7 @@ import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
 export class MessagePost extends BasePost {
-    attachments?: Asset[];
+    protected attachments?: Asset[];
     #attachments: Snowflake[];
     content: string;
     constructor(manager: PostManager, builder: MessagePostBuilder) {

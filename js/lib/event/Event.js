@@ -8,12 +8,14 @@ class Event extends BaseDbObject_js_1.BaseDbObject {
         this.id = builder.id;
         this.createdTimestamp = builder.createdTimestamp;
         this.type = builder.type;
+        this.subscribers = builder.subscribers;
     }
     toData() {
         return {
             id: this.id,
             createdTimestamp: this.createdTimestamp,
-            type: this.type
+            type: this.type,
+            subscribers: this.subscribers
         };
     }
 }

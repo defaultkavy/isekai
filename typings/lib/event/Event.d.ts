@@ -5,6 +5,7 @@ export declare class Event extends BaseDbObject {
     id: string;
     createdTimestamp: number;
     type: EventTypes;
+    subscribers: Snowflake[];
     constructor(manager: EventManager, builder: EventBuilder);
     toData(): EventData;
 }
@@ -13,9 +14,11 @@ export declare enum EventTypes {
 }
 export interface EventData extends BaseData {
     type: EventTypes;
+    subscribers: Snowflake[];
 }
 export interface EventBuilder {
     id: Snowflake;
     createdTimestamp: number;
     type: EventTypes;
+    subscribers: Snowflake[];
 }
