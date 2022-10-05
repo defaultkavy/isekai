@@ -22,7 +22,7 @@ export class LikeEvent extends Event {
         const user = await this.client.users.fetch(this.user);
         return {
             content: `${user.displayName} liked your post`,
-            image: await user.getAvatar(),
+            image: (await user.getAvatar().then(avatar => avatar.toData()).catch(err => undefined)),
             type: this.type
         }
     }

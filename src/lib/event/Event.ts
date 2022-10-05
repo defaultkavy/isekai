@@ -46,6 +46,6 @@ export interface EventBuilder {
 
 export interface NotificationData {
     content: string;
-    image: AssetData;
+    image: AssetData | undefined;
     type: EventTypes;
 }
