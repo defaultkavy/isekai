@@ -15,7 +15,7 @@ export class LikeEvent extends Event {
 
     async deactive() {
         this.activate = false;
-        await this.save();
+        await this.delete();
     }
 
     toData(): LikeEventData {

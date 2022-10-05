@@ -21,7 +21,7 @@ class LikeEvent extends Event_js_1.Event {
     deactive() {
         return __awaiter(this, void 0, void 0, function* () {
             this.activate = false;
-            yield this.save();
+            yield this.delete();
         });
     }
     toData() {
