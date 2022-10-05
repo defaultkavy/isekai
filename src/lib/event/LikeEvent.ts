@@ -21,9 +21,11 @@ export class LikeEvent extends Event {
     async toNotification(): Promise<NotificationData> {
         const user = await this.client.users.fetch(this.user);
         return {
+            id: this.id,
             content: `${user.displayName} liked your post`,
             image: (await user.getAvatar().then(avatar => avatar.toData()).catch(err => undefined)),
-            type: this.type
+            type: this.type,
+            createdTimestamp: this.createdTimestamp
         }
     }
 

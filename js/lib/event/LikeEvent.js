@@ -28,9 +28,11 @@ class LikeEvent extends Event_js_1.Event {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield this.client.users.fetch(this.user);
             return {
+                id: this.id,
                 content: `${user.displayName} liked your post`,
                 image: (yield user.getAvatar().then(avatar => avatar.toData()).catch(err => undefined)),
-                type: this.type
+                type: this.type,
+                createdTimestamp: this.createdTimestamp
             };
         });
     }

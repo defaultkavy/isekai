@@ -45,7 +45,9 @@ export interface EventBuilder {
 }
 
 export interface NotificationData {
+    id: string;
     content: string;
     image: AssetData | undefined;
     type: EventTypes;
+    createdTimestamp: number;
 }
