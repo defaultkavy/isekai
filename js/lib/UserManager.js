@@ -23,7 +23,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
         this.type = 'User';
         this.collection = this.client.db.users;
     }
-    fetchUsers(ids) {
+    fetchUsers(ids, instance = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilter({
                 id: {
@@ -32,23 +32,33 @@ class UserManager extends BaseManager_js_1.BaseManager {
             });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with id`);
-            return yield this.__cacheSetList(data);
+            if (instance === false) {
+                return data;
+            }
+            else
+                return yield this.__cacheSetList(data);
         });
     }
-    fetchByUsername(username) {
+    fetchByUsername(username, instance = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilterOne({ username: username });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username`);
-            return yield this.__cacheSet(data);
+            if (instance)
+                return yield this.__cacheSet(data);
+            else
+                return data;
         });
     }
-    fetchByEmail(email) {
+    fetchByEmail(email, instance = true) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilterOne({ email: email });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email`);
-            return yield this.__cacheSet(data);
+            if (instance)
+                return yield this.__cacheSet(data);
+            else
+                return data;
         });
     }
     create(data) {

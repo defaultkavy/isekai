@@ -17,26 +17,36 @@ export class UserManager extends BaseManager<User, UserData, UserCreateData> {
         this.collection = this.client.db.users
     }
 
-    async fetchUsers(ids: Snowflake[]) {
+    async fetchUsers(ids: Snowflake[], instance?: true): Promise<User[]>;
+    async fetchUsers(ids: Snowflake[], instance: false): Promise<UserData[]>;
+    async fetchUsers(ids: Snowflake[], instance = true) {
         const data = await this.collection.getDataByFilter({
             id: {
                 $in: ids
             }
         });
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with id`);
-        return await this.__cacheSetList(data);
+        if (instance === false) {
+            return data;
+        } else return await this.__cacheSetList(data);
     }
 
-    async fetchByUsername(username: Username) {
+    async fetchByUsername(username: Username, instance?: true): Promise<User>;
+    async fetchByUsername(username: Username, instance: false): Promise<UserData>;
+    async fetchByUsername(username: Username, instance = true) {
         const data = await this.collection.getDataByFilterOne({username: username})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with username`)
-        return await this.__cacheSet(data)
+        if (instance) return await this.__cacheSet(data)
+        else return data;
     }
 
-    async fetchByEmail(email: Email) {
+    async fetchByEmail(username: Username, instance?: true): Promise<User>;
+    async fetchByEmail(username: Username, instance: false): Promise<UserData>;
+    async fetchByEmail(email: Email, instance = true) {
         const data = await this.collection.getDataByFilterOne({email: email})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with email`)
-        return await this.__cacheSet(data)
+        if (instance) return await this.__cacheSet(data)
+        else return data;
     }
 
     async create(data: UserCreateData) {

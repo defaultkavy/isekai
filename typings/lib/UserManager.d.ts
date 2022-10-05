@@ -1,6 +1,6 @@
 import { Client } from "../client/Client.js";
 import { BaseManager } from "./BaseManager.js";
-import { Email, User, UserData, Username } from "./User.js";
+import { User, UserData, Username } from "./User.js";
 import { DbCollection } from "../database/DbCollection.js";
 import { Snowflake } from "./SnowflakeManager.js";
 /**
@@ -10,9 +10,12 @@ export declare class UserManager extends BaseManager<User, UserData, UserCreateD
     collection: DbCollection<UserData>;
     type: string;
     constructor(parent: Client);
-    fetchUsers(ids: Snowflake[]): Promise<User[]>;
-    fetchByUsername(username: Username): Promise<User>;
-    fetchByEmail(email: Email): Promise<User>;
+    fetchUsers(ids: Snowflake[], instance?: true): Promise<User[]>;
+    fetchUsers(ids: Snowflake[], instance: false): Promise<UserData[]>;
+    fetchByUsername(username: Username, instance?: true): Promise<User>;
+    fetchByUsername(username: Username, instance: false): Promise<UserData>;
+    fetchByEmail(username: Username, instance?: true): Promise<User>;
+    fetchByEmail(username: Username, instance: false): Promise<UserData>;
     create(data: UserCreateData): Promise<User>;
     build(data: UserData): Promise<User>;
 }
