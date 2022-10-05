@@ -54,6 +54,14 @@ class User extends BaseDbObject_js_1.BaseDbObject {
             return (_a = this.cover) !== null && _a !== void 0 ? _a : (this.cover = yield this.client.assets.fetch(__classPrivateFieldGet(this, _User_cover, "f")));
         });
     }
+    setAvatar(asset) {
+        this.avatar = asset;
+        __classPrivateFieldSet(this, _User_avatar, asset.id, "f");
+    }
+    setCover(asset) {
+        this.cover = asset;
+        __classPrivateFieldSet(this, _User_cover, asset.id, "f");
+    }
     toData() {
         return {
             id: this.id,

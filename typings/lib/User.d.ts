@@ -20,13 +20,15 @@ export declare class User extends BaseDbObject {
      * User email address
      */
     email: Email;
-    avatar?: Asset;
-    cover?: Asset;
+    protected avatar?: Asset;
+    protected cover?: Asset;
     intro: string;
     createdTimestamp: number;
     constructor(manager: UserManager, builder: UserBuilder);
     getAvatar(): Promise<Asset>;
     getCover(): Promise<Asset>;
+    setAvatar(asset: Asset): void;
+    setCover(asset: Asset): void;
     toData(): UserData;
     toPublicData(): Promise<UserPublicData>;
     toClientData(): Promise<UserClientData>;

@@ -21,9 +21,9 @@ export class User extends BaseDbObject {
      */
     email: Email;
 
-    avatar?: Asset;
+    protected avatar?: Asset;
     #avatar?: Snowflake;
-    cover?: Asset;
+    protected cover?: Asset;
     #cover?: Snowflake;
     intro: string;
 
@@ -48,6 +48,16 @@ export class User extends BaseDbObject {
     async getCover() {
         if (!this.#cover) throw undefined;
         return this.cover ?? (this.cover = await this.client.assets.fetch(this.#cover));
+    }
+
+    setAvatar(asset: Asset) {
+        this.avatar = asset;
+        this.#avatar = asset.id;
+    }
+
+    setCover(asset: Asset) {
+        this.cover = asset;
+        this.#cover = asset.id;
     }
     
     toData(): UserData {
