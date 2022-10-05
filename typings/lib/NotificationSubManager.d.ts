@@ -9,7 +9,7 @@ export declare class NotificationSubManager extends BaseManager<NotificationSub,
     constructor(client: Client);
     subscribe(data: NotificationSubCreateData): Promise<NotificationSub>;
     fetchByUser(userId: Snowflake): Promise<NotificationSub[]>;
-    build(data: NotificationSubData): Promise<NotificationSub>;
+    build(data: NotificationSubData): NotificationSub;
 }
 export interface NotificationSubCreateData extends Omit<NotificationSubData, 'createdTimestamp'> {
 }

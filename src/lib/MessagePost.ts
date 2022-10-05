@@ -1,21 +1,26 @@
 import { Asset, AssetPublicData } from "./Asset.js";
-import { BasePost, BasePostClientData, BasePostData, BasePostOptions, BasePostPublicData } from "./BasePost.js";
+import { BasePost, BasePostClientData, BasePostData, BasePostBuilder, BasePostPublicData } from "./BasePost.js";
 import { PostManager } from "./PostManager.js";
 import { Snowflake } from "./SnowflakeManager.js";
 
 export class MessagePost extends BasePost {
-    attachments: Asset[];
+    attachments?: Asset[];
+    #attachments: Snowflake[];
     content: string;
-    constructor(manager: PostManager, options: MessagePostOptions) {
-        super(manager, options)
-        this.attachments = options.attachments
-        this.content = options.content
+    constructor(manager: PostManager, builder: MessagePostBuilder) {
+        super(manager, builder)
+        this.#attachments = builder.attachments
+        this.content = builder.content
+    }
+
+    async getAttachments() {
+        return this.attachments ?? (this.attachments = await this.client.assets.fetch(this.#attachments))
     }
 
     toData(): MessagePostData {
         return {
             ...super.toData(),
-            attachments: this.attachments ? this.attachments.map(att => att.id) : undefined,
+            attachments: this.#attachments,
             content: this.content
         }
     }
@@ -23,7 +28,7 @@ export class MessagePost extends BasePost {
     async toPublicData(): Promise<MessagePostPublicData> {
         return {
             ...(await super.toPublicData()),
-            attachments: this.attachments.map(att => att.toData()),
+            attachments: (await this.getAttachments()).map(att => att.toData()),
             content: this.content
         }
     }
@@ -31,16 +36,16 @@ export class MessagePost extends BasePost {
     async toClientData(user: Snowflake): Promise<MessagePostClientData> {
         return {
             ...(await super.toClientData(user)),
-            attachments: this.attachments.map(att => att.toData()),
+            attachments: (await this.getAttachments()).map(att => att.toData()),
             content: this.content
         }
     }
     
 }
 
-export interface MessagePostOptions extends BasePostOptions {
+export interface MessagePostBuilder extends BasePostBuilder {
     content: string;
-    attachments: Asset[];
+    attachments: Snowflake[];
 }
 
 export interface MessagePostClientData extends MessagePostPublicData, BasePostClientData {

@@ -23,42 +23,20 @@ class UserManager extends BaseManager_js_1.BaseManager {
         this.type = 'User';
         this.collection = this.client.db.users;
     }
-    fetchUsers(ids, instance = true) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.collection.getDataByFilter({
-                id: {
-                    $in: ids
-                }
-            });
-            if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with id`);
-            if (instance === false) {
-                return data;
-            }
-            else
-                return yield this.__cacheSetList(data);
-        });
-    }
-    fetchByUsername(username, instance = true) {
+    fetchByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilterOne({ username: username });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with username`);
-            if (instance)
-                return yield this.__cacheSet(data);
-            else
-                return data;
+            return yield this.__cacheSet(data);
         });
     }
-    fetchByEmail(email, instance = true) {
+    fetchByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const data = yield this.collection.getDataByFilterOne({ email: email });
             if (!data)
                 throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist with email`);
-            if (instance)
-                return yield this.__cacheSet(data);
-            else
-                return data;
+            return yield this.__cacheSet(data);
         });
     }
     create(data) {
@@ -74,10 +52,7 @@ class UserManager extends BaseManager_js_1.BaseManager {
         });
     }
     build(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const builder = Object.assign(Object.assign({}, data), { avatar: data.avatar ? yield this.client.assets.fetch(data.avatar).catch(err => undefined) : undefined, cover: data.cover ? yield this.client.assets.fetch(data.cover).catch(err => undefined) : undefined });
-            return new User_js_1.User(this, builder);
-        });
+        return new User_js_1.User(this, data);
     }
 }
 exports.UserManager = UserManager;

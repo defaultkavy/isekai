@@ -13,13 +13,13 @@ exports.BasePost = void 0;
 const BaseDbObject_js_1 = require("./BaseDbObject.js");
 const Event_js_1 = require("./event/Event.js");
 class BasePost extends BaseDbObject_js_1.BaseDbObject {
-    constructor(manager, options) {
+    constructor(manager, builder) {
         super(manager);
-        this.id = options.id;
-        this.author = options.author;
-        this.createdTimestamp = options.createdTimestamp;
-        this.type = options.type;
-        this.parent = options.parent;
+        this.id = builder.id;
+        this.author = builder.author;
+        this.createdTimestamp = builder.createdTimestamp;
+        this.type = builder.type;
+        this.parent = builder.parent;
     }
     toData() {
         return {

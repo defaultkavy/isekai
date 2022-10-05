@@ -24,9 +24,7 @@ class AssetManager extends BaseManager_js_1.BaseManager {
         });
     }
     build(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Asset_js_1.Asset(this, data);
-        });
+        return new Asset_js_1.Asset(this, data);
     }
 }
 exports.AssetManager = AssetManager;

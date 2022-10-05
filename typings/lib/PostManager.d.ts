@@ -17,7 +17,7 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
     fetchNewest(limit?: number): Promise<BasePost[]>;
     fetchThreads(parent: Snowflake, lastId?: string): Promise<MessagePost[]>;
     fetchLatestThread(parent: Snowflake): Promise<MessagePost | undefined>;
-    build(data: BasePostData): Promise<MessagePost>;
+    build(data: BasePostData): MessagePost;
 }
 export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {
 }

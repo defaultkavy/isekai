@@ -36,9 +36,7 @@ class NotificationSubManager extends BaseManager_js_1.BaseManager {
         });
     }
     build(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new NotificationSub_js_1.NotificationSub(this, data);
-        });
+        return new NotificationSub_js_1.NotificationSub(this, data);
     }
 }
 exports.NotificationSubManager = NotificationSubManager;

@@ -8,7 +8,7 @@ export declare class EventManager extends BaseManager<Event, EventData, EventCre
     type: string;
     constructor(client: Client);
     createLike(data: LikeEventCreateData): Promise<Event>;
-    build(data: EventData): Promise<Event>;
+    build(data: EventData): Event;
 }
 export interface EventCreateData extends Omit<EventData, 'createdTimestamp'> {
 }

@@ -25,15 +25,13 @@ class EventManager extends BaseManager_js_1.BaseManager {
         });
     }
     build(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (data.type === Event_js_1.EventTypes.like) {
-                const likeData = data;
-                likeData.activate = true;
-                return new LikeEvent_js_1.LikeEvent(this, likeData);
-            }
-            else
-                throw 'build: Event type error';
-        });
+        if (data.type === Event_js_1.EventTypes.like) {
+            const likeData = data;
+            likeData.activate = true;
+            return new LikeEvent_js_1.LikeEvent(this, likeData);
+        }
+        else
+            throw 'build: Event type error';
     }
 }
 exports.EventManager = EventManager;

@@ -25,7 +25,7 @@ export class NotificationSubManager extends BaseManager<NotificationSub, Notific
         return this.__cacheSetList(subs);
     }
 
-    async build(data: NotificationSubData): Promise<NotificationSub> {
+    build(data: NotificationSubData): NotificationSub {
         return new NotificationSub(this, data)
     }
 }

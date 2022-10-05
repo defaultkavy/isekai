@@ -3,6 +3,7 @@ import { Asset, AssetPublicData } from "./Asset.js";
 import { Snowflake } from "./SnowflakeManager.js";
 import { UserManager } from "./UserManager.js";
 export declare class User extends BaseDbObject {
+    #private;
     /**
      * User snowflake id
      */
@@ -23,15 +24,16 @@ export declare class User extends BaseDbObject {
     cover?: Asset;
     intro: string;
     createdTimestamp: number;
-    constructor(manager: UserManager, options: UserBuilder);
+    constructor(manager: UserManager, builder: UserBuilder);
+    getAvatar(): Promise<Asset>;
+    getCover(): Promise<Asset>;
     toData(): UserData;
-    toPublicData(): UserPublicData;
-    toClientData(): UserClientData;
-    toPrivateData(): UserPrivateData;
+    toPublicData(): Promise<UserPublicData>;
+    toClientData(): Promise<UserClientData>;
 }
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar' | 'cover'> {
-    avatar?: Asset;
-    cover?: Asset;
+    avatar?: Snowflake;
+    cover?: Snowflake;
 }
 export interface UserPrivateData extends UserPublicData {
     email: Email;

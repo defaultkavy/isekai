@@ -9,7 +9,7 @@ export declare class BasePost extends BaseDbObject {
     createdTimestamp: number;
     type: PostTypes;
     parent: Snowflake | undefined;
-    constructor(manager: PostManager, options: BasePostOptions);
+    constructor(manager: PostManager, builder: BasePostBuilder);
     toData(): BasePostData;
     toPublicData(): Promise<BasePostPublicData>;
     toClientData(user: Snowflake): Promise<BasePostClientData>;
@@ -21,7 +21,7 @@ export declare class BasePost extends BaseDbObject {
     likeUsers(): Promise<import("./event/Event.js").EventData[] | null>;
     clientLike(userId: Snowflake): Promise<LikeEvent | undefined>;
 }
-export interface BasePostOptions {
+export interface BasePostBuilder {
     id: Snowflake;
     author: Snowflake;
     createdTimestamp: number;

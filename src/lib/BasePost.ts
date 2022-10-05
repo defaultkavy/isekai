@@ -11,13 +11,13 @@ export class BasePost extends BaseDbObject {
     createdTimestamp: number;
     type: PostTypes;
     parent: Snowflake | undefined;
-    constructor(manager: PostManager, options: BasePostOptions) {
+    constructor(manager: PostManager, builder: BasePostBuilder) {
         super(manager);
-        this.id = options.id;
-        this.author = options.author;
-        this.createdTimestamp = options.createdTimestamp;
-        this.type = options.type;
-        this.parent = options.parent;
+        this.id = builder.id;
+        this.author = builder.author;
+        this.createdTimestamp = builder.createdTimestamp;
+        this.type = builder.type;
+        this.parent = builder.parent;
     }
 
     toData(): BasePostData {
@@ -77,7 +77,7 @@ export class BasePost extends BaseDbObject {
     }
 }
 
-export interface BasePostOptions {
+export interface BasePostBuilder {
     id: Snowflake;
     author: Snowflake;
     createdTimestamp: number;

@@ -32,6 +32,6 @@ export abstract class BaseDbObject extends Base {
 }
 
 export interface BaseData {
-    id: Snowflake,
-    createdTimestamp: number
+    id: Snowflake;
+    createdTimestamp: number;
 }

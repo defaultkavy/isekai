@@ -16,7 +16,7 @@ export class EventManager extends BaseManager<Event, EventData, EventCreateData>
         return await this.__create({...data, type: EventTypes.like});
     }
 
-    async build(data: EventData): Promise<Event> {
+    build(data: EventData): Event {
         if (data.type === EventTypes.like) {
             const likeData =  data as LikeEventData
             likeData.activate = true

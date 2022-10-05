@@ -31,11 +31,24 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         }
     }
 
-    async fetch(resolve: Object | Snowflake) {
-        const id = this.resolveId(resolve)
-        const data = await this.collection.getData(id)
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist.`)
-        return this.__cacheSet(data)
+    async fetch(resolve: Snowflake[]): Promise<Object[]>;
+    async fetch(resolve: Object | Snowflake): Promise<Object>;
+    async fetch(resolve: Object | Snowflake | Snowflake[]): Promise<Object | Object[]> {
+        if (Array.isArray(resolve)) {
+            // @ts-ignore
+            const data = await this.collection.getDataByFilter({
+                id: {
+                    $in: resolve
+                }
+            });
+            if (!data) throw new NotFound(`fetch: ${this.type} not exist.`);
+            return this.__cacheSetList(data);
+        } else{
+            const id = this.resolveId(resolve);
+            const data = await this.collection.getData(id);
+            if (!data) throw new NotFound(`fetch: ${this.type} not exist.`);
+            return this.__cacheSet(data);
+        }
     }
 
     async fetchByFilter(filter: Filter<Data>) {
@@ -49,7 +62,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
             || await this.collection.checkDuplicate(data.id)) 
             throw new Conflict(`create: ${this.type} id existed.`)
         Object.assign(data, {createdTimestamp: + new Date()})
-        const object = await this.build(data as unknown as Data)
+        const object = this.build(data as unknown as Data)
         this.cache.set(object.id, object)
         await object.save()
         return object
@@ -61,7 +74,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
     }
 
     protected async __cacheSet(data: Data) {
-        const object = await this.build(data);
+        const object = this.build(data);
         this.cache.set(object.id, object);
         return object;
     }
@@ -74,7 +87,7 @@ export abstract class BaseManager<Object extends BaseDbObject, Data extends Base
         return Promise.all(objects);
     }
 
-    protected abstract build(data: Data): Promise<Object>
+    protected abstract build(data: Data): Object
 
 }
 

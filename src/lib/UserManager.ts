@@ -16,37 +16,15 @@ export class UserManager extends BaseManager<User, UserData, UserCreateData> {
         super(parent)
         this.collection = this.client.db.users
     }
-
-    async fetchUsers(ids: Snowflake[], instance?: true): Promise<User[]>;
-    async fetchUsers(ids: Snowflake[], instance: false): Promise<UserData[]>;
-    async fetchUsers(ids: Snowflake[], instance = true) {
-        const data = await this.collection.getDataByFilter({
-            id: {
-                $in: ids
-            }
-        });
-        if (!data) throw new NotFound(`fetch: ${this.type} not exist with id`);
-        if (instance === false) {
-            return data;
-        } else return await this.__cacheSetList(data);
-    }
-
-    async fetchByUsername(username: Username, instance?: true): Promise<User>;
-    async fetchByUsername(username: Username, instance: false): Promise<UserData>;
-    async fetchByUsername(username: Username, instance = true) {
+    async fetchByUsername(username: Username) {
         const data = await this.collection.getDataByFilterOne({username: username})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with username`)
-        if (instance) return await this.__cacheSet(data)
-        else return data;
+        return await this.__cacheSet(data)
     }
-
-    async fetchByEmail(username: Username, instance?: true): Promise<User>;
-    async fetchByEmail(username: Username, instance: false): Promise<UserData>;
-    async fetchByEmail(email: Email, instance = true) {
+    async fetchByEmail(email: Email) {
         const data = await this.collection.getDataByFilterOne({email: email})
         if (!data) throw new NotFound(`fetch: ${this.type} not exist with email`)
-        if (instance) return await this.__cacheSet(data)
-        else return data;
+        return await this.__cacheSet(data)
     }
 
     async create(data: UserCreateData) {
@@ -57,13 +35,8 @@ export class UserManager extends BaseManager<User, UserData, UserCreateData> {
         return super.__create(data)
     }
 
-    async build(data: UserData): Promise<User> {
-        const builder: UserBuilder = {
-            ...data,
-            avatar: data.avatar ? await this.client.assets.fetch(data.avatar).catch(err => undefined) : undefined,
-            cover: data.cover ? await this.client.assets.fetch(data.cover).catch(err => undefined) : undefined,
-        }
-        return new User(this, builder);
+    build(data: UserData): User {
+        return new User(this, data);
     }
 }
 

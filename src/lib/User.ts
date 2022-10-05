@@ -22,22 +22,32 @@ export class User extends BaseDbObject {
     email: Email;
 
     avatar?: Asset;
-
+    #avatar?: Snowflake;
     cover?: Asset;
-
+    #cover?: Snowflake;
     intro: string;
 
     createdTimestamp: number;
-    constructor(manager: UserManager, options: UserBuilder) {
+    constructor(manager: UserManager, builder: UserBuilder) {
         super(manager)
-        this.id = options.id;
-        this.username = options.username;
-        this.displayName = options.displayName;
-        this.email = options.email;
-        this.createdTimestamp = options.createdTimestamp;
-        this.avatar = options.avatar;
-        this.cover = options.cover;
-        this.intro = options.intro ?? '';
+        this.id = builder.id;
+        this.username = builder.username;
+        this.displayName = builder.displayName;
+        this.email = builder.email;
+        this.createdTimestamp = builder.createdTimestamp;
+        this.#avatar = builder.avatar;
+        this.#cover = builder.cover;
+        this.intro = builder.intro ?? '';
+    }
+
+    async getAvatar() {
+        if (!this.#avatar) throw undefined;
+        return this.avatar ?? (this.avatar = await this.client.assets.fetch(this.#avatar));
+    }
+
+    async getCover() {
+        if (!this.#cover) throw undefined;
+        return this.cover ?? (this.cover = await this.client.assets.fetch(this.#cover));
     }
     
     toData(): UserData {
@@ -47,41 +57,30 @@ export class User extends BaseDbObject {
             displayName: this.displayName,
             email: this.email,
             createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar ? this.avatar.id : undefined,
-            cover: this.cover ? this.cover.id : undefined,
+            avatar: this.#avatar,
+            cover: this.#cover,
             intro: this.intro,
         }
     }
 
-    toPublicData(): UserPublicData {
+    async toPublicData(): Promise<UserPublicData> {
         return {
-            id: this.id,
-            username: this.username,
-            displayName: this.displayName,
-            createdTimestamp: this.createdTimestamp,
-            avatar: this.avatar ? this.avatar.toData() : undefined,
-            cover: this.cover ? this.cover.toData() : undefined,
-            intro: this.intro,
+            ...this.toData(),
+            avatar: await this.getAvatar().then(obj => obj.toData()).catch(err => err),
+            cover: await this.getCover().then(obj => obj.toData()).catch(err => err),
         }
     }
 
-    toClientData(): UserClientData {
+    async toClientData(): Promise<UserClientData> {
         return {
-            ...this.toPublicData()
-        }
-    }
-
-    toPrivateData(): UserPrivateData {
-        return {
-            ...this.toPublicData(),
-            email: this.email
+            ...(await this.toPublicData())
         }
     }
 }
 
 export interface UserBuilder extends Omit<UserPrivateData, 'avatar' | 'cover'> {
-    avatar?: Asset;
-    cover?: Asset;
+    avatar?: Snowflake;
+    cover?: Snowflake;
 }
 
 export interface UserPrivateData extends UserPublicData {

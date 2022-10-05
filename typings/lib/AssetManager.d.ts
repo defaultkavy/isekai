@@ -7,7 +7,7 @@ export declare class AssetManager extends BaseManager<Asset, AssetData, AssetCre
     type: string;
     constructor(client: Client);
     create(data: AssetCreateData): Promise<Asset>;
-    build(data: AssetData): Promise<Asset>;
+    build(data: AssetData): Asset;
 }
 export interface AssetCreateData extends Omit<AssetData, 'createdTimestamp'> {
 }

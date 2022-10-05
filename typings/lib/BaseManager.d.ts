@@ -12,12 +12,13 @@ export declare abstract class BaseManager<Object extends BaseDbObject, Data exte
     constructor(client: Client);
     get(id: Snowflake): Promise<Object>;
     protected resolveId(idOrInstance: Snowflake | Id<Base>): string;
+    fetch(resolve: Snowflake[]): Promise<Object[]>;
     fetch(resolve: Object | Snowflake): Promise<Object>;
     fetchByFilter(filter: Filter<Data>): Promise<Object>;
     protected __create(data: ClientData): Promise<Object>;
     delete(id: Snowflake): Promise<void>;
     protected __cacheSet(data: Data): Promise<Object>;
     protected __cacheSetList(arr: Data[]): Promise<Awaited<Object>[]>;
-    protected abstract build(data: Data): Promise<Object>;
+    protected abstract build(data: Data): Object;
 }
 export declare type BaseClientData = Omit<BaseData, 'createdTimestamp'>;

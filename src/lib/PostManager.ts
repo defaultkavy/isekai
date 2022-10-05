@@ -59,18 +59,13 @@ export class PostManager extends BaseManager<BasePost, BasePostData, BasePostCre
         return await this.__cacheSet(postsData[0]) as MessagePost;
     }
 
-    async build(data: BasePostData): Promise<MessagePost> {
+    build(data: BasePostData): MessagePost {
         if (data.type === PostTypes.Message) {
             const messageData = data as MessagePostData
-            const attachments: Promise<Asset>[] = [];
-            if (messageData.attachments) for (const att of messageData.attachments) {
-                const asset = this.client.assets.fetch(att);
-                attachments.push(asset);
-            }
             return new MessagePost(this, {
                 ...messageData,
                 type: PostTypes.Message,
-                attachments: await Promise.all(attachments)
+                attachments: messageData.attachments ?? []
             })
         }
         throw new HttpException('Post type error')

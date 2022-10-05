@@ -35,11 +35,24 @@ class BaseManager {
     }
     fetch(resolve) {
         return __awaiter(this, void 0, void 0, function* () {
-            const id = this.resolveId(resolve);
-            const data = yield this.collection.getData(id);
-            if (!data)
-                throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
-            return this.__cacheSet(data);
+            if (Array.isArray(resolve)) {
+                // @ts-ignore
+                const data = yield this.collection.getDataByFilter({
+                    id: {
+                        $in: resolve
+                    }
+                });
+                if (!data)
+                    throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+                return this.__cacheSetList(data);
+            }
+            else {
+                const id = this.resolveId(resolve);
+                const data = yield this.collection.getData(id);
+                if (!data)
+                    throw new NotFound_js_1.NotFound(`fetch: ${this.type} not exist.`);
+                return this.__cacheSet(data);
+            }
         });
     }
     fetchByFilter(filter) {
@@ -56,7 +69,7 @@ class BaseManager {
                 || (yield this.collection.checkDuplicate(data.id)))
                 throw new Conflict_js_1.Conflict(`create: ${this.type} id existed.`);
             Object.assign(data, { createdTimestamp: +new Date() });
-            const object = yield this.build(data);
+            const object = this.build(data);
             this.cache.set(object.id, object);
             yield object.save();
             return object;
@@ -70,7 +83,7 @@ class BaseManager {
     }
     __cacheSet(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const object = yield this.build(data);
+            const object = this.build(data);
             this.cache.set(object.id, object);
             return object;
         });

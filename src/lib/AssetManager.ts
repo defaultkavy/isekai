@@ -15,7 +15,7 @@ export class AssetManager extends BaseManager<Asset, AssetData, AssetCreateData>
         return await this.__create(data);
     }
 
-    async build(data: AssetData): Promise<Asset> {
+    build(data: AssetData): Asset {
         return new Asset(this, data)
     }
 }
