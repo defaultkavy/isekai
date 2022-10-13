@@ -1,6 +1,5 @@
 import { Client } from "../client/Client.js";
 import { DbCollection } from "../database/DbCollection.js";
-import { Asset } from "./Asset.js";
 import { BaseManager } from "./BaseManager.js";
 import { BasePost, BasePostData } from "./BasePost.js";
 import { MessagePost, MessagePostData } from "./MessagePost.js";
@@ -21,6 +20,5 @@ export declare class PostManager extends BaseManager<BasePost, BasePostData, Bas
 }
 export interface BasePostCreateData extends Omit<BasePostData, 'createdTimestamp'> {
 }
-export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'attachments' | 'parent'> {
-    attachments: Asset[];
+export interface MessagePostCreateData extends Omit<MessagePostData, 'createdTimestamp' | 'parent'> {
 }
