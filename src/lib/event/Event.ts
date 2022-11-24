@@ -50,4 +50,5 @@ export interface NotificationData {
     image: AssetData | undefined;
     type: EventTypes;
     createdTimestamp: number;
+    url: string;
 }
