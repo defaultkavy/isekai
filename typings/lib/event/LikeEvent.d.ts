@@ -2,8 +2,8 @@ import { Snowflake } from "../SnowflakeManager.js";
 import { Event, EventBuilder, EventData, EventTypes, NotificationData } from "./Event.js";
 import { EventManager } from "./EventManager.js";
 export declare class LikeEvent extends Event {
-    post: Snowflake;
-    user: Snowflake;
+    postId: Snowflake;
+    userId: Snowflake;
     activate: boolean;
     constructor(manager: EventManager, builder: LikeEventBuilder);
     deactive(): Promise<void>;

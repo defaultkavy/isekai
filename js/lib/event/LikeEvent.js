@@ -14,8 +14,8 @@ const Event_js_1 = require("./Event.js");
 class LikeEvent extends Event_js_1.Event {
     constructor(manager, builder) {
         super(manager, builder);
-        this.post = builder.post;
-        this.user = builder.user;
+        this.postId = builder.post;
+        this.userId = builder.user;
         this.activate = builder.activate;
     }
     deactive() {
@@ -26,18 +26,19 @@ class LikeEvent extends Event_js_1.Event {
     }
     toNotification() {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.client.users.fetch(this.user);
+            const user = yield this.client.users.fetch(this.userId);
             return {
                 id: this.id,
                 content: `${user.displayName} liked your post`,
                 image: (yield user.getAvatar().then(avatar => avatar.toData()).catch(err => undefined)),
                 type: this.type,
-                createdTimestamp: this.createdTimestamp
+                createdTimestamp: this.createdTimestamp,
+                url: `/post/${this.postId}`
             };
         });
     }
     toData() {
-        return Object.assign(Object.assign({}, super.toData()), { post: this.post, user: this.user, activate: this.activate });
+        return Object.assign(Object.assign({}, super.toData()), { post: this.postId, user: this.userId, activate: this.activate });
     }
 }
 exports.LikeEvent = LikeEvent;
